@@ -1,6 +1,10 @@
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 
+/**
+ * Card component inspired by Parallel.ai - clean, minimal, elegant
+ * https://parallel.ai/
+ */
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -8,7 +12,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      'rounded-xl border border-gray-200 bg-white text-gray-900 shadow-sm transition-all duration-300 ease-in-out',
+      'rounded-2xl border border-gray-100 bg-white text-gray-900 transition-all duration-200 ease-out hover:border-gray-200 hover:shadow-xl hover:shadow-gray-900/5',
       className
     )}
     {...props}
