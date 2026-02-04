@@ -2,35 +2,66 @@
 
 > Price comparison engine covering 6 countries and 50+ online stores.
 
+## Quick Links for AI/LLMs
+
+- **Structured Data (JSON)**: https://priceradars.com/api/llms
+- **LLM Sitemap**: https://priceradars.com/llms-sitemap.txt
+- **Full Documentation**: https://priceradars.com/llms-full.txt
+- **API Documentation**: https://priceradars.com/docs/api.md
+
 ## About
+
 PriceRadars helps users find the best prices for products across multiple online retailers. We track prices from major stores like Amazon, Best Buy, MediaWorld, and many others.
 
-## Documentation
-- [API Documentation](/docs/api.md): REST API for price data
-- [Full Documentation](/llms-full.txt): Complete technical documentation
-
 ## Available Countries
-- Italy (IT): Amazon.it, MediaWorld, Unieuro, eBay.it, ePrice
-- United Kingdom (UK): Amazon.co.uk, Currys, Argos, John Lewis, AO
-- United States (US): Amazon.com, Best Buy, Walmart, Newegg, B&H
-- Germany (DE): Amazon.de, MediaMarkt, Saturn, Otto, Cyberport
-- France (FR): Amazon.fr, Fnac, Darty, Cdiscount, Boulanger
-- Spain (ES): Amazon.es, PcComponentes, MediaMarkt, El Corte Inglés
 
-## Main Categories
-- Smartphones & Mobile
-- Computers & Tablets
-- TV & Audio
-- Home Appliances
-- Gaming
-- Cameras
+| Country | URL | Currency | Stores |
+|---------|-----|----------|--------|
+| Italy | /it | EUR | Amazon.it, MediaWorld, Unieuro, eBay.it, ePrice |
+| UK | /en/uk | GBP | Amazon.co.uk, Currys, Argos, John Lewis, AO |
+| US | /en/us | USD | Amazon.com, Best Buy, Walmart, Newegg, B&H |
+| Germany | /en/de | EUR | Amazon.de, MediaMarkt, Saturn, Otto, Cyberport |
+| France | /en/fr | EUR | Amazon.fr, Fnac, Darty, Cdiscount, Boulanger |
+| Spain | /en/es | EUR | Amazon.es, PcComponentes, MediaMarkt, El Corte Inglés |
 
-## Quick Links
-- Homepage: https://priceradars.com
-- API: https://priceradars.com/api/v1
-- Search: https://priceradars.com/en/uk/search?q={query}
+## Categories
+
+| Slug | Name | Products |
+|------|------|----------|
+| smartphones | Smartphones & Mobile | ~1250 |
+| laptops | Computers & Tablets | ~890 |
+| tv-audio | TV & Audio | ~650 |
+| appliances | Home Appliances | ~1100 |
+| gaming | Gaming | ~780 |
+| cameras | Cameras | ~420 |
+
+## API Endpoints
+
+```
+GET /api/v1/search?q={query}&country={code}  - Search products
+GET /api/v1/products/{slug}                   - Product details + offers
+GET /api/v1/products/{slug}/history           - Price history (30 days)
+GET /api/v1/categories                        - List all categories
+GET /api/llms                                 - Structured site data (JSON)
+```
+
+## URL Patterns
+
+```
+# Italian
+/it                           - Home
+/it/categoria/{slug}          - Category
+/it/prodotto/{slug}           - Product
+/it/cerca?q={query}           - Search
+
+# English (replace {country} with uk, us, de, fr, es)
+/en/{country}                 - Home
+/en/{country}/category/{slug} - Category
+/en/{country}/product/{slug}  - Product
+/en/{country}/search?q={query}- Search
+```
 
 ## Contact
+
 - Website: https://priceradars.com
-- Email: api@priceradars.com
-- Support: support@priceradars.com
+- Email: support@priceradars.com
