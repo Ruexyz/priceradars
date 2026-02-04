@@ -4,6 +4,8 @@ import { getDictionary } from '@/lib/i18n'
 import { SearchPage } from '@/components/pages/search-page'
 import { countries, type CountryCode } from '@/lib/countries'
 
+export const runtime = 'edge'
+
 const validCountries = ['uk', 'us', 'de', 'fr', 'es']
 
 const getMockProducts = (query: string, countryCode: string) => {

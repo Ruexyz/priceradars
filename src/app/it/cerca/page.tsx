@@ -2,6 +2,8 @@ import { Metadata } from 'next'
 import { getDictionary } from '@/lib/i18n'
 import { SearchPage } from '@/components/pages/search-page'
 
+export const runtime = 'edge'
+
 const getMockProducts = (query: string) => {
   if (!query) return []
   

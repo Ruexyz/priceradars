@@ -4,6 +4,8 @@ import { getDictionary } from '@/lib/i18n'
 import { ProductPage } from '@/components/pages/product-page'
 import { countries } from '@/lib/countries'
 
+export const runtime = 'edge'
+
 // Mock product data - will be replaced with DB queries
 const getProduct = async (slug: string) => {
   // Mock implementation

@@ -4,6 +4,8 @@ import { getDictionary } from '@/lib/i18n'
 import { CategoryPage } from '@/components/pages/category-page'
 import { countries, type CountryCode } from '@/lib/countries'
 
+export const runtime = 'edge'
+
 const validCountries = ['uk', 'us', 'de', 'fr', 'es']
 
 const categories: Record<string, { name: string; description: string }> = {

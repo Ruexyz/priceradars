@@ -4,6 +4,8 @@ import { getDictionary } from '@/lib/i18n'
 import { ProductPage } from '@/components/pages/product-page'
 import { countries, type CountryCode } from '@/lib/countries'
 
+export const runtime = 'edge'
+
 const validCountries = ['uk', 'us', 'de', 'fr', 'es']
 
 // Mock product data - will be replaced with DB queries

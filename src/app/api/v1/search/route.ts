@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+export const runtime = 'edge'
+
 // Mock data for development - will be replaced with D1 queries
 const mockProducts = [
   {

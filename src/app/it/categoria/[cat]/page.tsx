@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { getDictionary } from '@/lib/i18n'
 import { CategoryPage } from '@/components/pages/category-page'
 
+export const runtime = 'edge'
+
 const categories: Record<string, { name: string; description: string }> = {
   smartphones: {
     name: 'Smartphone',

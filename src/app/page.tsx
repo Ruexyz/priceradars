@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 import { countries, type CountryCode } from '@/lib/countries'
 
+export const runtime = 'edge'
+
 const supportedCountries = ['it', 'uk', 'us', 'de', 'fr', 'es']
 
 // Map language codes to countries
