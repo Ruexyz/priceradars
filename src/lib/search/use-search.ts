@@ -86,8 +86,8 @@ export function useSearch({
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [recentSearches, setRecentSearches] = useState<string[]>([])
   
-  const debounceRef = useRef<NodeJS.Timeout>()
-  const abortControllerRef = useRef<AbortController>()
+  const debounceRef = useRef<NodeJS.Timeout>(null)
+  const abortControllerRef = useRef<AbortController>(null)
   
   // Load recent searches from localStorage
   useEffect(() => {
