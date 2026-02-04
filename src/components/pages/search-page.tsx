@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { ChevronRight, SearchX } from 'lucide-react'
 import { ProductGrid } from '@/components/product/product-grid'
 import { SearchFilters } from '@/components/search/search-filters'
-import { SearchBar } from '@/components/search/search-bar'
+import { SearchBarAdvanced } from '@/components/search/search-bar-advanced'
 import type { Locale, CountryCode } from '@/lib/countries'
 import type { Dictionary } from '@/lib/i18n'
 
@@ -67,12 +67,13 @@ export function SearchPage({
       <div className="border-b border-gray-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl">
-            <SearchBar
+            <SearchBarAdvanced
               locale={locale}
               country={country}
               placeholder={dictionary.common.search}
               defaultValue={query}
               size="large"
+              autoFocus
             />
           </div>
           {query && (

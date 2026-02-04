@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { Menu, Search, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Logo } from '@/components/ui/logo'
+import { SearchBarAdvanced } from '@/components/search/search-bar-advanced'
 import { CountrySelector } from './country-selector'
 import { Nav } from './nav'
 import type { Locale, CountryCode } from '@/lib/countries'
@@ -40,20 +41,12 @@ export function Header({ locale, country, dictionary }: HeaderProps) {
 
           {/* Search Bar - Desktop */}
           <div className="hidden flex-1 max-w-xl md:block">
-            <form
-              action={locale === 'it' ? '/it/cerca' : `/en/${country}/search`}
-              method="GET"
-            >
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-                <input
-                  type="search"
-                  name="q"
-                  placeholder={dictionary.search}
-                  className="h-10 w-full rounded-lg border border-gray-300 bg-gray-50 pl-10 pr-4 text-sm text-gray-900 placeholder:text-gray-500 focus:border-orange-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
-                />
-              </div>
-            </form>
+            <SearchBarAdvanced
+              locale={locale}
+              country={country}
+              placeholder={dictionary.search}
+              size="default"
+            />
           </div>
 
           {/* Right Section */}
@@ -80,20 +73,12 @@ export function Header({ locale, country, dictionary }: HeaderProps) {
 
         {/* Mobile Search */}
         <div className="border-t border-gray-100 py-3 md:hidden">
-          <form
-            action={locale === 'it' ? '/it/cerca' : `/en/${country}/search`}
-            method="GET"
-          >
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-              <input
-                type="search"
-                name="q"
-                placeholder={dictionary.search}
-                className="h-10 w-full rounded-lg border border-gray-300 bg-gray-50 pl-10 pr-4 text-sm text-gray-900 placeholder:text-gray-500 focus:border-orange-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
-              />
-            </div>
-          </form>
+          <SearchBarAdvanced
+            locale={locale}
+            country={country}
+            placeholder={dictionary.search}
+            size="default"
+          />
         </div>
       </div>
 
