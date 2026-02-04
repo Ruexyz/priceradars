@@ -1,0 +1,273 @@
+# PriceRadars - Complete Documentation
+
+## Overview
+PriceRadars is a price comparison platform that aggregates product prices from 50+ online retailers across 6 countries (Italy, UK, USA, Germany, France, Spain).
+
+## How It Works
+1. We crawl prices from partner retailers every 4 hours
+2. Products are matched using GTIN/EAN codes and ML-based matching
+3. Price history is stored for trend analysis
+4. Users can set price alerts for notifications
+
+## URL Structure
+
+### Italian (it)
+- Homepage: /it
+- Product: /it/prodotto/{slug}
+- Category: /it/categoria/{category}
+- Search: /it/cerca?q={query}
+
+### English Countries (uk, us, de, fr, es)
+- Homepage: /en/{country}
+- Product: /en/{country}/product/{slug}
+- Category: /en/{country}/category/{category}
+- Search: /en/{country}/search?q={query}
+
+## API Reference
+
+### Search Products
+```
+GET /api/v1/search?q={query}&country={country_code}
+```
+
+Parameters:
+- q: Search query (required)
+- country: Country code (it, uk, us, de, fr, es)
+- page: Page number (default: 1)
+- limit: Results per page (default: 20, max: 100)
+- sort: Sort order (relevance, price_asc, price_desc, newest)
+- brand: Filter by brand
+- minPrice: Minimum price in cents
+- maxPrice: Maximum price in cents
+
+Response:
+```json
+{
+  "products": [
+    {
+      "id": "prod_123",
+      "name": "iPhone 15 Pro 256GB",
+      "slug": "iphone-15-pro-256gb",
+      "brand": "Apple",
+      "category": "smartphones",
+      "image": "https://...",
+      "lowest_price": 92000,
+      "currency": "EUR",
+      "offer_count": 12,
+      "url": "/en/uk/product/iphone-15-pro-256gb"
+    }
+  ],
+  "total": 150,
+  "page": 1,
+  "pages": 8
+}
+```
+
+### Get Product Details
+```
+GET /api/v1/products/{slug}?country={country_code}
+```
+
+Response:
+```json
+{
+  "id": "prod_123",
+  "name": "iPhone 15 Pro 256GB",
+  "slug": "iphone-15-pro-256gb",
+  "brand": "Apple",
+  "category": "smartphones",
+  "description": "...",
+  "specs": {
+    "Display": "6.1 inch Super Retina XDR",
+    "Processor": "A17 Pro",
+    "Storage": "256GB"
+  },
+  "image": "https://...",
+  "images": ["https://..."],
+  "gtin": "194253939054",
+  "offers": [
+    {
+      "merchant": "Amazon.co.uk",
+      "merchant_id": "amazon-uk",
+      "price": 99900,
+      "currency": "GBP",
+      "url": "https://...",
+      "in_stock": true,
+      "updated_at": "2024-01-15T10:30:00Z"
+    }
+  ]
+}
+```
+
+### Get Price History
+```
+GET /api/v1/products/{slug}/history?country={country_code}&days=90
+```
+
+Response:
+```json
+{
+  "product_id": "prod_123",
+  "history": [
+    {
+      "date": "2024-01-15",
+      "lowest_price": 99900,
+      "average_price": 104500,
+      "offer_count": 12
+    }
+  ]
+}
+```
+
+### Get Categories
+```
+GET /api/v1/categories?country={country_code}
+```
+
+## Data Structure
+
+### Product Object
+- id: Unique identifier
+- name: Product name (localized)
+- slug: URL-friendly identifier
+- brand: Manufacturer
+- category: Product category
+- gtin: Global Trade Item Number
+- specs: Technical specifications (JSON)
+- images: Array of image URLs
+
+### Offer Object
+- merchant: Store name and info
+- merchant_id: Store identifier
+- price: Current price in cents
+- currency: ISO currency code
+- url: Affiliate link to store
+- in_stock: Availability status
+- updated_at: Last price update
+
+### Price History Object
+- date: ISO date
+- lowest_price: Lowest price that day
+- average_price: Average price that day
+- offer_count: Number of offers
+
+## Categories Taxonomy
+```
+/smartphones
+  /smartphones/apple
+  /smartphones/samsung
+  /smartphones/google
+/computers
+  /computers/laptops
+  /computers/desktops
+  /computers/tablets
+/tv-audio
+  /tv-audio/televisions
+  /tv-audio/soundbars
+  /tv-audio/headphones
+/appliances
+  /appliances/large
+  /appliances/small
+/gaming
+  /gaming/consoles
+  /gaming/games
+  /gaming/accessories
+/cameras
+  /cameras/mirrorless
+  /cameras/compact
+  /cameras/accessories
+```
+
+## Supported Merchants by Country
+
+### Italy (IT)
+| Merchant | ID | Categories |
+|----------|-----|------------|
+| Amazon.it | amazon-it | All |
+| MediaWorld | mediaworld | Electronics |
+| Unieuro | unieuro | Electronics |
+| eBay.it | ebay-it | All |
+| ePrice | eprice | Electronics |
+
+### United Kingdom (GB)
+| Merchant | ID | Categories |
+|----------|-----|------------|
+| Amazon.co.uk | amazon-uk | All |
+| Currys | currys | Electronics |
+| Argos | argos | All |
+| John Lewis | john-lewis | All |
+| AO.com | ao | Appliances |
+
+### United States (US)
+| Merchant | ID | Categories |
+|----------|-----|------------|
+| Amazon.com | amazon-us | All |
+| Best Buy | bestbuy | Electronics |
+| Walmart | walmart | All |
+| Newegg | newegg | Electronics |
+| B&H Photo | bh | Electronics |
+
+### Germany (DE)
+| Merchant | ID | Categories |
+|----------|-----|------------|
+| Amazon.de | amazon-de | All |
+| MediaMarkt | mediamarkt-de | Electronics |
+| Saturn | saturn | Electronics |
+| Otto | otto | All |
+| Cyberport | cyberport | Electronics |
+
+### France (FR)
+| Merchant | ID | Categories |
+|----------|-----|------------|
+| Amazon.fr | amazon-fr | All |
+| Fnac | fnac | Electronics |
+| Darty | darty | Electronics |
+| Cdiscount | cdiscount | All |
+| Boulanger | boulanger | Electronics |
+
+### Spain (ES)
+| Merchant | ID | Categories |
+|----------|-----|------------|
+| Amazon.es | amazon-es | All |
+| PcComponentes | pccomponentes | Electronics |
+| MediaMarkt | mediamarkt-es | Electronics |
+| El Corte Inglés | elcorteingles | All |
+
+## Rate Limits
+- Anonymous: 100 requests/hour
+- Authenticated: 1000 requests/hour
+- Enterprise: Custom limits
+
+## Authentication
+API authentication uses Bearer tokens:
+```
+Authorization: Bearer {api_key}
+```
+
+## Error Codes
+- 400: Bad Request - Invalid parameters
+- 401: Unauthorized - Invalid or missing API key
+- 404: Not Found - Product or resource not found
+- 429: Too Many Requests - Rate limit exceeded
+- 500: Internal Server Error
+
+## Webhooks
+Subscribe to price change webhooks:
+```
+POST /api/v1/webhooks
+{
+  "url": "https://your-server.com/webhook",
+  "events": ["price.dropped", "back_in_stock"],
+  "products": ["prod_123", "prod_456"]
+}
+```
+
+## Changelog
+- 2024-01-15: Added France and Spain
+- 2024-01-01: API v1 launch
+- 2023-12-01: Beta launch Italy and UK
+
+## Contact
+- API Support: api@priceradars.com
+- General: support@priceradars.com
+- Website: https://priceradars.com

@@ -1,0 +1,30 @@
+# PriceRadars Italia
+
+> Il comparatore di prezzi per trovare le migliori offerte online in Italia.
+
+## Chi Siamo
+PriceRadars aiuta gli utenti a trovare i prezzi migliori per prodotti di elettronica, elettrodomestici e altro. Monitoriamo i prezzi da oltre 50 negozi online.
+
+## Negozi Supportati in Italia
+- Amazon.it
+- MediaWorld
+- Unieuro
+- eBay.it
+- ePrice
+
+## Categorie Principali
+- Smartphone
+- Computer e Tablet
+- TV e Audio
+- Elettrodomestici
+- Gaming
+- Fotocamere
+
+## Link Utili
+- Homepage: https://priceradars.com/it
+- Cerca: https://priceradars.com/it/cerca?q={ricerca}
+- API: https://priceradars.com/api/v1
+
+## Contatti
+- Sito: https://priceradars.com
+- Email: support@priceradars.com

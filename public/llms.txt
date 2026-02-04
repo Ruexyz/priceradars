@@ -1,0 +1,36 @@
+# PriceRadars
+
+> Price comparison engine covering 6 countries and 50+ online stores.
+
+## About
+PriceRadars helps users find the best prices for products across multiple online retailers. We track prices from major stores like Amazon, Best Buy, MediaWorld, and many others.
+
+## Documentation
+- [API Documentation](/docs/api.md): REST API for price data
+- [Full Documentation](/llms-full.txt): Complete technical documentation
+
+## Available Countries
+- Italy (IT): Amazon.it, MediaWorld, Unieuro, eBay.it, ePrice
+- United Kingdom (UK): Amazon.co.uk, Currys, Argos, John Lewis, AO
+- United States (US): Amazon.com, Best Buy, Walmart, Newegg, B&H
+- Germany (DE): Amazon.de, MediaMarkt, Saturn, Otto, Cyberport
+- France (FR): Amazon.fr, Fnac, Darty, Cdiscount, Boulanger
+- Spain (ES): Amazon.es, PcComponentes, MediaMarkt, El Corte Inglés
+
+## Main Categories
+- Smartphones & Mobile
+- Computers & Tablets
+- TV & Audio
+- Home Appliances
+- Gaming
+- Cameras
+
+## Quick Links
+- Homepage: https://priceradars.com
+- API: https://priceradars.com/api/v1
+- Search: https://priceradars.com/en/uk/search?q={query}
+
+## Contact
+- Website: https://priceradars.com
+- Email: api@priceradars.com
+- Support: support@priceradars.com

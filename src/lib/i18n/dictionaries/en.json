@@ -1,0 +1,109 @@
+{
+  "common": {
+    "search": "Search products...",
+    "menu": "Menu",
+    "compare": "Compare prices",
+    "stores": "stores",
+    "store": "store",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "limitedStock": "Limited Stock",
+    "goToStore": "Go to store",
+    "priceAlert": "Alert me when price drops",
+    "setAlert": "Set alert",
+    "lowestPrice": "Lowest price",
+    "from": "from",
+    "seeAll": "See all",
+    "loading": "Loading...",
+    "noResults": "No results",
+    "error": "An error occurred"
+  },
+  "header": {
+    "search": "Search products...",
+    "menu": "Menu"
+  },
+  "footer": {
+    "about": "About us",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact",
+    "allRightsReserved": "All rights reserved.",
+    "categories": "Categories",
+    "company": "Company",
+    "support": "Support"
+  },
+  "home": {
+    "title": "Compare Prices Online",
+    "subtitle": "Find the best deals from 50+ online stores",
+    "searchPlaceholder": "What are you looking for?",
+    "popularCategories": "Popular Categories",
+    "featuredDeals": "Featured Deals",
+    "trendingProducts": "Trending Products",
+    "trustedBy": "Trusted by over 1 million users"
+  },
+  "product": {
+    "priceHistory": "Price History",
+    "comparePrices": "Compare Prices",
+    "fromStores": "from {count} stores",
+    "specifications": "Specifications",
+    "reviews": "Reviews",
+    "relatedProducts": "Related Products",
+    "priceDropAlert": "Price Drop Alert",
+    "alertDescription": "Get notified when the price drops below",
+    "currentLowest": "Current lowest price",
+    "averagePrice": "Average price",
+    "highestPrice": "Highest price",
+    "priceChange": "Price change",
+    "lastUpdated": "Last updated",
+    "viewDeal": "View deal"
+  },
+  "category": {
+    "allProducts": "All products",
+    "sortBy": "Sort by",
+    "sortOptions": {
+      "relevance": "Relevance",
+      "priceLow": "Price: Low to High",
+      "priceHigh": "Price: High to Low",
+      "newest": "Newest",
+      "popular": "Most Popular"
+    },
+    "filters": "Filters",
+    "priceRange": "Price range",
+    "brand": "Brand",
+    "clearFilters": "Clear filters",
+    "showingResults": "Showing {count} results",
+    "noProducts": "No products found",
+    "seeMore": "See more",
+    "seeLess": "See less",
+    "applyFilters": "Apply",
+    "availability": "Availability",
+    "inStockOnly": "In Stock Only",
+    "offers": "Deals & Savings",
+    "todayDeals": "Today's Deals",
+    "allSavings": "All Savings",
+    "screenSize": "Screen Size",
+    "resolution": "Resolution",
+    "storage": "Storage",
+    "ram": "RAM",
+    "color": "Color",
+    "condition": "Condition",
+    "new": "New",
+    "refurbished": "Refurbished",
+    "used": "Used"
+  },
+  "search": {
+    "title": "Search Results",
+    "resultsFor": "Results for \"{query}\"",
+    "noResults": "No results for \"{query}\"",
+    "tryDifferent": "Try different keywords",
+    "suggestions": "Search suggestions"
+  },
+  "seo": {
+    "homeTitle": "PriceRadars - Compare Prices Online",
+    "homeDescription": "Find the lowest prices for electronics, appliances, and more. Compare prices from 50+ online stores.",
+    "productTitle": "{name} | Compare Prices from {price}",
+    "productDescription": "Compare prices for {name} from {count} stores. Lowest price: {price}. Find the best deal on PriceRadars.",
+    "categoryTitle": "{category} | Compare Prices | PriceRadars",
+    "categoryDescription": "Compare prices for {category}. Find the best deals from 50+ online stores."
+  }
+}
