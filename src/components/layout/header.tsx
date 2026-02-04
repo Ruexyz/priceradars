@@ -31,10 +31,10 @@ export function Header({ locale, country, dictionary }: HeaderProps) {
           {/* Logo */}
           <Link
             href={homeUrl}
-            className="flex shrink-0 items-center gap-2 transition-opacity duration-300 ease-in-out hover:opacity-80"
+            className="flex shrink-0 items-center gap-2 transition-opacity duration-150 hover:opacity-80"
           >
-            <Logo size={36} />
-            <span className="hidden text-xl font-bold text-gray-900 sm:block">
+            <Logo size={32} className="sm:w-9 sm:h-9" />
+            <span className="text-base font-bold text-gray-900 sm:text-xl">
               Price<span className="text-orange-500">Radars</span>
             </span>
           </Link>
