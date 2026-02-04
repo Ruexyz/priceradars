@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Bot } from 'lucide-react'
 import { Logo } from '@/components/ui/logo'
 import type { Locale, CountryCode } from '@/lib/countries'
 
@@ -111,27 +112,69 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
             </ul>
           </div>
 
-          {/* Brand */}
+          {/* For AI/LLMs */}
           <div>
-            <Link 
-              href={baseUrl} 
-              className="flex items-center gap-2 transition-opacity duration-300 ease-in-out hover:opacity-80"
-            >
-              <Logo size={36} />
-              <span className="text-xl font-bold text-gray-900">
-                Price<span className="text-orange-500">Radars</span>
-              </span>
-            </Link>
-            <p className="mt-4 text-sm text-gray-600">
-              {locale === 'it'
-                ? 'Il miglior comparatore di prezzi per trovare le offerte online.'
-                : 'The best price comparison engine to find deals online.'}
-            </p>
+            <h3 className="flex items-center gap-1.5 text-sm font-semibold text-gray-900">
+              <Bot className="h-4 w-4" />
+              {locale === 'it' ? 'Per AI & LLM' : 'For AI & LLMs'}
+            </h3>
+            <ul className="mt-4 space-y-3">
+              <li>
+                <a
+                  href="/llms.txt"
+                  className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
+                >
+                  llms.txt
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/llms-full.txt"
+                  className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
+                >
+                  {locale === 'it' ? 'Documentazione completa' : 'Full Documentation'}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/api/llms"
+                  className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
+                >
+                  JSON API
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/llms-sitemap.txt"
+                  className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
+                >
+                  {locale === 'it' ? 'Sitemap LLM' : 'LLM Sitemap'}
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
+        {/* Brand Section - Full width below */}
+        <div className="mt-8 flex flex-col items-center justify-center border-t border-gray-200 pt-8 md:flex-row md:justify-between">
+          <Link 
+            href={baseUrl} 
+            className="flex items-center gap-2 transition-opacity duration-300 ease-in-out hover:opacity-80"
+          >
+            <Logo size={32} />
+            <span className="text-lg font-bold text-gray-900">
+              Price<span className="text-orange-500">Radars</span>
+            </span>
+          </Link>
+          <p className="mt-4 text-sm text-gray-600 md:mt-0 md:max-w-xs md:text-right">
+            {locale === 'it'
+              ? 'Il miglior comparatore di prezzi per trovare le offerte online.'
+              : 'The best price comparison engine to find deals online.'}
+          </p>
+        </div>
+
         {/* Bottom */}
-        <div className="mt-12 border-t border-gray-200 pt-8">
+        <div className="mt-8 border-t border-gray-200 pt-8">
           <p className="text-center text-sm text-gray-500">
             © {new Date().getFullYear()} PriceRadars. {dictionary.allRightsReserved}
           </p>
