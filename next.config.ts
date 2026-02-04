@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   // Generate ETags for caching
   generateEtags: true,
   
-  // Image optimization - use unoptimized for Cloudflare Pages
+  // Image optimization - use unoptimized for static export
   images: {
     unoptimized: true,
     formats: ['image/avif', 'image/webp'],
