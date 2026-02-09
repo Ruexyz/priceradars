@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getDictionary } from '@/lib/i18n'
 import { ProductPage } from '@/components/pages/product-page'
-import { ProductJsonLd, BreadcrumbJsonLd } from '@/components/seo/json-ld'
+import { ProductJsonLd, BreadcrumbJsonLd, FAQJsonLd } from '@/components/seo/json-ld'
 import { getProductDetail, searchProducts, extractUuidFromSlug } from '@/lib/api/price-ninja'
 
 export const runtime = 'edge'
@@ -175,6 +175,14 @@ export default async function ItalianProductPage({ params }: PageProps) {
         items={[
           { name: 'Home', url: `${BASE_URL}/it` },
           { name: product.name, url: `${BASE_URL}/it/prodotto/${slug}` },
+        ]}
+      />
+      <FAQJsonLd
+        questions={[
+          { question: 'Il prezzo mostrato è quello finale?', answer: 'Sì, i prezzi mostrati includono IVA. Eventuali costi di spedizione sono indicati separatamente. Il prezzo viene verificato e aggiornato regolarmente.' },
+          { question: 'Come posso essere sicuro di ottenere il prezzo migliore?', answer: 'PriceRadars confronta i prezzi da decine di negozi online verificati. Ti basta cliccare su "Vai all\'offerta" per acquistare al prezzo più basso disponibile.' },
+          { question: 'L\'acquisto avviene su PriceRadars?', answer: 'No, PriceRadars è un servizio di confronto prezzi. Cliccando sull\'offerta verrai reindirizzato al negozio online dove potrai acquistare direttamente, con tutte le garanzie del venditore.' },
+          { question: 'Posso ricevere un avviso quando il prezzo scende?', answer: 'Sì! Usa il pulsante "Avvisami" per impostare un avviso di prezzo. Riceverai una notifica non appena il prezzo scende sotto la soglia che hai indicato.' },
         ]}
       />
 

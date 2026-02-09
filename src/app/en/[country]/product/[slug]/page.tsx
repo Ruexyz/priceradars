@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getDictionary } from '@/lib/i18n'
 import { ProductPage } from '@/components/pages/product-page'
-import { ProductJsonLd, BreadcrumbJsonLd } from '@/components/seo/json-ld'
+import { ProductJsonLd, BreadcrumbJsonLd, FAQJsonLd } from '@/components/seo/json-ld'
 import { countries, type CountryCode } from '@/lib/countries'
 import { getProductDetail, searchProducts, extractUuidFromSlug } from '@/lib/api/price-ninja'
 
@@ -190,6 +190,14 @@ export default async function EnglishProductPage({ params }: PageProps) {
         items={[
           { name: 'Home', url: `${BASE_URL}/en/${country}` },
           { name: product.name, url: `${BASE_URL}/en/${country}/product/${slug}` },
+        ]}
+      />
+      <FAQJsonLd
+        questions={[
+          { question: 'Is the price shown the final price?', answer: 'Yes, the prices shown include VAT. Any shipping costs are shown separately. Prices are verified and updated regularly.' },
+          { question: 'How can I be sure I\'m getting the best price?', answer: 'PriceRadars compares prices from dozens of verified online stores. Simply click "View deal" to buy at the lowest price available.' },
+          { question: 'Does the purchase happen on PriceRadars?', answer: 'No, PriceRadars is a price comparison service. Clicking an offer redirects you to the online store where you can buy directly, with all the seller\'s guarantees.' },
+          { question: 'Can I get an alert when the price drops?', answer: 'Yes! Use the "Price Alert" button to set a price alert. You\'ll be notified as soon as the price drops below your target.' },
         ]}
       />
 
