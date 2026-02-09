@@ -2,116 +2,12 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getDictionary } from '@/lib/i18n'
 import { ProductPage } from '@/components/pages/product-page'
-import { countries } from '@/lib/countries'
+import { ProductJsonLd, BreadcrumbJsonLd } from '@/components/seo/json-ld'
+import { getProductDetail, searchProducts, extractUuidFromSlug } from '@/lib/api/price-ninja'
 
 export const runtime = 'edge'
 
-// Mock product data - will be replaced with DB queries
-const getProduct = async (slug: string) => {
-  // Mock implementation
-  return {
-    id: '1',
-    slug,
-    name: 'iPhone 15 Pro 256GB',
-    brand: 'Apple',
-    category: 'Smartphone',
-    categorySlug: 'smartphones',
-    image: 'https://placehold.co/600x600/f9fafb/FF6B00?text=iPhone+15+Pro&font=inter',
-    images: [
-      'https://placehold.co/600x600/f9fafb/FF6B00?text=iPhone+15+Pro&font=inter',
-      'https://placehold.co/600x600/f9fafb/FF6B00?text=Retro&font=inter',
-      'https://placehold.co/600x600/f9fafb/FF6B00?text=Lato&font=inter',
-    ],
-    description:
-      'iPhone 15 Pro con chip A17 Pro, design in titanio e Action Button. Il più avanzato iPhone mai realizzato.',
-    specs: {
-      Display: '6.1" Super Retina XDR',
-      Processore: 'A17 Pro',
-      Memoria: '256GB',
-      Fotocamera: '48MP + 12MP + 12MP',
-      Batteria: '3274 mAh',
-      Sistema: 'iOS 17',
-    },
-    lowestPrice: 99900,
-    currency: 'EUR',
-    offerCount: 8,
-  }
-}
-
-const getOffers = async (productId: string) => {
-  return [
-    {
-      id: '1',
-      merchantId: 'amazon-it',
-      merchantName: 'Amazon.it',
-      price: 99900,
-      currency: 'EUR',
-      url: 'https://amazon.it',
-      inStock: true,
-      stockStatus: 'in_stock' as const,
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: '2',
-      merchantId: 'mediaworld',
-      merchantName: 'MediaWorld',
-      price: 104900,
-      currency: 'EUR',
-      url: 'https://mediaworld.it',
-      inStock: true,
-      stockStatus: 'in_stock' as const,
-      updatedAt: new Date().toISOString(),
-    },
-    {
-      id: '3',
-      merchantId: 'unieuro',
-      merchantName: 'Unieuro',
-      price: 97900,
-      currency: 'EUR',
-      url: 'https://unieuro.it',
-      inStock: true,
-      stockStatus: 'limited' as const,
-      updatedAt: new Date().toISOString(),
-    },
-  ]
-}
-
-const getPriceHistory = async (productId: string) => {
-  const today = new Date()
-  return Array.from({ length: 30 }, (_, i) => {
-    const date = new Date(today)
-    date.setDate(date.getDate() - (29 - i))
-    return {
-      date: date.toISOString().split('T')[0],
-      price: 99900 + Math.floor(Math.random() * 10000) - 5000,
-    }
-  })
-}
-
-const getRelatedProducts = async (productId: string, currency: string) => {
-  return [
-    {
-      id: '2',
-      slug: 'iphone-15-pro-max',
-      name: 'iPhone 15 Pro Max',
-      brand: 'Apple',
-      image: 'https://placehold.co/400x400/f9fafb/FF6B00?text=iPhone+Pro+Max&font=inter',
-      lowestPrice: 129900,
-      currency,
-      offerCount: 10,
-    },
-    {
-      id: '3',
-      slug: 'samsung-galaxy-s24-ultra',
-      name: 'Samsung Galaxy S24 Ultra',
-      brand: 'Samsung',
-      image: 'https://placehold.co/400x400/f9fafb/FF6B00?text=Galaxy+S24&font=inter',
-      lowestPrice: 119900,
-      currency,
-      offerCount: 12,
-    },
-  ]
-}
+const BASE_URL = 'https://priceradars.com'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -119,7 +15,8 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params
-  const product = await getProduct(slug)
+  const uuid = extractUuidFromSlug(slug)
+  const product = await getProductDetail(uuid)
 
   if (!product) {
     return {}
@@ -127,6 +24,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const dictionary = await getDictionary('it')
   const price = (product.lowestPrice / 100).toFixed(2)
+  const canonicalUrl = `${BASE_URL}/it/prodotto/${slug}`
 
   return {
     title: dictionary.seo.productTitle
@@ -134,40 +32,161 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       .replace('{price}', `€${price}`),
     description: dictionary.seo.productDescription
       .replace('{name}', product.name)
-      .replace('{count}', product.offerCount.toString())
+      .replace('{count}', '1')
       .replace('{price}', `€${price}`),
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: `${product.name} | Confronta Prezzi da €${price}`,
-      description: `Confronta prezzi per ${product.name} da ${product.offerCount} negozi.`,
-      images: [{ url: product.image }],
+      description: product.description || `Confronta prezzi per ${product.name}.`,
+      url: canonicalUrl,
+      type: 'website',
+      siteName: 'PriceRadars',
+      locale: 'it_IT',
+      images: product.image ? [{ url: product.image, width: 600, height: 600, alt: product.name }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} - da €${price}`,
+      description: product.description || `Confronta prezzi per ${product.name}.`,
+      images: product.image ? [product.image] : [],
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
   }
 }
 
 export default async function ItalianProductPage({ params }: PageProps) {
   const { slug } = await params
-  const product = await getProduct(slug)
+  const uuid = extractUuidFromSlug(slug)
+  const product = await getProductDetail(uuid)
 
   if (!product) {
     notFound()
   }
 
-  const [dictionary, offers, priceHistory, relatedProducts] = await Promise.all([
-    getDictionary('it'),
-    getOffers(product.id),
-    getPriceHistory(product.id),
-    getRelatedProducts(product.id, product.currency),
-  ])
+  const dictionary = await getDictionary('it')
+
+  // Build product data for ProductPage component
+  const productData = {
+    id: product.id,
+    slug: product.slug,
+    name: product.name,
+    brand: product.brand || '',
+    category: product.condition === 'NEW' ? 'Nuovo' : 'Usato',
+    categorySlug: 'all',
+    image: product.image || 'https://placehold.co/600x600/f5f5f5/999999?text=No+Image',
+    images: product.image ? [product.image] : [],
+    description: product.description || product.name,
+    specs: {} as Record<string, string>,
+    lowestPrice: product.lowestPrice,
+    currency: product.currency,
+    offerCount: 1,
+  }
+
+  // Build offer from product data
+  const offers = [
+    {
+      id: product.id,
+      merchantId: product.merchantDomain,
+      merchantName: product.merchantName,
+      price: product.lowestPrice,
+      currency: product.currency,
+      url: product.deeplink,
+      inStock: product.inStock,
+      stockStatus: product.inStock ? 'in_stock' as const : 'out_of_stock' as const,
+      updatedAt: new Date().toISOString(),
+    },
+  ]
+
+  // If there's an original price, show discount info
+  if (product.originalPrice > product.lowestPrice) {
+    productData.specs['Prezzo originale'] = `€${(product.originalPrice / 100).toFixed(2)}`
+    productData.specs['Sconto'] = `${product.discount.toFixed(0)}%`
+  }
+
+  if (product.condition) {
+    productData.specs['Condizione'] = product.condition === 'NEW' ? 'Nuovo' : product.condition
+  }
+
+  if (product.deliveryCost !== null) {
+    productData.specs['Spedizione'] = product.deliveryCost > 0 
+      ? `€${product.deliveryCost.toFixed(2)}` 
+      : 'Gratuita'
+  }
+
+  productData.specs['Venditore'] = product.merchantName
+  productData.specs['Sito'] = product.merchantDomain
+
+  // Mock price history (single data point since we don't have historical data)
+  const today = new Date()
+  const priceHistory = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date(today)
+    date.setDate(date.getDate() - (6 - i))
+    return {
+      date: date.toISOString().split('T')[0],
+      price: product.lowestPrice,
+    }
+  })
+
+  // Search for related products by extracting key terms from the name
+  const searchTerms = product.name.split(' ').slice(0, 2).join(' ')
+  const relatedResult = await searchProducts(searchTerms, {
+    country: 'it',
+    locale: 'it',
+  })
+
+  const relatedProducts = relatedResult.products
+    .filter(p => p.id !== product.id) // Exclude current product
+    .slice(0, 4)
+    .map(p => ({
+      id: p.id,
+      slug: p.slug,
+      name: p.name,
+      brand: p.brand,
+      image: p.image,
+      lowestPrice: p.lowestPrice,
+      currency: p.currency,
+      offerCount: 1,
+    }))
 
   return (
-    <ProductPage
-      product={product}
-      offers={offers}
-      priceHistory={priceHistory}
-      relatedProducts={relatedProducts}
-      locale="it"
-      country="it"
-      dictionary={dictionary}
-    />
+    <>
+      {/* Schema.org JSON-LD for SEO */}
+      <ProductJsonLd
+        product={{
+          name: product.name,
+          description: product.description || product.name,
+          image: product.image,
+          brand: product.brand || '',
+        }}
+        offers={[{
+          price: product.lowestPrice,
+          currency: product.currency,
+          url: product.deeplink,
+          merchantName: product.merchantName,
+          inStock: product.inStock,
+        }]}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: `${BASE_URL}/it` },
+          { name: product.name, url: `${BASE_URL}/it/prodotto/${slug}` },
+        ]}
+      />
+
+      <ProductPage
+        product={productData}
+        offers={offers}
+        priceHistory={priceHistory}
+        relatedProducts={relatedProducts}
+        locale="it"
+        country="it"
+        dictionary={dictionary}
+      />
+    </>
   )
 }

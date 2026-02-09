@@ -2,113 +2,14 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getDictionary } from '@/lib/i18n'
 import { ProductPage } from '@/components/pages/product-page'
+import { ProductJsonLd, BreadcrumbJsonLd } from '@/components/seo/json-ld'
 import { countries, type CountryCode } from '@/lib/countries'
+import { getProductDetail, searchProducts, extractUuidFromSlug } from '@/lib/api/price-ninja'
 
 export const runtime = 'edge'
 
+const BASE_URL = 'https://priceradars.com'
 const validCountries = ['uk', 'us', 'de', 'fr', 'es']
-
-// Mock product data - will be replaced with DB queries
-const getProduct = async (slug: string, countryCode: string) => {
-  const countryConfig = countries[countryCode as CountryCode]
-  const currency = countryConfig?.currency || 'EUR'
-
-  return {
-    id: '1',
-    slug,
-    name: 'iPhone 15 Pro 256GB',
-    brand: 'Apple',
-    category: 'Smartphones',
-    categorySlug: 'smartphones',
-    image: 'https://placehold.co/600x600/f9fafb/FF6B00?text=iPhone+15+Pro&font=inter',
-    images: [
-      'https://placehold.co/600x600/f9fafb/FF6B00?text=iPhone+15+Pro&font=inter',
-      'https://placehold.co/600x600/f9fafb/FF6B00?text=Back&font=inter',
-      'https://placehold.co/600x600/f9fafb/FF6B00?text=Side&font=inter',
-    ],
-    description:
-      'iPhone 15 Pro with A17 Pro chip, titanium design, and Action Button. The most advanced iPhone ever.',
-    specs: {
-      Display: '6.1" Super Retina XDR',
-      Processor: 'A17 Pro',
-      Storage: '256GB',
-      Camera: '48MP + 12MP + 12MP',
-      Battery: '3274 mAh',
-      OS: 'iOS 17',
-    },
-    lowestPrice: currency === 'GBP' ? 89900 : currency === 'USD' ? 99900 : 99900,
-    currency,
-    offerCount: 8,
-  }
-}
-
-const getOffers = async (productId: string, countryCode: string) => {
-  const countryConfig = countries[countryCode as CountryCode]
-  const currency = countryConfig?.currency || 'EUR'
-  const merchants = countryConfig?.merchants || []
-
-  const merchantNames: Record<string, string> = {
-    'amazon-uk': 'Amazon.co.uk',
-    'amazon-us': 'Amazon.com',
-    'amazon-de': 'Amazon.de',
-    'amazon-fr': 'Amazon.fr',
-    'amazon-es': 'Amazon.es',
-    currys: 'Currys',
-    argos: 'Argos',
-    bestbuy: 'Best Buy',
-    walmart: 'Walmart',
-  }
-
-  return merchants.slice(0, 3).map((merchantId, i) => ({
-    id: `${i + 1}`,
-    merchantId,
-    merchantName: merchantNames[merchantId] || merchantId,
-    price: (currency === 'GBP' ? 89900 : currency === 'USD' ? 99900 : 99900) + i * 5000,
-    currency,
-    url: `https://${merchantId.replace('-', '.')}.com`,
-    inStock: true,
-    stockStatus: 'in_stock' as const,
-    updatedAt: new Date().toISOString(),
-  }))
-}
-
-const getPriceHistory = async (productId: string, currency: string) => {
-  const basePrice = currency === 'GBP' ? 89900 : currency === 'USD' ? 99900 : 99900
-  const today = new Date()
-  return Array.from({ length: 30 }, (_, i) => {
-    const date = new Date(today)
-    date.setDate(date.getDate() - (29 - i))
-    return {
-      date: date.toISOString().split('T')[0],
-      price: basePrice + Math.floor(Math.random() * 10000) - 5000,
-    }
-  })
-}
-
-const getRelatedProducts = async (productId: string, currency: string) => {
-  return [
-    {
-      id: '2',
-      slug: 'iphone-15-pro-max',
-      name: 'iPhone 15 Pro Max',
-      brand: 'Apple',
-      image: 'https://placehold.co/400x400/f9fafb/FF6B00?text=iPhone+Pro+Max&font=inter',
-      lowestPrice: currency === 'GBP' ? 109900 : currency === 'USD' ? 119900 : 129900,
-      currency,
-      offerCount: 10,
-    },
-    {
-      id: '3',
-      slug: 'samsung-galaxy-s24-ultra',
-      name: 'Samsung Galaxy S24 Ultra',
-      brand: 'Samsung',
-      image: 'https://placehold.co/400x400/f9fafb/FF6B00?text=Galaxy+S24&font=inter',
-      lowestPrice: currency === 'GBP' ? 99900 : currency === 'USD' ? 109900 : 119900,
-      currency,
-      offerCount: 12,
-    },
-  ]
-}
 
 interface PageProps {
   params: Promise<{ country: string; slug: string }>
@@ -121,10 +22,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {}
   }
 
-  const product = await getProduct(slug, country)
-  const dictionary = await getDictionary('en')
-  const currencySymbol = product.currency === 'GBP' ? '£' : product.currency === 'USD' ? '$' : '€'
+  const uuid = extractUuidFromSlug(slug)
+  const product = await getProductDetail(uuid)
+
+  if (!product) {
+    return {}
+  }
+
+  const countryConfig = countries[country as CountryCode]
+  const currency = countryConfig?.currency || 'EUR'
   const price = (product.lowestPrice / 100).toFixed(2)
+  const currencySymbol = currency === 'GBP' ? '£' : currency === 'USD' ? '$' : '€'
+  const canonicalUrl = `${BASE_URL}/en/${country}/product/${slug}`
+
+  const dictionary = await getDictionary('en')
 
   return {
     title: dictionary.seo.productTitle
@@ -132,12 +43,28 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       .replace('{price}', `${currencySymbol}${price}`),
     description: dictionary.seo.productDescription
       .replace('{name}', product.name)
-      .replace('{count}', product.offerCount.toString())
+      .replace('{count}', '1')
       .replace('{price}', `${currencySymbol}${price}`),
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: `${product.name} | Compare Prices from ${currencySymbol}${price}`,
-      description: `Compare prices for ${product.name} from ${product.offerCount} stores.`,
-      images: [{ url: product.image }],
+      description: product.description || `Compare prices for ${product.name}.`,
+      url: canonicalUrl,
+      type: 'website',
+      siteName: 'PriceRadars',
+      images: product.image ? [{ url: product.image, width: 600, height: 600, alt: product.name }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.name} - from ${currencySymbol}${price}`,
+      description: product.description || `Compare prices for ${product.name}.`,
+      images: product.image ? [product.image] : [],
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
   }
 }
@@ -149,28 +76,132 @@ export default async function EnglishProductPage({ params }: PageProps) {
     notFound()
   }
 
-  const product = await getProduct(slug, country)
+  const uuid = extractUuidFromSlug(slug)
+  const product = await getProductDetail(uuid)
 
   if (!product) {
     notFound()
   }
 
-  const [dictionary, offers, priceHistory, relatedProducts] = await Promise.all([
-    getDictionary('en'),
-    getOffers(product.id, country),
-    getPriceHistory(product.id, product.currency),
-    getRelatedProducts(product.id, product.currency),
-  ])
+  const dictionary = await getDictionary('en')
+
+  // Build product data for ProductPage component
+  const productData = {
+    id: product.id,
+    slug: product.slug,
+    name: product.name,
+    brand: product.brand || '',
+    category: product.condition === 'NEW' ? 'New' : 'Used',
+    categorySlug: 'all',
+    image: product.image || 'https://placehold.co/600x600/f5f5f5/999999?text=No+Image',
+    images: product.image ? [product.image] : [],
+    description: product.description || product.name,
+    specs: {} as Record<string, string>,
+    lowestPrice: product.lowestPrice,
+    currency: product.currency,
+    offerCount: 1,
+  }
+
+  // Build offer
+  const offers = [
+    {
+      id: product.id,
+      merchantId: product.merchantDomain,
+      merchantName: product.merchantName,
+      price: product.lowestPrice,
+      currency: product.currency,
+      url: product.deeplink,
+      inStock: product.inStock,
+      stockStatus: product.inStock ? 'in_stock' as const : 'out_of_stock' as const,
+      updatedAt: new Date().toISOString(),
+    },
+  ]
+
+  // Specs
+  if (product.originalPrice > product.lowestPrice) {
+    productData.specs['Original Price'] = `€${(product.originalPrice / 100).toFixed(2)}`
+    productData.specs['Discount'] = `${product.discount.toFixed(0)}%`
+  }
+
+  if (product.condition) {
+    productData.specs['Condition'] = product.condition === 'NEW' ? 'New' : product.condition
+  }
+
+  if (product.deliveryCost !== null) {
+    productData.specs['Shipping'] = product.deliveryCost > 0 
+      ? `€${product.deliveryCost.toFixed(2)}` 
+      : 'Free'
+  }
+
+  productData.specs['Seller'] = product.merchantName
+  productData.specs['Website'] = product.merchantDomain
+
+  // Price history (flat for now)
+  const today = new Date()
+  const priceHistory = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date(today)
+    date.setDate(date.getDate() - (6 - i))
+    return {
+      date: date.toISOString().split('T')[0],
+      price: product.lowestPrice,
+    }
+  })
+
+  // Related products
+  const searchTerms = product.name.split(' ').slice(0, 2).join(' ')
+  const relatedResult = await searchProducts(searchTerms, {
+    country,
+    locale: 'en',
+  })
+
+  const relatedProducts = relatedResult.products
+    .filter(p => p.id !== product.id)
+    .slice(0, 4)
+    .map(p => ({
+      id: p.id,
+      slug: p.slug,
+      name: p.name,
+      brand: p.brand,
+      image: p.image,
+      lowestPrice: p.lowestPrice,
+      currency: p.currency,
+      offerCount: 1,
+    }))
 
   return (
-    <ProductPage
-      product={product}
-      offers={offers}
-      priceHistory={priceHistory}
-      relatedProducts={relatedProducts}
-      locale="en"
-      country={country as CountryCode}
-      dictionary={dictionary}
-    />
+    <>
+      {/* Schema.org JSON-LD for SEO */}
+      <ProductJsonLd
+        product={{
+          name: product.name,
+          description: product.description || product.name,
+          image: product.image,
+          brand: product.brand || '',
+        }}
+        offers={[{
+          price: product.lowestPrice,
+          currency: product.currency,
+          url: product.deeplink,
+          merchantName: product.merchantName,
+          inStock: product.inStock,
+        }]}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: `${BASE_URL}/en/${country}` },
+          { name: product.name, url: `${BASE_URL}/en/${country}/product/${slug}` },
+        ]}
+      />
+
+      <ProductPage
+        product={productData}
+        offers={offers}
+        priceHistory={priceHistory}
+        relatedProducts={relatedProducts}
+        locale="en"
+        country={country as CountryCode}
+        dictionary={dictionary}
+      />
+    </>
   )
 }

@@ -45,13 +45,13 @@ export function ProductCard({
       <Card className="group flex h-full flex-col overflow-hidden hover:shadow-lg">
         <CardContent className="flex flex-1 flex-col p-0">
           {/* Image */}
-          <div className="relative aspect-square overflow-hidden bg-gray-100">
+          <div className="relative aspect-square overflow-hidden">
             <Image
               src={product.image}
               alt={product.name}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              className="object-contain p-4 transition-transform group-hover:scale-105"
+              className="object-cover transition-transform duration-200 group-hover:scale-105"
             />
             {!product.inStock && (
               <div className="absolute inset-0 flex items-center justify-center bg-white/80">
