@@ -2,7 +2,6 @@ import { MetadataRoute } from 'next'
 
 const baseUrl = 'https://priceradars.com'
 
-const locales = ['it']
 const countries = ['uk', 'us', 'de', 'fr', 'es']
 
 const categories = [
@@ -12,15 +11,6 @@ const categories = [
   'appliances',
   'gaming',
   'cameras',
-]
-
-// Mock products - in production this would come from the database
-const products = [
-  'iphone-15-pro-256gb',
-  'samsung-galaxy-s24-ultra',
-  'macbook-air-m3',
-  'sony-wh-1000xm5',
-  'playstation-5-slim',
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -34,6 +24,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 1.0,
   })
 
+  // Italian search
+  entries.push({
+    url: `${baseUrl}/it/cerca`,
+    lastModified: new Date(),
+    changeFrequency: 'daily',
+    priority: 0.7,
+  })
+
   // Italian categories
   for (const cat of categories) {
     entries.push({
@@ -41,16 +39,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.8,
-    })
-  }
-
-  // Italian products
-  for (const product of products) {
-    entries.push({
-      url: `${baseUrl}/it/prodotto/${product}`,
-      lastModified: new Date(),
-      changeFrequency: 'hourly',
-      priority: 0.9,
     })
   }
 
@@ -63,6 +51,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     })
 
+    // Search
+    entries.push({
+      url: `${baseUrl}/en/${country}/search`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.7,
+    })
+
     // Categories
     for (const cat of categories) {
       entries.push({
@@ -72,17 +68,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.8,
       })
     }
-
-    // Products
-    for (const product of products) {
-      entries.push({
-        url: `${baseUrl}/en/${country}/product/${product}`,
-        lastModified: new Date(),
-        changeFrequency: 'hourly',
-        priority: 0.9,
-      })
-    }
   }
+
+  // Note: Product URLs are dynamic and discovered via search/category pages.
+  // In production, generate product sitemap from database.
 
   return entries
 }

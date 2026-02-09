@@ -93,7 +93,7 @@ export default async function EnglishProductPage({ params }: PageProps) {
     brand: product.brand || '',
     category: product.condition === 'NEW' ? 'New' : 'Used',
     categorySlug: 'all',
-    image: product.image || 'https://placehold.co/600x600/f5f5f5/999999?text=No+Image',
+    image: product.image || '',
     images: product.image ? [product.image] : [],
     description: product.description || product.name,
     specs: {} as Record<string, string>,

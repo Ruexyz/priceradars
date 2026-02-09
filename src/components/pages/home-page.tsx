@@ -1,7 +1,6 @@
 import Link from 'next/link'
-import { ArrowRight, TrendingUp, Shield, Zap } from 'lucide-react'
-import { SearchBar } from '@/components/search/search-bar'
-import { ProductGrid } from '@/components/product/product-grid'
+import { ArrowRight, TrendingUp, Shield, Zap, Search } from 'lucide-react'
+import { SearchBarAdvanced } from '@/components/search/search-bar-advanced'
 import { CategoryCard } from '@/components/category/category-card'
 import { Button } from '@/components/ui/button'
 import { countries, type Locale, type CountryCode } from '@/lib/countries'
@@ -13,65 +12,6 @@ interface HomePageProps {
   dictionary: Dictionary
 }
 
-// Mock data - will be replaced with real data from API
-const getMockProducts = (currency: string) => [
-  {
-    id: '1',
-    slug: 'iphone-15-pro-256gb',
-    name: 'iPhone 15 Pro 256GB',
-    brand: 'Apple',
-    image: 'https://placehold.co/400x400/f9fafb/FF6B00?text=iPhone+15+Pro&font=inter',
-    lowestPrice: 99900,
-    currency,
-    offerCount: 8,
-    inStock: true,
-  },
-  {
-    id: '2',
-    slug: 'macbook-air-m3',
-    name: 'MacBook Air M3 13"',
-    brand: 'Apple',
-    image: 'https://placehold.co/400x400/f9fafb/FF6B00?text=MacBook+Air+M3&font=inter',
-    lowestPrice: 119900,
-    currency,
-    offerCount: 12,
-    inStock: true,
-  },
-  {
-    id: '3',
-    slug: 'samsung-galaxy-s24-ultra',
-    name: 'Samsung Galaxy S24 Ultra',
-    brand: 'Samsung',
-    image: 'https://placehold.co/400x400/f9fafb/FF6B00?text=Galaxy+S24&font=inter',
-    lowestPrice: 129900,
-    currency,
-    offerCount: 15,
-    inStock: true,
-  },
-  {
-    id: '4',
-    slug: 'sony-wh-1000xm5',
-    name: 'Sony WH-1000XM5',
-    brand: 'Sony',
-    image: 'https://placehold.co/400x400/f9fafb/FF6B00?text=Sony+XM5&font=inter',
-    lowestPrice: 32900,
-    currency,
-    offerCount: 10,
-    inStock: true,
-  },
-  {
-    id: '5',
-    slug: 'playstation-5-slim',
-    name: 'PlayStation 5 Slim',
-    brand: 'Sony',
-    image: 'https://placehold.co/400x400/f9fafb/FF6B00?text=PS5+Slim&font=inter',
-    lowestPrice: 49900,
-    currency,
-    offerCount: 6,
-    inStock: false,
-  },
-]
-
 const categories = [
   { slug: 'smartphones', nameEn: 'Smartphones', nameIt: 'Smartphone', productCount: 1250 },
   { slug: 'laptops', nameEn: 'Laptops', nameIt: 'Laptop', productCount: 890 },
@@ -81,17 +21,28 @@ const categories = [
   { slug: 'cameras', nameEn: 'Cameras', nameIt: 'Fotocamere', productCount: 420 },
 ]
 
-export function HomePage({ locale, country, dictionary }: HomePageProps) {
-  const countryConfig = countries[country]
-  const currency = countryConfig?.currency || 'EUR'
-  const products = getMockProducts(currency)
+// Popular search terms to help users start
+const popularSearches = {
+  it: ['iPhone', 'Samsung Galaxy', 'MacBook', 'PlayStation', 'AirPods', 'TV 65 pollici'],
+  en: ['iPhone', 'Samsung Galaxy', 'MacBook', 'PlayStation', 'AirPods', '65 inch TV'],
+}
 
+export function HomePage({ locale, country, dictionary }: HomePageProps) {
   const getCategoryUrl = (slug: string) => {
     if (locale === 'it') {
       return `/it/categoria/${slug}`
     }
     return `/en/${country}/category/${slug}`
   }
+
+  const getSearchUrl = (query: string) => {
+    if (locale === 'it') {
+      return `/it/cerca?q=${encodeURIComponent(query)}`
+    }
+    return `/en/${country}/search?q=${encodeURIComponent(query)}`
+  }
+
+  const searches = popularSearches[locale] || popularSearches.en
 
   return (
     <div className="flex flex-col">
@@ -107,12 +58,29 @@ export function HomePage({ locale, country, dictionary }: HomePageProps) {
 
           {/* Search Bar */}
           <div className="mx-auto mt-8 max-w-2xl">
-            <SearchBar
+            <SearchBarAdvanced
               locale={locale}
               country={country}
               placeholder={dictionary.home.searchPlaceholder}
               size="large"
             />
+          </div>
+
+          {/* Popular searches */}
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+            <span className="text-sm text-gray-500">
+              {locale === 'it' ? 'Ricerche popolari:' : 'Popular:'}
+            </span>
+            {searches.map((term) => (
+              <Link
+                key={term}
+                href={getSearchUrl(term)}
+                className="inline-flex items-center gap-1 rounded-full border border-gray-200 px-3 py-1 text-sm text-gray-600 transition-colors hover:border-orange-300 hover:bg-orange-50 hover:text-orange-600"
+              >
+                <Search className="h-3 w-3" />
+                {term}
+              </Link>
+            ))}
           </div>
 
           {/* Trust Badges */}
@@ -140,13 +108,6 @@ export function HomePage({ locale, country, dictionary }: HomePageProps) {
             <h2 className="text-2xl font-bold text-gray-900">
               {dictionary.home.popularCategories}
             </h2>
-            <Link
-              href={getCategoryUrl('all')}
-              className="flex items-center gap-1 text-sm font-medium text-orange-500 hover:text-orange-600"
-            >
-              {dictionary.common.seeAll}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
@@ -165,39 +126,6 @@ export function HomePage({ locale, country, dictionary }: HomePageProps) {
         </div>
       </section>
 
-      {/* Trending Products Section */}
-      <section className="bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900">
-              {dictionary.home.trendingProducts}
-            </h2>
-            <Link
-              href={getCategoryUrl('trending')}
-              className="flex items-center gap-1 text-sm font-medium text-orange-500 hover:text-orange-600"
-            >
-              {dictionary.common.seeAll}
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-
-          <div className="mt-6">
-            <ProductGrid
-              products={products}
-              locale={locale}
-              country={country}
-              dictionary={{
-                stores: dictionary.common.stores,
-                store: dictionary.common.store,
-                from: dictionary.common.from,
-                inStock: dictionary.common.inStock,
-                outOfStock: dictionary.common.outOfStock,
-              }}
-            />
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
@@ -208,13 +136,15 @@ export function HomePage({ locale, country, dictionary }: HomePageProps) {
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-gray-600">
             {locale === 'it'
-              ? 'Imposta avvisi di prezzo per i prodotti che ti interessano e ricevi notifiche quando il prezzo scende.'
-              : 'Set price alerts for products you\'re interested in and get notified when the price drops.'}
+              ? 'Cerca qualsiasi prodotto e confronta i prezzi dai migliori negozi online. Risparmia tempo e denaro con PriceRadars.'
+              : 'Search for any product and compare prices from the best online stores. Save time and money with PriceRadars.'}
           </p>
           <div className="mt-8">
-            <Button size="lg">
-              {locale === 'it' ? 'Inizia ora' : 'Get started'}
-              <ArrowRight className="ml-2 h-4 w-4" />
+            <Button asChild size="lg">
+              <Link href={getSearchUrl('')}>
+                {locale === 'it' ? 'Inizia a cercare' : 'Start searching'}
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
             </Button>
           </div>
         </div>
