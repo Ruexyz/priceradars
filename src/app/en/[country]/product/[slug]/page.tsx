@@ -156,7 +156,7 @@ export default async function EnglishProductPage({ params }: PageProps) {
 
   const relatedProducts = relatedResult.products
     .filter(p => p.id !== product.id)
-    .slice(0, 4)
+    .slice(0, 12)
     .map(p => ({
       id: p.id,
       slug: p.slug,

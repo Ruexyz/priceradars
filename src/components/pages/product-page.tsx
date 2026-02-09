@@ -9,6 +9,7 @@ import { PriceTable } from '@/components/product/price-table'
 import { PriceChart } from '@/components/product/price-chart'
 import { PriceAlertDialog } from '@/components/product/price-alert-dialog'
 import { ProductGrid } from '@/components/product/product-grid'
+import { SortSelect } from '@/components/search/sort-select'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -536,9 +537,18 @@ export function ProductPage({
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <section className="mt-16" aria-label={dictionary.product.relatedProducts}>
-            <h2 className="text-2xl font-bold text-gray-900">
-              {dictionary.product.relatedProducts}
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-900">
+                {dictionary.product.relatedProducts}
+              </h2>
+              <SortSelect
+                currentSort="relevance"
+                dictionary={{
+                  sortBy: dictionary.category.sortBy,
+                  sortOptions: dictionary.category.sortOptions,
+                }}
+              />
+            </div>
             <div className="mt-6">
               <ProductGrid
                 products={relatedProducts.map((p) => ({

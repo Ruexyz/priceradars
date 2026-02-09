@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ChevronRight, SearchX } from 'lucide-react'
 import { ProductGrid } from '@/components/product/product-grid'
 import { SearchFilters } from '@/components/search/search-filters'
+import { SortSelect } from '@/components/search/sort-select'
 import { SearchBarAdvanced } from '@/components/search/search-bar-advanced'
 import type { Locale, CountryCode } from '@/lib/countries'
 import type { Dictionary } from '@/lib/i18n'
@@ -116,6 +117,20 @@ export function SearchPage({
 
             {/* Products Grid */}
             <div className="mt-8 lg:col-span-3 lg:mt-0">
+              {/* Sort bar */}
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-sm text-gray-500">
+                  {dictionary.category.showingResults.replace('{count}', totalCount.toString())}
+                </p>
+                <SortSelect
+                  currentSort={currentFilters.sort || 'relevance'}
+                  dictionary={{
+                    sortBy: dictionary.category.sortBy,
+                    sortOptions: dictionary.category.sortOptions,
+                  }}
+                />
+              </div>
+
               <ProductGrid
                 products={products}
                 locale={locale}
