@@ -3,7 +3,12 @@
  * 
  * Server-side only - never expose the token to the client.
  * Transforms price-ninja responses into PriceRadars format.
+ * 
+ * Uses React.cache() to deduplicate calls within the same request
+ * (e.g., generateMetadata + page function both calling getProductDetail).
  */
+
+import { cache } from 'react'
 
 const API_BASE = 'https://www.price-ninja.online/api'
 const API_TOKEN = '72e41012012ee1ed774153425cb962a45ddeae7a'
@@ -195,7 +200,7 @@ export async function searchProducts(
         'Authorization': `Token ${API_TOKEN}`,
         'Accept': 'application/json',
       },
-      next: { revalidate: 300 }, // Cache for 5 minutes
+      cache: 'force-cache',
     })
 
     if (!response.ok) {
@@ -295,15 +300,17 @@ export function extractUuidFromSlug(slug: string): string {
 
 /**
  * Get product details by UUID
+ * Wrapped with React.cache() to deduplicate within the same request
+ * (generateMetadata + page function share the same result)
  */
-export async function getProductDetail(uuid: string): Promise<NormalizedProduct | null> {
+export const getProductDetail = cache(async (uuid: string): Promise<NormalizedProduct | null> => {
   try {
     const response = await fetch(`${API_BASE}/products/${uuid}`, {
       headers: {
         'Authorization': `Token ${API_TOKEN}`,
         'Accept': 'application/json',
       },
-      next: { revalidate: 600 }, // Cache for 10 minutes
+      cache: 'force-cache',
     })
 
     if (!response.ok) return null
@@ -313,4 +320,4 @@ export async function getProductDetail(uuid: string): Promise<NormalizedProduct 
   } catch {
     return null
   }
-}
+})
