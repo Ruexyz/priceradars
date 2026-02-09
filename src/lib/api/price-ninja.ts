@@ -200,7 +200,6 @@ export async function searchProducts(
         'Authorization': `Token ${API_TOKEN}`,
         'Accept': 'application/json',
       },
-      cache: 'force-cache',
     })
 
     if (!response.ok) {
@@ -310,7 +309,6 @@ export const getProductDetail = cache(async (uuid: string): Promise<NormalizedPr
         'Authorization': `Token ${API_TOKEN}`,
         'Accept': 'application/json',
       },
-      cache: 'force-cache',
     })
 
     if (!response.ok) return null
