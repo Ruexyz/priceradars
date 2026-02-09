@@ -354,51 +354,39 @@ export function ProductPage({
               </div>
             </div>
 
-            {/* Trust Signals - pushes conversion */}
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              <div className="flex items-start gap-3 rounded-xl border border-gray-100 p-3">
-                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-green-600" />
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{seo.verifiedPrices}</p>
-                  <p className="text-xs text-gray-500">{seo.verifiedPricesText}</p>
-                </div>
+            {/* Trust Signals - compact on mobile */}
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              <div className="flex items-center gap-2 rounded-lg border border-gray-100 px-2.5 py-2">
+                <ShieldCheck className="h-4 w-4 shrink-0 text-green-600" />
+                <p className="text-xs font-medium text-gray-700">{seo.verifiedPrices}</p>
               </div>
-              <div className="flex items-start gap-3 rounded-xl border border-gray-100 p-3">
-                <TrendingDown className="mt-0.5 h-5 w-5 shrink-0 text-orange-500" />
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{seo.priceAlerts}</p>
-                  <p className="text-xs text-gray-500">{seo.priceAlertsText}</p>
-                </div>
+              <div className="flex items-center gap-2 rounded-lg border border-gray-100 px-2.5 py-2">
+                <TrendingDown className="h-4 w-4 shrink-0 text-orange-500" />
+                <p className="text-xs font-medium text-gray-700">{seo.priceAlerts}</p>
               </div>
-              <div className="flex items-start gap-3 rounded-xl border border-gray-100 p-3">
-                <Clock className="mt-0.5 h-5 w-5 shrink-0 text-blue-500" />
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{seo.freeService}</p>
-                  <p className="text-xs text-gray-500">{seo.freeServiceText}</p>
-                </div>
+              <div className="flex items-center gap-2 rounded-lg border border-gray-100 px-2.5 py-2">
+                <Clock className="h-4 w-4 shrink-0 text-blue-500" />
+                <p className="text-xs font-medium text-gray-700">{seo.freeService}</p>
               </div>
-              <div className="flex items-start gap-3 rounded-xl border border-gray-100 p-3">
-                <ExternalLink className="mt-0.5 h-5 w-5 shrink-0 text-purple-500" />
-                <div>
-                  <p className="text-sm font-medium text-gray-900">{seo.secureRedirect}</p>
-                  <p className="text-xs text-gray-500">{seo.secureRedirectText}</p>
-                </div>
+              <div className="flex items-center gap-2 rounded-lg border border-gray-100 px-2.5 py-2">
+                <ExternalLink className="h-4 w-4 shrink-0 text-purple-500" />
+                <p className="text-xs font-medium text-gray-700">{seo.secureRedirect}</p>
               </div>
             </div>
 
             {/* Description */}
             {product.description && product.description !== product.name && (
-              <div className="mt-6">
-                <p className="text-gray-600 leading-relaxed">{product.description}</p>
+              <div className="mt-4">
+                <p className="text-sm text-gray-600 leading-relaxed">{product.description}</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Tabs Section */}
-        <div className="mt-12">
+        <div className="mt-8 sm:mt-12">
           <Tabs defaultValue="prices">
-            <TabsList className="w-full justify-start">
+            <TabsList className="w-full justify-start overflow-x-auto">
               <TabsTrigger value="prices">
                 {dictionary.product.comparePrices}
               </TabsTrigger>
@@ -440,15 +428,15 @@ export function ProductPage({
             </TabsContent>
 
             <TabsContent value="specs" className="mt-6">
-              <div className="rounded-2xl border border-gray-100 bg-white">
+              <div className="rounded-xl border border-gray-100 bg-white">
                 <table className="w-full">
                   <tbody className="divide-y divide-gray-100">
                     {Object.entries(product.specs).map(([key, value]) => (
                       <tr key={key}>
-                        <td className="px-6 py-4 text-sm font-medium text-gray-500">
+                        <td className="px-4 py-3 text-xs sm:text-sm font-medium text-gray-500 sm:px-6">
                           {key}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-900">
+                        <td className="px-4 py-3 text-xs sm:text-sm text-gray-900 sm:px-6">
                           {value}
                         </td>
                       </tr>
@@ -460,43 +448,37 @@ export function ProductPage({
           </Tabs>
         </div>
 
-        {/* SEO Content: How it works - guides user to click */}
-        <section className="mt-16" aria-label={seo.howItWorks}>
-          <h2 className="text-2xl font-bold text-gray-900">{seo.howItWorks}</h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-3">
-            <div className="rounded-2xl border border-gray-100 p-6 text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
-                <span className="text-xl font-bold">1</span>
+        {/* SEO Content: How it works - compact on mobile */}
+        <section className="mt-10 sm:mt-16" aria-label={seo.howItWorks}>
+          <h2 className="text-lg sm:text-2xl font-bold text-gray-900">{seo.howItWorks}</h2>
+          <div className="mt-4 sm:mt-6 grid gap-3 sm:gap-6 sm:grid-cols-3">
+            {[
+              { n: '1', title: seo.step1, text: seo.step1Text },
+              { n: '2', title: seo.step2, text: seo.step2Text },
+              { n: '3', title: seo.step3, text: seo.step3Text },
+            ].map((step) => (
+              <div key={step.n} className="flex items-start gap-3 rounded-xl border border-gray-100 p-4 sm:flex-col sm:items-center sm:text-center sm:rounded-2xl sm:p-6">
+                <div className="flex h-8 w-8 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-full bg-orange-100 text-orange-600">
+                  <span className="text-sm sm:text-xl font-bold">{step.n}</span>
+                </div>
+                <div>
+                  <h3 className="text-sm sm:text-base font-semibold text-gray-900">{step.title}</h3>
+                  <p className="mt-1 text-xs sm:text-sm text-gray-600">{step.text}</p>
+                </div>
               </div>
-              <h3 className="mt-4 font-semibold text-gray-900">{seo.step1}</h3>
-              <p className="mt-2 text-sm text-gray-600">{seo.step1Text}</p>
-            </div>
-            <div className="rounded-2xl border border-gray-100 p-6 text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
-                <span className="text-xl font-bold">2</span>
-              </div>
-              <h3 className="mt-4 font-semibold text-gray-900">{seo.step2}</h3>
-              <p className="mt-2 text-sm text-gray-600">{seo.step2Text}</p>
-            </div>
-            <div className="rounded-2xl border border-gray-100 p-6 text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-orange-100 text-orange-600">
-                <span className="text-xl font-bold">3</span>
-              </div>
-              <h3 className="mt-4 font-semibold text-gray-900">{seo.step3}</h3>
-              <p className="mt-2 text-sm text-gray-600">{seo.step3Text}</p>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* SEO Content: Buying guide paragraph - rich text for Google */}
-        <section className="mt-12 rounded-2xl border border-gray-100 bg-gray-50 p-8" aria-label={seo.buyingGuideTitle}>
-          <h2 className="text-xl font-bold text-gray-900">{seo.buyingGuideTitle}: {product.name}</h2>
-          <p className="mt-4 leading-relaxed text-gray-700">
+        {/* SEO Content: Buying guide - compact on mobile */}
+        <section className="mt-8 sm:mt-12 rounded-xl sm:rounded-2xl border border-gray-100 bg-gray-50 p-5 sm:p-8" aria-label={seo.buyingGuideTitle}>
+          <h2 className="text-base sm:text-xl font-bold text-gray-900">{seo.buyingGuideTitle}: {product.name}</h2>
+          <p className="mt-3 text-sm leading-relaxed text-gray-700">
             {seo.buyingGuideIntro} <strong>{product.name}</strong>
             {product.brand ? ` ${locale === 'it' ? 'di' : 'by'} ${product.brand}` : ''}? {seo.buyingGuideText}
           </p>
-          <div className="mt-6">
-            <Button asChild>
+          <div className="mt-4">
+            <Button asChild size="sm">
               <a
                 href={bestOffer?.url || '#'}
                 target="_blank"
@@ -509,10 +491,10 @@ export function ProductPage({
           </div>
         </section>
 
-        {/* SEO Content: FAQ - Schema.org FAQPage eligible */}
-        <section className="mt-12" aria-label={seo.faqTitle}>
-          <h2 className="text-xl font-bold text-gray-900">{seo.faqTitle}</h2>
-          <div className="mt-6 divide-y divide-gray-100 rounded-2xl border border-gray-100 bg-white">
+        {/* SEO Content: FAQ - compact on mobile */}
+        <section className="mt-8 sm:mt-12" aria-label={seo.faqTitle}>
+          <h2 className="text-base sm:text-xl font-bold text-gray-900">{seo.faqTitle}</h2>
+          <div className="mt-3 sm:mt-6 divide-y divide-gray-100 rounded-xl sm:rounded-2xl border border-gray-100 bg-white">
             {[
               { q: seo.faq1Q, a: seo.faq1A },
               { q: seo.faq2Q, a: seo.faq2A },
@@ -520,11 +502,11 @@ export function ProductPage({
               { q: seo.faq4Q, a: seo.faq4A },
             ].map((faq, i) => (
               <details key={i} className="group">
-                <summary className="flex cursor-pointer items-center justify-between px-6 py-4 text-sm font-medium text-gray-900 hover:bg-gray-50">
+                <summary className="flex cursor-pointer items-center justify-between px-4 py-3 sm:px-6 sm:py-4 text-xs sm:text-sm font-medium text-gray-900 hover:bg-gray-50">
                   {faq.q}
-                  <ChevronRight className="h-4 w-4 text-gray-400 transition-transform group-open:rotate-90" />
+                  <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-gray-400 transition-transform group-open:rotate-90" />
                 </summary>
-                <div className="px-6 pb-4 text-sm leading-relaxed text-gray-600">
+                <div className="px-4 pb-3 sm:px-6 sm:pb-4 text-xs sm:text-sm leading-relaxed text-gray-600">
                   {faq.a}
                 </div>
               </details>
