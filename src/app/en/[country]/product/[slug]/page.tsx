@@ -1,10 +1,13 @@
+import { Suspense } from 'react'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getDictionary } from '@/lib/i18n'
 import { ProductPage } from '@/components/pages/product-page'
+import { RelatedProducts } from '@/components/product/related-products'
+import { ProductGridSkeleton } from '@/components/ui/loading'
 import { ProductJsonLd, BreadcrumbJsonLd, FAQJsonLd } from '@/components/seo/json-ld'
 import { countries, type CountryCode } from '@/lib/countries'
-import { getProductDetail, searchProducts, extractUuidFromSlug } from '@/lib/api/price-ninja'
+import { getProductDetail, extractUuidFromSlug } from '@/lib/api/price-ninja'
 
 export const runtime = 'edge'
 
@@ -77,13 +80,15 @@ export default async function EnglishProductPage({ params }: PageProps) {
   }
 
   const uuid = extractUuidFromSlug(slug)
-  const product = await getProductDetail(uuid)
+
+  const [product, dictionary] = await Promise.all([
+    getProductDetail(uuid),
+    getDictionary('en'),
+  ])
 
   if (!product) {
     notFound()
   }
-
-  const dictionary = await getDictionary('en')
 
   // Build product data for ProductPage component
   const productData = {
@@ -102,7 +107,6 @@ export default async function EnglishProductPage({ params }: PageProps) {
     offerCount: 1,
   }
 
-  // Build offer
   const offers = [
     {
       id: product.id,
@@ -117,7 +121,6 @@ export default async function EnglishProductPage({ params }: PageProps) {
     },
   ]
 
-  // Specs
   if (product.originalPrice > product.lowestPrice) {
     productData.specs['Original Price'] = `€${(product.originalPrice / 100).toFixed(2)}`
     productData.specs['Discount'] = `${product.discount.toFixed(0)}%`
@@ -136,7 +139,6 @@ export default async function EnglishProductPage({ params }: PageProps) {
   productData.specs['Seller'] = product.merchantName
   productData.specs['Website'] = product.merchantDomain
 
-  // Price history (flat for now)
   const today = new Date()
   const priceHistory = Array.from({ length: 7 }, (_, i) => {
     const date = new Date(today)
@@ -147,30 +149,8 @@ export default async function EnglishProductPage({ params }: PageProps) {
     }
   })
 
-  // Related products
-  const searchTerms = product.name.split(' ').slice(0, 2).join(' ')
-  const relatedResult = await searchProducts(searchTerms, {
-    country,
-    locale: 'en',
-  })
-
-  const relatedProducts = relatedResult.products
-    .filter(p => p.id !== product.id)
-    .slice(0, 12)
-    .map(p => ({
-      id: p.id,
-      slug: p.slug,
-      name: p.name,
-      brand: p.brand,
-      image: p.image,
-      lowestPrice: p.lowestPrice,
-      currency: p.currency,
-      offerCount: 1,
-    }))
-
   return (
     <>
-      {/* Schema.org JSON-LD for SEO */}
       <ProductJsonLd
         product={{
           name: product.name,
@@ -205,11 +185,24 @@ export default async function EnglishProductPage({ params }: PageProps) {
         product={productData}
         offers={offers}
         priceHistory={priceHistory}
-        relatedProducts={relatedProducts}
+        relatedProducts={[]}
         locale="en"
         country={country as CountryCode}
         dictionary={dictionary}
       />
+
+      {/* Related products load async - doesn't block page render */}
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
+        <Suspense fallback={<ProductGridSkeleton />}>
+          <RelatedProducts
+            productId={product.id}
+            productName={product.name}
+            locale="en"
+            country={country as CountryCode}
+            dictionary={dictionary}
+          />
+        </Suspense>
+      </div>
     </>
   )
 }
