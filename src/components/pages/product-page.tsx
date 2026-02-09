@@ -209,16 +209,16 @@ export function ProductPage({
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Product Header */}
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid gap-8 lg:grid-cols-[1fr_1.5fr]">
           {/* Images */}
           <div className="space-y-4">
-            <div className="relative aspect-square overflow-hidden rounded-2xl border border-gray-100 bg-white">
+            <div className="relative aspect-square max-w-sm mx-auto overflow-hidden rounded-2xl border border-gray-100 bg-white">
               <Image
                 src={product.image}
                 alt={product.name}
                 fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-contain p-8"
+                sizes="(max-width: 1024px) 50vw, 384px"
+                className="object-contain p-6"
                 priority
               />
               {hasDiscount && (
