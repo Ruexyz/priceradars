@@ -161,7 +161,7 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
             href={baseUrl} 
             className="flex items-center gap-2 transition-opacity duration-300 ease-in-out hover:opacity-80"
           >
-            <Logo size={32} />
+            <Logo size={22} />
             <span className="text-lg font-bold text-gray-900">
               Price<span className="text-orange-500">Radars</span>
             </span>

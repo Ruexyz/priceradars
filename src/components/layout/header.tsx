@@ -33,7 +33,7 @@ export function Header({ locale, country, dictionary }: HeaderProps) {
             href={homeUrl}
             className="flex shrink-0 items-center gap-2 transition-opacity duration-150 hover:opacity-80"
           >
-            <Logo size={32} className="sm:w-9 sm:h-9" />
+            <Logo size={24} className="sm:w-7 sm:h-7" />
             <span className="text-base font-bold text-gray-900 sm:text-xl">
               Price<span className="text-orange-500">Radars</span>
             </span>
