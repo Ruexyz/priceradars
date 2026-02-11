@@ -20,39 +20,25 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { country, slug } = await params
-
-  if (!validCountries.includes(country)) {
-    return {}
-  }
+  if (!validCountries.includes(country)) return {}
 
   const uuid = extractUuidFromSlug(slug)
   const product = await getProductDetail(uuid)
-
-  if (!product) {
-    return {}
-  }
+  if (!product) return {}
 
   const countryConfig = countries[country as CountryCode]
   const currency = countryConfig?.currency || 'EUR'
   const price = (product.lowestPrice / 100).toFixed(2)
-  const currencySymbol = currency === 'GBP' ? '£' : currency === 'USD' ? '$' : '€'
+  const sym = currency === 'GBP' ? '£' : currency === 'USD' ? '$' : '€'
   const canonicalUrl = `${BASE_URL}/en/${country}/product/${slug}`
-
   const dictionary = await getDictionary('en')
 
   return {
-    title: dictionary.seo.productTitle
-      .replace('{name}', product.name)
-      .replace('{price}', `${currencySymbol}${price}`),
-    description: dictionary.seo.productDescription
-      .replace('{name}', product.name)
-      .replace('{count}', '1')
-      .replace('{price}', `${currencySymbol}${price}`),
-    alternates: {
-      canonical: canonicalUrl,
-    },
+    title: dictionary.seo.productTitle.replace('{name}', product.name).replace('{price}', `${sym}${price}`),
+    description: dictionary.seo.productDescription.replace('{name}', product.name).replace('{count}', String(product.offerCount || 1)).replace('{price}', `${sym}${price}`),
+    alternates: { canonical: canonicalUrl },
     openGraph: {
-      title: `${product.name} | Compare Prices from ${currencySymbol}${price}`,
+      title: `${product.name} | Compare Prices from ${sym}${price}`,
       description: product.description || `Compare prices for ${product.name}.`,
       url: canonicalUrl,
       type: 'website',
@@ -61,93 +47,79 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${product.name} - from ${currencySymbol}${price}`,
-      description: product.description || `Compare prices for ${product.name}.`,
+      title: `${product.name} - from ${sym}${price}`,
       images: product.image ? [product.image] : [],
-    },
-    robots: {
-      index: true,
-      follow: true,
     },
   }
 }
 
 export default async function EnglishProductPage({ params }: PageProps) {
   const { country, slug } = await params
-
-  if (!validCountries.includes(country)) {
-    notFound()
-  }
+  if (!validCountries.includes(country)) notFound()
 
   const uuid = extractUuidFromSlug(slug)
-
   const [product, dictionary] = await Promise.all([
     getProductDetail(uuid),
     getDictionary('en'),
   ])
+  if (!product) notFound()
 
-  if (!product) {
-    notFound()
-  }
-
-  // Build product data for ProductPage component
   const productData = {
     id: product.id,
     slug: product.slug,
     name: product.name,
-    brand: product.brand || '',
-    category: product.condition === 'NEW' ? 'New' : 'Used',
+    brand: product.brand,
+    category: product.categories[0] || (product.condition === 'NEW' ? 'New' : 'Used'),
     categorySlug: 'all',
-    image: product.image || '',
-    images: product.image ? [product.image] : [],
-    description: product.description || product.name,
+    image: product.image,
+    images: product.images,
+    description: product.description,
     specs: {} as Record<string, string>,
     lowestPrice: product.lowestPrice,
     currency: product.currency,
-    offerCount: 1,
+    offerCount: product.offerCount,
   }
 
-  const offers = [
-    {
+  const offers = product.offers.map(o => ({
+    id: o.id,
+    merchantId: o.merchantDomain,
+    merchantName: o.merchantName,
+    price: o.price,
+    currency: o.currency,
+    url: o.deeplink,
+    inStock: o.inStock,
+    stockStatus: o.inStock ? 'in_stock' as const : 'out_of_stock' as const,
+    updatedAt: new Date().toISOString(),
+  }))
+
+  if (offers.length === 0 && product.lowestPrice > 0) {
+    offers.push({
       id: product.id,
-      merchantId: product.merchantDomain,
-      merchantName: product.merchantName,
+      merchantId: '',
+      merchantName: 'Store',
       price: product.lowestPrice,
       currency: product.currency,
-      url: product.deeplink,
+      url: '',
       inStock: product.inStock,
       stockStatus: product.inStock ? 'in_stock' as const : 'out_of_stock' as const,
       updatedAt: new Date().toISOString(),
-    },
-  ]
+    })
+  }
 
   if (product.originalPrice > product.lowestPrice) {
     productData.specs['Original Price'] = `€${(product.originalPrice / 100).toFixed(2)}`
-    productData.specs['Discount'] = `${product.discount.toFixed(0)}%`
   }
-
   if (product.condition) {
     productData.specs['Condition'] = product.condition === 'NEW' ? 'New' : product.condition
   }
-
-  if (product.deliveryCost !== null) {
-    productData.specs['Shipping'] = product.deliveryCost > 0 
-      ? `€${product.deliveryCost.toFixed(2)}` 
-      : 'Free'
+  if (product.categories.length > 0) {
+    productData.specs['Category'] = product.categories.join(' > ')
   }
+  productData.specs['Available offers'] = String(product.offerCount)
 
-  productData.specs['Seller'] = product.merchantName
-  productData.specs['Website'] = product.merchantDomain
-
-  const today = new Date()
-  const priceHistory = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date(today)
-    date.setDate(date.getDate() - (6 - i))
-    return {
-      date: date.toISOString().split('T')[0],
-      price: product.lowestPrice,
-    }
-  })
+  const priceHistory = product.priceHistory.length > 0
+    ? product.priceHistory
+    : [{ date: new Date().toISOString().split('T')[0], price: product.lowestPrice }]
 
   return (
     <>
@@ -156,15 +128,15 @@ export default async function EnglishProductPage({ params }: PageProps) {
           name: product.name,
           description: product.description || product.name,
           image: product.image,
-          brand: product.brand || '',
+          brand: product.brand,
         }}
-        offers={[{
-          price: product.lowestPrice,
-          currency: product.currency,
-          url: product.deeplink,
-          merchantName: product.merchantName,
-          inStock: product.inStock,
-        }]}
+        offers={offers.map(o => ({
+          price: o.price,
+          currency: o.currency,
+          url: o.url,
+          merchantName: o.merchantName,
+          inStock: o.inStock,
+        }))}
       />
       <BreadcrumbJsonLd
         items={[
@@ -174,10 +146,10 @@ export default async function EnglishProductPage({ params }: PageProps) {
       />
       <FAQJsonLd
         questions={[
-          { question: 'Is the price shown the final price?', answer: 'Yes, the prices shown include VAT. Any shipping costs are shown separately. Prices are verified and updated regularly.' },
-          { question: 'How can I be sure I\'m getting the best price?', answer: 'PriceRadars compares prices from dozens of verified online stores. Simply click "View deal" to buy at the lowest price available.' },
-          { question: 'Does the purchase happen on PriceRadars?', answer: 'No, PriceRadars is a price comparison service. Clicking an offer redirects you to the online store where you can buy directly, with all the seller\'s guarantees.' },
-          { question: 'Can I get an alert when the price drops?', answer: 'Yes! Use the "Price Alert" button to set a price alert. You\'ll be notified as soon as the price drops below your target.' },
+          { question: 'Is the price shown the final price?', answer: 'Yes, prices include VAT. Shipping costs are shown separately.' },
+          { question: 'How can I be sure I\'m getting the best price?', answer: 'PriceRadars compares prices from dozens of verified stores. Click "View deal" to buy at the lowest price.' },
+          { question: 'Does the purchase happen on PriceRadars?', answer: 'No, we redirect you to the official store where you buy directly with all guarantees.' },
+          { question: 'Can I get a price drop alert?', answer: 'Yes! Use the "Price Alert" button to get notified when the price drops.' },
         ]}
       />
 
@@ -191,7 +163,6 @@ export default async function EnglishProductPage({ params }: PageProps) {
         dictionary={dictionary}
       />
 
-      {/* Related products load async - doesn't block page render */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
         <Suspense fallback={<ProductGridSkeleton />}>
           <RelatedProducts

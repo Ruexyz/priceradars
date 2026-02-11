@@ -21,9 +21,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const uuid = extractUuidFromSlug(slug)
   const product = await getProductDetail(uuid)
 
-  if (!product) {
-    return {}
-  }
+  if (!product) return {}
 
   const dictionary = await getDictionary('it')
   const price = (product.lowestPrice / 100).toFixed(2)
@@ -35,11 +33,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       .replace('{price}', `€${price}`),
     description: dictionary.seo.productDescription
       .replace('{name}', product.name)
-      .replace('{count}', '1')
+      .replace('{count}', String(product.offerCount || 1))
       .replace('{price}', `€${price}`),
-    alternates: {
-      canonical: canonicalUrl,
-    },
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       title: `${product.name} | Confronta Prezzi da €${price}`,
       description: product.description || `Confronta prezzi per ${product.name}.`,
@@ -52,12 +48,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     twitter: {
       card: 'summary_large_image',
       title: `${product.name} - da €${price}`,
-      description: product.description || `Confronta prezzi per ${product.name}.`,
       images: product.image ? [product.image] : [],
-    },
-    robots: {
-      index: true,
-      follow: true,
     },
   }
 }
@@ -71,69 +62,72 @@ export default async function ItalianProductPage({ params }: PageProps) {
     getDictionary('it'),
   ])
 
-  if (!product) {
-    notFound()
-  }
+  if (!product) notFound()
 
-  // Build product data for ProductPage component
+  // Map ProductDetail to ProductPage props
   const productData = {
     id: product.id,
     slug: product.slug,
     name: product.name,
-    brand: product.brand || '',
-    category: product.condition === 'NEW' ? 'Nuovo' : 'Usato',
+    brand: product.brand,
+    category: product.categories[0] || (product.condition === 'NEW' ? 'Nuovo' : 'Usato'),
     categorySlug: 'all',
-    image: product.image || '',
-    images: product.image ? [product.image] : [],
-    description: product.description || product.name,
+    image: product.image,
+    images: product.images,
+    description: product.description,
     specs: {} as Record<string, string>,
     lowestPrice: product.lowestPrice,
     currency: product.currency,
-    offerCount: 1,
+    offerCount: product.offerCount,
   }
 
-  // Build offer from product data
-  const offers = [
-    {
+  // Build offers for PriceTable
+  const offers = product.offers.map(o => ({
+    id: o.id,
+    merchantId: o.merchantDomain,
+    merchantName: o.merchantName,
+    price: o.price,
+    currency: o.currency,
+    url: o.deeplink,
+    inStock: o.inStock,
+    stockStatus: o.inStock ? 'in_stock' as const : 'out_of_stock' as const,
+    updatedAt: new Date().toISOString(),
+  }))
+
+  // Fallback: if no offers from generic-products, use product deeplink
+  if (offers.length === 0 && product.lowestPrice > 0) {
+    offers.push({
       id: product.id,
-      merchantId: product.merchantDomain,
-      merchantName: product.merchantName,
+      merchantId: '',
+      merchantName: 'Negozio',
       price: product.lowestPrice,
       currency: product.currency,
-      url: product.deeplink,
+      url: '',
       inStock: product.inStock,
       stockStatus: product.inStock ? 'in_stock' as const : 'out_of_stock' as const,
       updatedAt: new Date().toISOString(),
-    },
-  ]
-
-  if (product.originalPrice > product.lowestPrice) {
-    productData.specs['Prezzo originale'] = `€${(product.originalPrice / 100).toFixed(2)}`
-    productData.specs['Sconto'] = `${product.discount.toFixed(0)}%`
+    })
   }
 
+  // Build specs
+  if (product.originalPrice > product.lowestPrice) {
+    productData.specs['Prezzo originale'] = `€${(product.originalPrice / 100).toFixed(2)}`
+  }
   if (product.condition) {
     productData.specs['Condizione'] = product.condition === 'NEW' ? 'Nuovo' : product.condition
   }
-
-  if (product.deliveryCost !== null) {
-    productData.specs['Spedizione'] = product.deliveryCost > 0 
-      ? `€${product.deliveryCost.toFixed(2)}` 
-      : 'Gratuita'
+  if (product.categories.length > 0) {
+    productData.specs['Categoria'] = product.categories.join(' > ')
   }
+  productData.specs['Offerte disponibili'] = String(product.offerCount)
 
-  productData.specs['Venditore'] = product.merchantName
-  productData.specs['Sito'] = product.merchantDomain
+  // Price history (real data from API)
+  const priceHistory = product.priceHistory.length > 0
+    ? product.priceHistory
+    : [{ date: new Date().toISOString().split('T')[0], price: product.lowestPrice }]
 
-  const today = new Date()
-  const priceHistory = Array.from({ length: 7 }, (_, i) => {
-    const date = new Date(today)
-    date.setDate(date.getDate() - (6 - i))
-    return {
-      date: date.toISOString().split('T')[0],
-      price: product.lowestPrice,
-    }
-  })
+  // Best offer for JSON-LD
+  const bestOffer = offers.sort((a, b) => a.price - b.price)[0]
 
   return (
     <>
@@ -142,15 +136,15 @@ export default async function ItalianProductPage({ params }: PageProps) {
           name: product.name,
           description: product.description || product.name,
           image: product.image,
-          brand: product.brand || '',
+          brand: product.brand,
         }}
-        offers={[{
-          price: product.lowestPrice,
-          currency: product.currency,
-          url: product.deeplink,
-          merchantName: product.merchantName,
-          inStock: product.inStock,
-        }]}
+        offers={offers.map(o => ({
+          price: o.price,
+          currency: o.currency,
+          url: o.url,
+          merchantName: o.merchantName,
+          inStock: o.inStock,
+        }))}
       />
       <BreadcrumbJsonLd
         items={[
@@ -160,10 +154,10 @@ export default async function ItalianProductPage({ params }: PageProps) {
       />
       <FAQJsonLd
         questions={[
-          { question: 'Il prezzo mostrato è quello finale?', answer: 'Sì, i prezzi mostrati includono IVA. Eventuali costi di spedizione sono indicati separatamente. Il prezzo viene verificato e aggiornato regolarmente.' },
+          { question: 'Il prezzo mostrato è quello finale?', answer: 'Sì, i prezzi mostrati includono IVA. Eventuali costi di spedizione sono indicati separatamente.' },
           { question: 'Come posso essere sicuro di ottenere il prezzo migliore?', answer: 'PriceRadars confronta i prezzi da decine di negozi online verificati. Ti basta cliccare su "Vai all\'offerta" per acquistare al prezzo più basso disponibile.' },
-          { question: 'L\'acquisto avviene su PriceRadars?', answer: 'No, PriceRadars è un servizio di confronto prezzi. Cliccando sull\'offerta verrai reindirizzato al negozio online dove potrai acquistare direttamente, con tutte le garanzie del venditore.' },
-          { question: 'Posso ricevere un avviso quando il prezzo scende?', answer: 'Sì! Usa il pulsante "Avvisami" per impostare un avviso di prezzo. Riceverai una notifica non appena il prezzo scende sotto la soglia che hai indicato.' },
+          { question: 'L\'acquisto avviene su PriceRadars?', answer: 'No, PriceRadars è un servizio di confronto prezzi. Cliccando sull\'offerta verrai reindirizzato al negozio online dove potrai acquistare direttamente.' },
+          { question: 'Posso ricevere un avviso quando il prezzo scende?', answer: 'Sì! Usa il pulsante "Avvisami" per impostare un avviso di prezzo.' },
         ]}
       />
 
@@ -177,7 +171,6 @@ export default async function ItalianProductPage({ params }: PageProps) {
         dictionary={dictionary}
       />
 
-      {/* Related products load async - doesn't block page render */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
         <Suspense fallback={<ProductGridSkeleton />}>
           <RelatedProducts
