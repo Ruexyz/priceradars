@@ -256,7 +256,7 @@ export function SearchBarAdvanced({
     },
   }
   
-  const t = labels[locale] || labels.en
+  const t = labels[locale as keyof typeof labels] || labels.en
   
   // Group suggestions by type
   const groupedSuggestions = React.useMemo(() => {

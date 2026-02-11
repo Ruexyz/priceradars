@@ -1,5 +1,8 @@
 import type { Locale } from './i18n/config'
 
+// Re-export Locale so components can import from '@/lib/countries'
+export type { Locale } from './i18n/config'
+
 export const countries = {
   it: {
     code: 'IT',
@@ -78,10 +81,6 @@ export const countries = {
 export type CountryCode = keyof typeof countries
 export type Country = (typeof countries)[CountryCode]
 
-export const locales = ['it', 'en'] as const
-export type Locale = (typeof locales)[number]
-
-export const defaultLocale: Locale = 'en'
 export const defaultCountry: CountryCode = 'uk'
 
 export function getCountryConfig(countryCode: string): Country {

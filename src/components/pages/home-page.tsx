@@ -24,9 +24,12 @@ const categories = [
   { slug: 'cameras', nameEn: 'Cameras', nameIt: 'Fotocamere', productCount: 420 },
 ]
 
-const popularSearches = {
+const popularSearches: Record<string, string[]> = {
   it: ['iPhone 15', 'Samsung Galaxy S24', 'MacBook Air', 'PlayStation 5', 'AirPods Pro', 'TV OLED 65'],
   en: ['iPhone 15', 'Samsung Galaxy S24', 'MacBook Air', 'PlayStation 5', 'AirPods Pro', 'OLED TV 65'],
+  de: ['iPhone 15', 'Samsung Galaxy S24', 'MacBook Air', 'PlayStation 5', 'AirPods Pro', 'OLED TV 65'],
+  fr: ['iPhone 15', 'Samsung Galaxy S24', 'MacBook Air', 'PlayStation 5', 'AirPods Pro', 'TV OLED 65'],
+  es: ['iPhone 15', 'Samsung Galaxy S24', 'MacBook Air', 'PlayStation 5', 'AirPods Pro', 'TV OLED 65'],
 }
 
 // Merchants per country for trust section
