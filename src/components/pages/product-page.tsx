@@ -1,10 +1,10 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { 
   ChevronRight, Share2, Heart, ShieldCheck, TrendingDown, 
   Clock, ExternalLink, Tag, Truck, CheckCircle2, AlertCircle,
   ArrowRight
 } from 'lucide-react'
+import { ImageGallery } from '@/components/product/image-gallery'
 import { PriceTable } from '@/components/product/price-table'
 import { PriceChart } from '@/components/product/price-chart'
 import { PriceAlertDialog } from '@/components/product/price-alert-dialog'
@@ -209,43 +209,17 @@ export function ProductPage({
         {/* Product Header */}
         <div className="grid gap-8 lg:grid-cols-[1fr_1.5fr]">
           {/* Images */}
-          <div className="space-y-4">
-            <div className="relative aspect-square max-w-sm mx-auto overflow-hidden rounded-2xl border border-gray-100 bg-white">
-              <Image
-                src={product.image}
-                alt={product.name}
-                fill
-                sizes="(max-width: 1024px) 50vw, 384px"
-                className="object-contain p-6"
-                priority
-              />
-              {hasDiscount && (
-                <div className="absolute left-4 top-4">
-                  <Badge variant="primary" rounded="full" size="lg">
-                    <Tag className="h-3.5 w-3.5" />
-                    -{discountSpec}
-                  </Badge>
-                </div>
-              )}
-            </div>
-            {product.images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto">
-                {product.images.map((img, i) => (
-                  <div
-                    key={i}
-                    className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-white"
-                  >
-                    <Image
-                      src={img}
-                      alt={`${product.name} - ${i + 1}`}
-                      fill
-                      sizes="80px"
-                      className="object-contain p-2"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+          <div>
+            <ImageGallery
+              images={product.images.length > 0 ? product.images : product.image ? [product.image] : []}
+              alt={product.name}
+              badge={hasDiscount ? (
+                <Badge variant="primary" rounded="full" size="lg">
+                  <Tag className="h-3.5 w-3.5" />
+                  -{discountSpec}
+                </Badge>
+              ) : undefined}
+            />
           </div>
 
           {/* Product Info */}
