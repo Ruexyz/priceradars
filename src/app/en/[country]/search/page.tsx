@@ -1,9 +1,10 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getDictionary } from '@/lib/i18n'
+import type { Locale } from '@/lib/i18n/config'
 import { SearchPage } from '@/components/pages/search-page'
 import { searchProducts } from '@/lib/api/price-ninja'
-import { type CountryCode } from '@/lib/countries'
+import { getNativeLocale, type CountryCode } from '@/lib/countries'
 
 export const runtime = 'edge'
 
@@ -21,7 +22,8 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
 
   if (!validCountries.includes(country)) return {}
 
-  const dictionary = await getDictionary('en')
+  const nativeLocale = getNativeLocale(country) as Locale
+  const dictionary = await getDictionary(nativeLocale)
   const title = query
     ? `${dictionary.search.resultsFor.replace('{query}', query)} | PriceRadars`
     : dictionary.search.title
@@ -57,12 +59,13 @@ export default async function EnglishSearchPage({ params, searchParams }: PagePr
   }
 
   const query = search.q || ''
-  const dictionary = await getDictionary('en')
+  const nativeLocale = getNativeLocale(country) as Locale
+  const dictionary = await getDictionary(nativeLocale)
   
   // Fetch real products from price-ninja API
   const result = await searchProducts(query, {
     country,
-    locale: 'en',
+    locale: nativeLocale,
     sort: search.sort,
     minPrice: search.minPrice,
     maxPrice: search.maxPrice,
@@ -94,7 +97,7 @@ export default async function EnglishSearchPage({ params, searchParams }: PagePr
         brand: search.brand,
         sort: search.sort,
       }}
-      locale="en"
+      locale={nativeLocale}
       country={country as CountryCode}
       dictionary={dictionary}
     />

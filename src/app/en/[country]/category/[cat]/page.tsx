@@ -1,9 +1,10 @@
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getDictionary } from '@/lib/i18n'
+import type { Locale } from '@/lib/i18n/config'
 import { CategoryPage } from '@/components/pages/category-page'
 import { searchProducts } from '@/lib/api/price-ninja'
-import { type CountryCode } from '@/lib/countries'
+import { getNativeLocale, type CountryCode } from '@/lib/countries'
 
 export const runtime = 'edge'
 
@@ -53,7 +54,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!validCountries.includes(country) || !category) return {}
 
-  const dictionary = await getDictionary('en')
+  const nativeLocale = getNativeLocale(country) as Locale
+  const dictionary = await getDictionary(nativeLocale)
   const title = dictionary.seo.categoryTitle.replace('{category}', category.name)
   const description = category.description
   const canonicalUrl = `https://priceradars.com/en/${country}/category/${cat}`
@@ -90,12 +92,13 @@ export default async function EnglishCategoryPage({ params, searchParams }: Page
     notFound()
   }
 
-  const dictionary = await getDictionary('en')
+  const nativeLocale = getNativeLocale(country) as Locale
+  const dictionary = await getDictionary(nativeLocale)
   
   // Fetch real products from price-ninja
   const result = await searchProducts(category.searchTerm, {
     country,
-    locale: 'en',
+    locale: nativeLocale,
     sort: search.sort,
     minPrice: search.minPrice,
     maxPrice: search.maxPrice,
@@ -123,7 +126,7 @@ export default async function EnglishCategoryPage({ params, searchParams }: Page
       currentFilters={{
         ...search,
       }}
-      locale="en"
+      locale={nativeLocale}
       country={country as CountryCode}
       dictionary={dictionary}
     />

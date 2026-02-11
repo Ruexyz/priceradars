@@ -1,6 +1,6 @@
 # PriceRadars
 
-> Price comparison engine covering 6 countries and 50+ online stores.
+> Multilingual price comparison engine covering 6 countries, 5 languages, and 50+ online stores.
 
 ## Quick Links for AI/LLMs
 
@@ -11,18 +11,28 @@
 
 ## About
 
-PriceRadars helps users find the best prices for products across multiple online retailers. We track prices from major stores like Amazon, Best Buy, MediaWorld, and many others.
+PriceRadars helps users find the best prices for products across multiple online retailers. We track prices from major stores like Amazon, MediaWorld, Fnac, MediaMarkt, and many others.
+
+## Supported Languages
+
+| Language | Countries | UI | SEO | Search |
+|----------|-----------|-----|-----|--------|
+| Italian (it) | Italy | ✅ | ✅ | ✅ |
+| English (en) | UK, US | ✅ | ✅ | ✅ |
+| German (de) | Germany | ✅ | ✅ | ✅ |
+| French (fr) | France | ✅ | ✅ | ✅ |
+| Spanish (es) | Spain | ✅ | ✅ | ✅ |
 
 ## Available Countries
 
-| Country | URL | Currency | Stores |
-|---------|-----|----------|--------|
-| Italy | /it | EUR | Amazon.it, MediaWorld, Unieuro, eBay.it, ePrice |
-| UK | /en/uk | GBP | Amazon.co.uk, Currys, Argos, John Lewis, AO |
-| US | /en/us | USD | Amazon.com, Best Buy, Walmart, Newegg, B&H |
-| Germany | /en/de | EUR | Amazon.de, MediaMarkt, Saturn, Otto, Cyberport |
-| France | /en/fr | EUR | Amazon.fr, Fnac, Darty, Cdiscount, Boulanger |
-| Spain | /en/es | EUR | Amazon.es, PcComponentes, MediaMarkt, El Corte Inglés |
+| Country | URL | Language | Currency | Stores |
+|---------|-----|----------|----------|--------|
+| Italy | /it | Italian | EUR | Amazon.it, MediaWorld, Unieuro, eBay.it, ePrice |
+| UK | /en/uk | English | GBP | Amazon.co.uk, Currys, Argos, John Lewis, AO |
+| US | /en/us | English | USD | Amazon.com, Best Buy, Walmart, Newegg, B&H |
+| Germany | /en/de | German | EUR | Amazon.de, MediaMarkt, Saturn, Otto, Cyberport |
+| France | /en/fr | French | EUR | Amazon.fr, Fnac, Darty, Cdiscount, Boulanger |
+| Spain | /en/es | Spanish | EUR | Amazon.es, PcComponentes, MediaMarkt, El Corte Inglés |
 
 ## Categories
 
@@ -60,6 +70,14 @@ GET /api/llms                                 - Structured site data (JSON)
 /en/{country}/product/{slug}  - Product
 /en/{country}/search?q={query}- Search
 ```
+
+## Schema.org Types Used
+
+- WebSite (with SearchAction)
+- Organization
+- Product (with AggregateOffer)
+- BreadcrumbList
+- FAQPage
 
 ## Contact
 

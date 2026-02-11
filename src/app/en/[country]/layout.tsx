@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getDictionary } from '@/lib/i18n'
-import { countries, type CountryCode } from '@/lib/countries'
+import { countries, getNativeLocale, type CountryCode } from '@/lib/countries'
+import type { Locale } from '@/lib/i18n/config'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 
@@ -23,21 +24,22 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { country } = await params
   const countryConfig = countries[country as CountryCode]
+  if (!countryConfig) return {}
 
-  if (!countryConfig) {
-    return {}
-  }
+  // Use native locale for SEO metadata
+  const nativeLocale = getNativeLocale(country) as Locale
+  const dictionary = await getDictionary(nativeLocale)
 
   return {
     title: {
-      default: `PriceRadars ${countryConfig.name} - Compare Prices Online`,
+      default: dictionary.seo.homeTitle,
       template: `%s | PriceRadars ${countryConfig.name}`,
     },
-    description: `Find the lowest prices for electronics, appliances, and more. Compare prices from 50+ online stores in ${countryConfig.name}.`,
+    description: dictionary.seo.homeDescription,
   }
 }
 
-export default async function EnglishCountryLayout({
+export default async function CountryLayout({
   children,
   params,
 }: LayoutProps) {
@@ -47,18 +49,20 @@ export default async function EnglishCountryLayout({
     notFound()
   }
 
-  const dictionary = await getDictionary('en')
+  // Use native locale for UI (de for Germany, fr for France, es for Spain)
+  const nativeLocale = getNativeLocale(country) as Locale
+  const dictionary = await getDictionary(nativeLocale)
 
   return (
     <div className="flex min-h-screen flex-col">
       <Header
-        locale="en"
+        locale={nativeLocale}
         country={country as CountryCode}
         dictionary={dictionary.header}
       />
       <main className="flex-1">{children}</main>
       <Footer
-        locale="en"
+        locale={nativeLocale}
         country={country as CountryCode}
         dictionary={dictionary.footer}
       />

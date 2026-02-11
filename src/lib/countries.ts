@@ -1,62 +1,76 @@
+import type { Locale } from './i18n/config'
+
 export const countries = {
   it: {
     code: 'IT',
-    locale: 'it',
+    locale: 'it' as Locale,
+    nativeLocale: 'it' as Locale,  // Lingua nativa per SEO/UI
     urlPrefix: 'it',
     currency: 'EUR',
     name: 'Italia',
     flag: '🇮🇹',
     hreflang: 'it',
+    htmlLang: 'it',
     merchants: ['amazon-it', 'mediaworld', 'unieuro', 'ebay-it', 'eprice'],
   },
   uk: {
     code: 'GB',
-    locale: 'en',
+    locale: 'en' as Locale,
+    nativeLocale: 'en' as Locale,
     urlPrefix: 'en/uk',
     currency: 'GBP',
     name: 'United Kingdom',
     flag: '🇬🇧',
     hreflang: 'en-GB',
+    htmlLang: 'en',
     merchants: ['amazon-uk', 'currys', 'argos', 'john-lewis', 'ao'],
   },
   us: {
     code: 'US',
-    locale: 'en',
+    locale: 'en' as Locale,
+    nativeLocale: 'en' as Locale,
     urlPrefix: 'en/us',
     currency: 'USD',
     name: 'United States',
     flag: '🇺🇸',
     hreflang: 'en-US',
+    htmlLang: 'en',
     merchants: ['amazon-us', 'bestbuy', 'walmart', 'newegg', 'bh'],
   },
   de: {
     code: 'DE',
-    locale: 'en',
+    locale: 'en' as Locale,
+    nativeLocale: 'de' as Locale,
     urlPrefix: 'en/de',
     currency: 'EUR',
-    name: 'Germany',
+    name: 'Deutschland',
     flag: '🇩🇪',
-    hreflang: 'en-DE',
+    hreflang: 'de',
+    htmlLang: 'de',
     merchants: ['amazon-de', 'mediamarkt-de', 'saturn', 'otto', 'cyberport'],
   },
   fr: {
     code: 'FR',
-    locale: 'en',
+    locale: 'en' as Locale,
+    nativeLocale: 'fr' as Locale,
     urlPrefix: 'en/fr',
     currency: 'EUR',
     name: 'France',
     flag: '🇫🇷',
-    hreflang: 'en-FR',
+    hreflang: 'fr',
+    htmlLang: 'fr',
     merchants: ['amazon-fr', 'fnac', 'darty', 'cdiscount', 'boulanger'],
   },
   es: {
     code: 'ES',
-    locale: 'en',
+    locale: 'en' as Locale,
+    nativeLocale: 'es' as Locale,
     urlPrefix: 'en/es',
     currency: 'EUR',
-    name: 'Spain',
+    name: 'España',
     flag: '🇪🇸',
-    hreflang: 'en-ES',
+    hreflang: 'es',
+    htmlLang: 'es',
     merchants: ['amazon-es', 'pccomponentes', 'mediamarkt-es', 'elcorteingles'],
   },
 } as const
@@ -87,4 +101,12 @@ export function getCurrencySymbol(currency: string): string {
     USD: '$',
   }
   return symbols[currency] || currency
+}
+
+/**
+ * Get the native locale for a country (for SEO and native UI)
+ */
+export function getNativeLocale(countryCode: string): string {
+  const config = countries[countryCode as CountryCode]
+  return config?.nativeLocale || 'en'
 }

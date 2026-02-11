@@ -6,7 +6,8 @@ import { ProductPage } from '@/components/pages/product-page'
 import { RelatedProducts } from '@/components/product/related-products'
 import { ProductGridSkeleton } from '@/components/ui/loading'
 import { ProductJsonLd, BreadcrumbJsonLd, FAQJsonLd } from '@/components/seo/json-ld'
-import { countries, type CountryCode } from '@/lib/countries'
+import { countries, getNativeLocale, type CountryCode } from '@/lib/countries'
+import type { Locale } from '@/lib/i18n/config'
 import { getProductDetail, extractUuidFromSlug } from '@/lib/api/price-ninja'
 
 export const runtime = 'edge'
@@ -31,7 +32,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const price = (product.lowestPrice / 100).toFixed(2)
   const sym = currency === 'GBP' ? '£' : currency === 'USD' ? '$' : '€'
   const canonicalUrl = `${BASE_URL}/en/${country}/product/${slug}`
-  const dictionary = await getDictionary('en')
+  const nativeLocale = getNativeLocale(country) as Locale
+  const dictionary = await getDictionary(nativeLocale)
 
   return {
     title: dictionary.seo.productTitle.replace('{name}', product.name).replace('{price}', `${sym}${price}`),
@@ -58,9 +60,10 @@ export default async function EnglishProductPage({ params }: PageProps) {
   if (!validCountries.includes(country)) notFound()
 
   const uuid = extractUuidFromSlug(slug)
+  const nativeLocale = getNativeLocale(country) as Locale
   const [product, dictionary] = await Promise.all([
     getProductDetail(uuid),
-    getDictionary('en'),
+    getDictionary(nativeLocale),
   ])
   if (!product) notFound()
 
@@ -158,7 +161,7 @@ export default async function EnglishProductPage({ params }: PageProps) {
         offers={offers}
         priceHistory={priceHistory}
         relatedProducts={[]}
-        locale="en"
+        locale={nativeLocale}
         country={country as CountryCode}
         dictionary={dictionary}
       />
@@ -168,7 +171,7 @@ export default async function EnglishProductPage({ params }: PageProps) {
           <RelatedProducts
             productId={product.id}
             productName={product.name}
-            locale="en"
+            locale={nativeLocale}
             country={country as CountryCode}
             dictionary={dictionary}
           />

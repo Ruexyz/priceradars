@@ -15,15 +15,16 @@ export async function GET() {
     
     // Supported locales and countries
     localization: {
-      locales: ['it', 'en'],
+      locales: ['it', 'en', 'de', 'fr', 'es'],
       countries: [
-        { code: 'it', name: 'Italy', locale: 'it', currency: 'EUR', url: '/it' },
-        { code: 'uk', name: 'United Kingdom', locale: 'en', currency: 'GBP', url: '/en/uk' },
-        { code: 'us', name: 'United States', locale: 'en', currency: 'USD', url: '/en/us' },
-        { code: 'de', name: 'Germany', locale: 'en', currency: 'EUR', url: '/en/de' },
-        { code: 'fr', name: 'France', locale: 'en', currency: 'EUR', url: '/en/fr' },
-        { code: 'es', name: 'Spain', locale: 'en', currency: 'EUR', url: '/en/es' },
+        { code: 'it', name: 'Italy', locale: 'it', nativeLanguage: 'Italian', currency: 'EUR', url: '/it' },
+        { code: 'uk', name: 'United Kingdom', locale: 'en', nativeLanguage: 'English', currency: 'GBP', url: '/en/uk' },
+        { code: 'us', name: 'United States', locale: 'en', nativeLanguage: 'English', currency: 'USD', url: '/en/us' },
+        { code: 'de', name: 'Germany', locale: 'de', nativeLanguage: 'German', currency: 'EUR', url: '/en/de' },
+        { code: 'fr', name: 'France', locale: 'fr', nativeLanguage: 'French', currency: 'EUR', url: '/en/fr' },
+        { code: 'es', name: 'Spain', locale: 'es', nativeLanguage: 'Spanish', currency: 'EUR', url: '/en/es' },
       ],
+      note: 'Each country is served in its native language. UI, metadata, and SEO content are fully localized.',
     },
     
     // Available categories

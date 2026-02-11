@@ -1,0 +1,109 @@
+{
+  "common": {
+    "search": "Rechercher des produits...",
+    "menu": "Menu",
+    "compare": "Comparer les prix",
+    "stores": "boutiques",
+    "store": "boutique",
+    "inStock": "En stock",
+    "outOfStock": "Indisponible",
+    "limitedStock": "Stock limité",
+    "goToStore": "Voir la boutique",
+    "priceAlert": "Alerte de baisse de prix",
+    "setAlert": "Définir l'alerte",
+    "lowestPrice": "Prix le plus bas",
+    "from": "à partir de",
+    "seeAll": "Voir tout",
+    "loading": "Chargement...",
+    "noResults": "Aucun résultat",
+    "error": "Une erreur est survenue"
+  },
+  "header": {
+    "search": "Rechercher des produits...",
+    "menu": "Menu"
+  },
+  "footer": {
+    "about": "À propos",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d'utilisation",
+    "contact": "Contact",
+    "allRightsReserved": "Tous droits réservés.",
+    "categories": "Catégories",
+    "company": "Entreprise",
+    "support": "Support"
+  },
+  "home": {
+    "title": "Comparez les Prix en Ligne",
+    "subtitle": "Trouvez les meilleures offres dans plus de 50 boutiques en ligne",
+    "searchPlaceholder": "Que cherchez-vous ?",
+    "popularCategories": "Catégories Populaires",
+    "featuredDeals": "Offres Vedettes",
+    "trendingProducts": "Produits Tendance",
+    "trustedBy": "Utilisé par plus d'un million d'utilisateurs"
+  },
+  "product": {
+    "priceHistory": "Historique des Prix",
+    "comparePrices": "Comparer les Prix",
+    "fromStores": "dans {count} boutiques",
+    "specifications": "Caractéristiques",
+    "reviews": "Avis",
+    "relatedProducts": "Produits Similaires",
+    "priceDropAlert": "Alerte Baisse de Prix",
+    "alertDescription": "Recevez une notification quand le prix descend en dessous de",
+    "currentLowest": "Prix actuel le plus bas",
+    "averagePrice": "Prix moyen",
+    "highestPrice": "Prix le plus élevé",
+    "priceChange": "Variation du prix",
+    "lastUpdated": "Dernière mise à jour",
+    "viewDeal": "Voir l'offre"
+  },
+  "category": {
+    "allProducts": "Tous les produits",
+    "sortBy": "Trier par",
+    "sortOptions": {
+      "relevance": "Pertinence",
+      "priceLow": "Prix : croissant",
+      "priceHigh": "Prix : décroissant",
+      "newest": "Plus récents",
+      "popular": "Plus populaires"
+    },
+    "filters": "Filtres",
+    "priceRange": "Fourchette de prix",
+    "brand": "Marque",
+    "clearFilters": "Effacer les filtres",
+    "showingResults": "{count} résultats",
+    "noProducts": "Aucun produit trouvé",
+    "seeMore": "Voir plus",
+    "seeLess": "Voir moins",
+    "applyFilters": "Appliquer",
+    "availability": "Disponibilité",
+    "inStockOnly": "En stock uniquement",
+    "offers": "Offres & Réductions",
+    "todayDeals": "Offres du jour",
+    "allSavings": "Toutes les réductions",
+    "screenSize": "Taille d'écran",
+    "resolution": "Résolution",
+    "storage": "Stockage",
+    "ram": "RAM",
+    "color": "Couleur",
+    "condition": "État",
+    "new": "Neuf",
+    "refurbished": "Reconditionné",
+    "used": "Occasion"
+  },
+  "search": {
+    "title": "Résultats de recherche",
+    "resultsFor": "Résultats pour \"{query}\"",
+    "noResults": "Aucun résultat pour \"{query}\"",
+    "tryDifferent": "Essayez d'autres mots-clés",
+    "suggestions": "Suggestions de recherche"
+  },
+  "seo": {
+    "homeTitle": "PriceRadars France - Comparateur de Prix en Ligne",
+    "homeDescription": "Trouvez le meilleur prix pour l'électronique, l'électroménager et plus encore. Comparez les prix de plus de 50 boutiques en ligne.",
+    "productTitle": "{name} | Comparer les Prix dès {price}",
+    "productDescription": "Comparez les prix pour {name} dans {count} boutiques. Prix le plus bas : {price}. Trouvez la meilleure offre sur PriceRadars.",
+    "categoryTitle": "{category} | Comparateur de Prix | PriceRadars",
+    "categoryDescription": "Comparez les prix pour {category}. Trouvez les meilleures offres dans plus de 50 boutiques en ligne."
+  }
+}

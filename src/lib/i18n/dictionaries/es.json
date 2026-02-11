@@ -1,0 +1,109 @@
+{
+  "common": {
+    "search": "Buscar productos...",
+    "menu": "Menú",
+    "compare": "Comparar precios",
+    "stores": "tiendas",
+    "store": "tienda",
+    "inStock": "Disponible",
+    "outOfStock": "No disponible",
+    "limitedStock": "Pocas unidades",
+    "goToStore": "Ir a la tienda",
+    "priceAlert": "Aviso de bajada de precio",
+    "setAlert": "Activar alerta",
+    "lowestPrice": "Precio más bajo",
+    "from": "desde",
+    "seeAll": "Ver todo",
+    "loading": "Cargando...",
+    "noResults": "Sin resultados",
+    "error": "Ha ocurrido un error"
+  },
+  "header": {
+    "search": "Buscar productos...",
+    "menu": "Menú"
+  },
+  "footer": {
+    "about": "Sobre nosotros",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de uso",
+    "contact": "Contacto",
+    "allRightsReserved": "Todos los derechos reservados.",
+    "categories": "Categorías",
+    "company": "Empresa",
+    "support": "Soporte"
+  },
+  "home": {
+    "title": "Compara Precios Online",
+    "subtitle": "Encuentra las mejores ofertas en más de 50 tiendas online",
+    "searchPlaceholder": "¿Qué estás buscando?",
+    "popularCategories": "Categorías Populares",
+    "featuredDeals": "Ofertas Destacadas",
+    "trendingProducts": "Productos en Tendencia",
+    "trustedBy": "Usado por más de 1 millón de usuarios"
+  },
+  "product": {
+    "priceHistory": "Historial de Precios",
+    "comparePrices": "Comparar Precios",
+    "fromStores": "en {count} tiendas",
+    "specifications": "Especificaciones",
+    "reviews": "Opiniones",
+    "relatedProducts": "Productos Similares",
+    "priceDropAlert": "Alerta de Bajada de Precio",
+    "alertDescription": "Recibe una notificación cuando el precio baje de",
+    "currentLowest": "Precio actual más bajo",
+    "averagePrice": "Precio medio",
+    "highestPrice": "Precio más alto",
+    "priceChange": "Variación del precio",
+    "lastUpdated": "Última actualización",
+    "viewDeal": "Ver oferta"
+  },
+  "category": {
+    "allProducts": "Todos los productos",
+    "sortBy": "Ordenar por",
+    "sortOptions": {
+      "relevance": "Relevancia",
+      "priceLow": "Precio: de menor a mayor",
+      "priceHigh": "Precio: de mayor a menor",
+      "newest": "Más recientes",
+      "popular": "Más populares"
+    },
+    "filters": "Filtros",
+    "priceRange": "Rango de precio",
+    "brand": "Marca",
+    "clearFilters": "Borrar filtros",
+    "showingResults": "{count} resultados",
+    "noProducts": "No se encontraron productos",
+    "seeMore": "Ver más",
+    "seeLess": "Ver menos",
+    "applyFilters": "Aplicar",
+    "availability": "Disponibilidad",
+    "inStockOnly": "Solo disponibles",
+    "offers": "Ofertas y Descuentos",
+    "todayDeals": "Ofertas del día",
+    "allSavings": "Todos los descuentos",
+    "screenSize": "Tamaño de pantalla",
+    "resolution": "Resolución",
+    "storage": "Almacenamiento",
+    "ram": "RAM",
+    "color": "Color",
+    "condition": "Estado",
+    "new": "Nuevo",
+    "refurbished": "Reacondicionado",
+    "used": "Usado"
+  },
+  "search": {
+    "title": "Resultados de búsqueda",
+    "resultsFor": "Resultados para \"{query}\"",
+    "noResults": "Sin resultados para \"{query}\"",
+    "tryDifferent": "Prueba con otras palabras clave",
+    "suggestions": "Sugerencias de búsqueda"
+  },
+  "seo": {
+    "homeTitle": "PriceRadars España - Comparador de Precios Online",
+    "homeDescription": "Encuentra el mejor precio en electrónica, electrodomésticos y más. Compara precios de más de 50 tiendas online.",
+    "productTitle": "{name} | Comparar Precios desde {price}",
+    "productDescription": "Compara precios de {name} en {count} tiendas. Precio más bajo: {price}. Encuentra la mejor oferta en PriceRadars.",
+    "categoryTitle": "{category} | Comparador de Precios | PriceRadars",
+    "categoryDescription": "Compara precios de {category}. Encuentra las mejores ofertas en más de 50 tiendas online."
+  }
+}
