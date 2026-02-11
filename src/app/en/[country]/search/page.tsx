@@ -19,16 +19,32 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
   const search = await searchParams
   const query = search.q || ''
 
-  if (!validCountries.includes(country)) {
-    return {}
-  }
+  if (!validCountries.includes(country)) return {}
 
   const dictionary = await getDictionary('en')
+  const title = query
+    ? `${dictionary.search.resultsFor.replace('{query}', query)} | PriceRadars`
+    : dictionary.search.title
+  const description = query
+    ? `Compare prices for "${query}". Find the best deals from 50+ online stores.`
+    : 'Search and compare prices from 50+ online stores. Find the best deals on PriceRadars.'
+  const canonicalUrl = query
+    ? `https://priceradars.com/en/${country}/search?q=${encodeURIComponent(query)}`
+    : `https://priceradars.com/en/${country}/search`
 
   return {
-    title: query
-      ? `${dictionary.search.resultsFor.replace('{query}', query)} | PriceRadars`
-      : dictionary.search.title,
+    title,
+    description,
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      type: 'website',
+      siteName: 'PriceRadars',
+    },
+    twitter: { card: 'summary', title, description },
+    robots: { index: !search.sort && !search.minPrice && !search.maxPrice, follow: true },
   }
 }
 

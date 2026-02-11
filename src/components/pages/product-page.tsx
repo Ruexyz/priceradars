@@ -183,7 +183,7 @@ export function ProductPage({
   const bestOffer = offers.sort((a, b) => a.price - b.price)[0]
 
   return (
-    <div className="pb-16">
+    <article className="pb-16" itemScope itemType="https://schema.org/Product">
       {/* Breadcrumb */}
       <nav className="border-b border-gray-200 bg-gray-50" aria-label="Breadcrumb">
         <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
@@ -516,6 +516,6 @@ export function ProductPage({
 
         {/* Related Products - rendered externally via Suspense for faster page load */}
       </div>
-    </div>
+    </article>
   )
 }

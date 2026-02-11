@@ -51,15 +51,29 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { country, cat } = await params
   const category = categories[cat]
 
-  if (!validCountries.includes(country) || !category) {
-    return {}
-  }
+  if (!validCountries.includes(country) || !category) return {}
 
   const dictionary = await getDictionary('en')
+  const title = dictionary.seo.categoryTitle.replace('{category}', category.name)
+  const description = category.description
+  const canonicalUrl = `https://priceradars.com/en/${country}/category/${cat}`
 
   return {
-    title: dictionary.seo.categoryTitle.replace('{category}', category.name),
-    description: dictionary.seo.categoryDescription.replace('{category}', category.name),
+    title,
+    description,
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      type: 'website',
+      siteName: 'PriceRadars',
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+    },
   }
 }
 

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
+import { WebVitalsReporter } from '@/components/analytics/web-vitals-reporter'
 import '@/styles/globals.css'
 
 const inter = Inter({
@@ -120,6 +121,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} font-sans antialiased bg-white text-gray-900`}>
         {children}
+        <WebVitalsReporter />
       </body>
     </html>
   )

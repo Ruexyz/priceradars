@@ -44,19 +44,35 @@ interface PageProps {
   searchParams: Promise<{ [key: string]: string | undefined }>
 }
 
+const BASE_URL = 'https://priceradars.com'
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { cat } = await params
   const category = categories[cat]
-
-  if (!category) {
-    return {}
-  }
+  if (!category) return {}
 
   const dictionary = await getDictionary('it')
+  const title = dictionary.seo.categoryTitle.replace('{category}', category.name)
+  const description = category.description
+  const canonicalUrl = `${BASE_URL}/it/categoria/${cat}`
 
   return {
-    title: dictionary.seo.categoryTitle.replace('{category}', category.name),
-    description: dictionary.seo.categoryDescription.replace('{category}', category.name),
+    title,
+    description,
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      type: 'website',
+      siteName: 'PriceRadars',
+      locale: 'it_IT',
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+    },
   }
 }
 
