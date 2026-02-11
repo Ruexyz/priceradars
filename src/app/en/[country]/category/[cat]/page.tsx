@@ -14,32 +14,32 @@ const categories: Record<string, { name: string; description: string; searchTerm
   smartphones: {
     name: 'Smartphones',
     description: 'Compare prices for iPhone, Samsung, Xiaomi and other smartphones.',
-    searchTerm: 'smartphone',
+    searchTerm: 'smartphone mobile phone',
   },
   laptops: {
     name: 'Laptops',
     description: 'Find the best prices for MacBooks, Windows notebooks and Chromebooks.',
-    searchTerm: 'laptop notebook',
+    searchTerm: 'laptop notebook computer',
   },
   'tv-audio': {
     name: 'TV & Audio',
     description: 'Compare prices for Smart TVs, soundbars and headphones.',
-    searchTerm: 'TV television',
+    searchTerm: 'smart TV television',
   },
   appliances: {
     name: 'Appliances',
     description: 'Prices for washing machines, refrigerators and small appliances.',
-    searchTerm: 'appliance',
+    searchTerm: 'washing machine refrigerator oven',
   },
   gaming: {
     name: 'Gaming',
     description: 'Consoles, video games and gaming accessories at the best prices.',
-    searchTerm: 'console gaming',
+    searchTerm: 'playstation xbox nintendo console',
   },
   cameras: {
     name: 'Cameras',
     description: 'Digital cameras, mirrorless and photography accessories.',
-    searchTerm: 'camera digital',
+    searchTerm: 'camera mirrorless DSLR',
   },
 }
 

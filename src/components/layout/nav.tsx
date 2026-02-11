@@ -20,12 +20,12 @@ interface NavProps {
 }
 
 const categories = [
-  { slug: 'smartphones', icon: Smartphone, labelEn: 'Smartphones', labelIt: 'Smartphone' },
-  { slug: 'laptops', icon: Laptop, labelEn: 'Laptops', labelIt: 'Laptop' },
-  { slug: 'tv-audio', icon: Tv, labelEn: 'TV & Audio', labelIt: 'TV & Audio' },
-  { slug: 'appliances', icon: Refrigerator, labelEn: 'Appliances', labelIt: 'Elettrodomestici' },
-  { slug: 'gaming', icon: Gamepad2, labelEn: 'Gaming', labelIt: 'Gaming' },
-  { slug: 'cameras', icon: Camera, labelEn: 'Cameras', labelIt: 'Fotocamere' },
+  { slug: 'smartphones', icon: Smartphone, labels: { it: 'Smartphone', en: 'Smartphones', de: 'Smartphones', fr: 'Smartphones', es: 'Smartphones' } },
+  { slug: 'laptops', icon: Laptop, labels: { it: 'Laptop', en: 'Laptops', de: 'Laptops', fr: 'Ordinateurs', es: 'Portátiles' } },
+  { slug: 'tv-audio', icon: Tv, labels: { it: 'TV & Audio', en: 'TV & Audio', de: 'TV & Audio', fr: 'TV & Audio', es: 'TV & Audio' } },
+  { slug: 'appliances', icon: Refrigerator, labels: { it: 'Elettrodomestici', en: 'Appliances', de: 'Haushaltsgeräte', fr: 'Électroménager', es: 'Electrodomésticos' } },
+  { slug: 'gaming', icon: Gamepad2, labels: { it: 'Gaming', en: 'Gaming', de: 'Gaming', fr: 'Gaming', es: 'Gaming' } },
+  { slug: 'cameras', icon: Camera, labels: { it: 'Fotocamere', en: 'Cameras', de: 'Kameras', fr: 'Appareils Photo', es: 'Cámaras' } },
 ]
 
 export function Nav({ locale, country, mobile = false }: NavProps) {
@@ -50,7 +50,7 @@ export function Nav({ locale, country, mobile = false }: NavProps) {
       <nav className="flex flex-col gap-1">
         {categories.map((category) => {
           const Icon = category.icon
-          const label = locale === 'it' ? category.labelIt : category.labelEn
+          const label = category.labels[locale as keyof typeof category.labels] || category.labels.en
           const active = isActive(category.slug)
 
           return (
@@ -77,7 +77,7 @@ export function Nav({ locale, country, mobile = false }: NavProps) {
     <nav className="flex items-center gap-1 overflow-x-auto py-2 scrollbar-hide">
       {categories.map((category) => {
         const Icon = category.icon
-        const label = locale === 'it' ? category.labelIt : category.labelEn
+        const label = category.labels[locale as keyof typeof category.labels] || category.labels.en
         const active = isActive(category.slug)
 
         return (

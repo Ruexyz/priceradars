@@ -10,32 +10,32 @@ const categories: Record<string, { name: string; description: string; searchTerm
   smartphones: {
     name: 'Smartphone',
     description: 'Confronta prezzi per iPhone, Samsung, Xiaomi e altri smartphone.',
-    searchTerm: 'smartphone',
+    searchTerm: 'smartphone cellulare',
   },
   laptops: {
     name: 'Laptop',
     description: 'Trova i migliori prezzi per MacBook, notebook Windows e Chromebook.',
-    searchTerm: 'laptop notebook',
+    searchTerm: 'laptop notebook portatile',
   },
   'tv-audio': {
     name: 'TV & Audio',
     description: 'Confronta prezzi per Smart TV, soundbar e cuffie.',
-    searchTerm: 'TV televisore',
+    searchTerm: 'smart TV televisore',
   },
   appliances: {
     name: 'Elettrodomestici',
     description: 'Prezzi per lavatrici, frigoriferi e piccoli elettrodomestici.',
-    searchTerm: 'elettrodomestico',
+    searchTerm: 'lavatrice frigorifero forno',
   },
   gaming: {
     name: 'Gaming',
     description: 'Console, videogiochi e accessori gaming ai prezzi migliori.',
-    searchTerm: 'console gaming',
+    searchTerm: 'playstation xbox nintendo console',
   },
   cameras: {
     name: 'Fotocamere',
     description: 'Fotocamere digitali, mirrorless e accessori fotografici.',
-    searchTerm: 'fotocamera digitale',
+    searchTerm: 'fotocamera mirrorless reflex',
   },
 }
 
