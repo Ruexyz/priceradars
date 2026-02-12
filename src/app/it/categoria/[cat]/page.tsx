@@ -7,6 +7,38 @@ import { searchProducts } from '@/lib/api/price-ninja'
 export const runtime = 'edge'
 
 const categories: Record<string, { name: string; description: string; searchTerm: string }> = {
+  // Italian slugs
+  smartphone: {
+    name: 'Smartphone',
+    description: 'Confronta prezzi per iPhone, Samsung, Xiaomi e altri smartphone.',
+    searchTerm: 'smartphone cellulare',
+  },
+  laptop: {
+    name: 'Laptop',
+    description: 'Trova i migliori prezzi per MacBook, notebook Windows e Chromebook.',
+    searchTerm: 'laptop notebook portatile',
+  },
+  'tv-audio': {
+    name: 'TV & Audio',
+    description: 'Confronta prezzi per Smart TV, soundbar e cuffie.',
+    searchTerm: 'smart TV televisore',
+  },
+  elettrodomestici: {
+    name: 'Elettrodomestici',
+    description: 'Prezzi per lavatrici, frigoriferi e piccoli elettrodomestici.',
+    searchTerm: 'lavatrice frigorifero forno',
+  },
+  gaming: {
+    name: 'Gaming',
+    description: 'Console, videogiochi e accessori gaming ai prezzi migliori.',
+    searchTerm: 'playstation xbox nintendo console',
+  },
+  fotocamere: {
+    name: 'Fotocamere',
+    description: 'Fotocamere digitali, mirrorless e accessori fotografici.',
+    searchTerm: 'fotocamera mirrorless reflex',
+  },
+  // English slug aliases (backward compatibility)
   smartphones: {
     name: 'Smartphone',
     description: 'Confronta prezzi per iPhone, Samsung, Xiaomi e altri smartphone.',
@@ -17,20 +49,10 @@ const categories: Record<string, { name: string; description: string; searchTerm
     description: 'Trova i migliori prezzi per MacBook, notebook Windows e Chromebook.',
     searchTerm: 'laptop notebook portatile',
   },
-  'tv-audio': {
-    name: 'TV & Audio',
-    description: 'Confronta prezzi per Smart TV, soundbar e cuffie.',
-    searchTerm: 'smart TV televisore',
-  },
   appliances: {
     name: 'Elettrodomestici',
     description: 'Prezzi per lavatrici, frigoriferi e piccoli elettrodomestici.',
     searchTerm: 'lavatrice frigorifero forno',
-  },
-  gaming: {
-    name: 'Gaming',
-    description: 'Console, videogiochi e accessori gaming ai prezzi migliori.',
-    searchTerm: 'playstation xbox nintendo console',
   },
   cameras: {
     name: 'Fotocamere',

@@ -23,12 +23,12 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
   const categoryPath = locale === 'it' ? 'categoria' : 'category'
 
   const categories = [
-    { slug: 'smartphones', labelEn: 'Smartphones', labelIt: 'Smartphone' },
-    { slug: 'laptops', labelEn: 'Laptops', labelIt: 'Laptop' },
-    { slug: 'tv-audio', labelEn: 'TV & Audio', labelIt: 'TV & Audio' },
-    { slug: 'appliances', labelEn: 'Appliances', labelIt: 'Elettrodomestici' },
-    { slug: 'gaming', labelEn: 'Gaming', labelIt: 'Gaming' },
-    { slug: 'cameras', labelEn: 'Cameras', labelIt: 'Fotocamere' },
+    { slug: 'smartphones', slugIt: 'smartphone', labelEn: 'Smartphones', labelIt: 'Smartphone' },
+    { slug: 'laptops', slugIt: 'laptop', labelEn: 'Laptops', labelIt: 'Laptop' },
+    { slug: 'tv-audio', slugIt: 'tv-audio', labelEn: 'TV & Audio', labelIt: 'TV & Audio' },
+    { slug: 'appliances', slugIt: 'elettrodomestici', labelEn: 'Appliances', labelIt: 'Elettrodomestici' },
+    { slug: 'gaming', slugIt: 'gaming', labelEn: 'Gaming', labelIt: 'Gaming' },
+    { slug: 'cameras', slugIt: 'fotocamere', labelEn: 'Cameras', labelIt: 'Fotocamere' },
   ]
 
   return (
@@ -44,7 +44,7 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
               {categories.map((category) => (
                 <li key={category.slug}>
                   <Link
-                    href={`${baseUrl}/${categoryPath}/${category.slug}`}
+                    href={`${baseUrl}/${categoryPath}/${locale === 'it' ? category.slugIt : category.slug}`}
                     className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
                   >
                     {locale === 'it' ? category.labelIt : category.labelEn}

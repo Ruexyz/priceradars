@@ -16,12 +16,12 @@ interface HomePageProps {
 }
 
 const categories = [
-  { slug: 'smartphones', nameEn: 'Smartphones', nameIt: 'Smartphone', productCount: 1250 },
-  { slug: 'laptops', nameEn: 'Laptops', nameIt: 'Laptop', productCount: 890 },
-  { slug: 'tv-audio', nameEn: 'TV & Audio', nameIt: 'TV & Audio', productCount: 650 },
-  { slug: 'appliances', nameEn: 'Appliances', nameIt: 'Elettrodomestici', productCount: 1100 },
-  { slug: 'gaming', nameEn: 'Gaming', nameIt: 'Gaming', productCount: 780 },
-  { slug: 'cameras', nameEn: 'Cameras', nameIt: 'Fotocamere', productCount: 420 },
+  { slug: 'smartphones', slugIt: 'smartphone', nameEn: 'Smartphones', nameIt: 'Smartphone', productCount: 1250 },
+  { slug: 'laptops', slugIt: 'laptop', nameEn: 'Laptops', nameIt: 'Laptop', productCount: 890 },
+  { slug: 'tv-audio', slugIt: 'tv-audio', nameEn: 'TV & Audio', nameIt: 'TV & Audio', productCount: 650 },
+  { slug: 'appliances', slugIt: 'elettrodomestici', nameEn: 'Appliances', nameIt: 'Elettrodomestici', productCount: 1100 },
+  { slug: 'gaming', slugIt: 'gaming', nameEn: 'Gaming', nameIt: 'Gaming', productCount: 780 },
+  { slug: 'cameras', slugIt: 'fotocamere', nameEn: 'Cameras', nameIt: 'Fotocamere', productCount: 420 },
 ]
 
 const popularSearches: Record<string, string[]> = {
@@ -119,9 +119,9 @@ export function HomePage({ locale, country, dictionary }: HomePageProps) {
   const seo = getSeoContent(locale)
   const merchants = merchantsByCountry[country] || merchantsByCountry.it
 
-  const getCategoryUrl = (slug: string) => {
+  const getCategoryUrl = (slug: string, slugIt: string) => {
     if (locale === 'it') {
-      return `/it/categoria/${slug}`
+      return `/it/categoria/${slugIt}`
     }
     return `/en/${country}/category/${slug}`
   }
@@ -205,7 +205,7 @@ export function HomePage({ locale, country, dictionary }: HomePageProps) {
                   name: locale === 'it' ? category.nameIt : category.nameEn,
                   productCount: category.productCount,
                 }}
-                href={getCategoryUrl(category.slug)}
+                href={getCategoryUrl(category.slug, category.slugIt)}
               />
             ))}
           </div>
