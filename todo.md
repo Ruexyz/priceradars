@@ -19,10 +19,8 @@
 - [ ] Verificare che email `support@priceradars.com` sia attiva
 - [ ] Aggiungere numero di telefono (opzionale ma consigliato per CSS Center)
 
-### 4. Google Search Console
-- [ ] Aggiungere codice verifica GSC in `src/app/layout.tsx` (cercare "TODO")
-- [ ] Verificare dominio in GSC
-- [ ] Rivendicare sito in Merchant Center
+### 4. Google Merchant Center
+- [ ] Rivendicare sito in Merchant Center (GSC già verificato via Cloudflare)
 
 ## Miglioramenti (non bloccanti)
 
