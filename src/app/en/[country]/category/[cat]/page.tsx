@@ -11,36 +11,24 @@ export const runtime = 'edge'
 const validCountries = ['uk', 'us', 'de', 'fr', 'es']
 
 const categories: Record<string, { name: string; description: string; searchTerm: string }> = {
-  smartphones: {
-    name: 'Smartphones',
-    description: 'Compare prices for iPhone, Samsung, Xiaomi and other smartphones.',
-    searchTerm: 'smartphone mobile phone',
-  },
-  laptops: {
-    name: 'Laptops',
-    description: 'Find the best prices for MacBooks, Windows notebooks and Chromebooks.',
-    searchTerm: 'laptop notebook computer',
-  },
-  'tv-audio': {
-    name: 'TV & Audio',
-    description: 'Compare prices for Smart TVs, soundbars and headphones.',
-    searchTerm: 'smart TV television',
-  },
-  appliances: {
-    name: 'Appliances',
-    description: 'Prices for washing machines, refrigerators and small appliances.',
-    searchTerm: 'washing machine refrigerator oven',
-  },
-  gaming: {
-    name: 'Gaming',
-    description: 'Consoles, video games and gaming accessories at the best prices.',
-    searchTerm: 'playstation xbox nintendo console',
-  },
-  cameras: {
-    name: 'Cameras',
-    description: 'Digital cameras, mirrorless and photography accessories.',
-    searchTerm: 'camera mirrorless DSLR',
-  },
+  // English slugs
+  smartphones: { name: 'Smartphones', description: 'Compare prices for iPhone, Samsung, Xiaomi and other smartphones.', searchTerm: 'smartphone mobile phone' },
+  laptops: { name: 'Laptops', description: 'Find the best prices for MacBooks, Windows notebooks and Chromebooks.', searchTerm: 'laptop notebook computer' },
+  'tv-audio': { name: 'TV & Audio', description: 'Compare prices for Smart TVs, soundbars and headphones.', searchTerm: 'smart TV television' },
+  appliances: { name: 'Appliances', description: 'Prices for washing machines, refrigerators and small appliances.', searchTerm: 'washing machine refrigerator oven' },
+  gaming: { name: 'Gaming', description: 'Consoles, video games and gaming accessories at the best prices.', searchTerm: 'playstation xbox nintendo console' },
+  cameras: { name: 'Cameras', description: 'Digital cameras, mirrorless and photography accessories.', searchTerm: 'camera mirrorless DSLR' },
+  // German slug aliases
+  haushaltsgeraete: { name: 'Haushaltsgeräte', description: 'Preisvergleich für Waschmaschinen, Kühlschränke und Haushaltsgeräte.', searchTerm: 'Waschmaschine Kühlschrank Backofen' },
+  kameras: { name: 'Kameras', description: 'Preisvergleich für Digitalkameras, Spiegellose und Zubehör.', searchTerm: 'Kamera spiegellos DSLR' },
+  // French slug aliases
+  ordinateurs: { name: 'Ordinateurs', description: 'Comparez les prix des MacBook, notebooks et Chromebooks.', searchTerm: 'ordinateur portable laptop' },
+  electromenager: { name: 'Électroménager', description: 'Comparez les prix des lave-linge, réfrigérateurs et fours.', searchTerm: 'lave-linge réfrigérateur four' },
+  'appareils-photo': { name: 'Appareils Photo', description: 'Comparez les prix des appareils photo numériques et hybrides.', searchTerm: 'appareil photo hybride reflex' },
+  // Spanish slug aliases
+  portatiles: { name: 'Portátiles', description: 'Compara precios de MacBooks, portátiles y Chromebooks.', searchTerm: 'portátil laptop ordenador' },
+  electrodomesticos: { name: 'Electrodomésticos', description: 'Compara precios de lavadoras, neveras y hornos.', searchTerm: 'lavadora nevera horno' },
+  camaras: { name: 'Cámaras', description: 'Compara precios de cámaras digitales y accesorios.', searchTerm: 'cámara mirrorless réflex' },
 }
 
 interface PageProps {

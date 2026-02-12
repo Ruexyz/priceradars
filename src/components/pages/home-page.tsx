@@ -16,12 +16,12 @@ interface HomePageProps {
 }
 
 const categories = [
-  { slug: 'smartphones', slugIt: 'smartphone', nameEn: 'Smartphones', nameIt: 'Smartphone', productCount: 1250 },
-  { slug: 'laptops', slugIt: 'laptop', nameEn: 'Laptops', nameIt: 'Laptop', productCount: 890 },
-  { slug: 'tv-audio', slugIt: 'tv-audio', nameEn: 'TV & Audio', nameIt: 'TV & Audio', productCount: 650 },
-  { slug: 'appliances', slugIt: 'elettrodomestici', nameEn: 'Appliances', nameIt: 'Elettrodomestici', productCount: 1100 },
-  { slug: 'gaming', slugIt: 'gaming', nameEn: 'Gaming', nameIt: 'Gaming', productCount: 780 },
-  { slug: 'cameras', slugIt: 'fotocamere', nameEn: 'Cameras', nameIt: 'Fotocamere', productCount: 420 },
+  { slugs: { it: 'smartphone', en: 'smartphones', de: 'smartphones', fr: 'smartphones', es: 'smartphones' }, names: { it: 'Smartphone', en: 'Smartphones', de: 'Smartphones', fr: 'Smartphones', es: 'Smartphones' }, productCount: 1250 },
+  { slugs: { it: 'laptop', en: 'laptops', de: 'laptops', fr: 'ordinateurs', es: 'portatiles' }, names: { it: 'Laptop', en: 'Laptops', de: 'Laptops', fr: 'Ordinateurs', es: 'Portátiles' }, productCount: 890 },
+  { slugs: { it: 'tv-audio', en: 'tv-audio', de: 'tv-audio', fr: 'tv-audio', es: 'tv-audio' }, names: { it: 'TV & Audio', en: 'TV & Audio', de: 'TV & Audio', fr: 'TV & Audio', es: 'TV & Audio' }, productCount: 650 },
+  { slugs: { it: 'elettrodomestici', en: 'appliances', de: 'haushaltsgeraete', fr: 'electromenager', es: 'electrodomesticos' }, names: { it: 'Elettrodomestici', en: 'Appliances', de: 'Haushaltsgeräte', fr: 'Électroménager', es: 'Electrodomésticos' }, productCount: 1100 },
+  { slugs: { it: 'gaming', en: 'gaming', de: 'gaming', fr: 'gaming', es: 'gaming' }, names: { it: 'Gaming', en: 'Gaming', de: 'Gaming', fr: 'Gaming', es: 'Gaming' }, productCount: 780 },
+  { slugs: { it: 'fotocamere', en: 'cameras', de: 'kameras', fr: 'appareils-photo', es: 'camaras' }, names: { it: 'Fotocamere', en: 'Cameras', de: 'Kameras', fr: 'Appareils Photo', es: 'Cámaras' }, productCount: 420 },
 ]
 
 const popularSearches: Record<string, string[]> = {
@@ -119,11 +119,12 @@ export function HomePage({ locale, country, dictionary }: HomePageProps) {
   const seo = getSeoContent(locale)
   const merchants = merchantsByCountry[country] || merchantsByCountry.it
 
-  const getCategoryUrl = (slug: string, slugIt: string) => {
+  const getCategoryUrl = (slugs: Record<string, string>) => {
+    const localSlug = slugs[locale as keyof typeof slugs] || slugs.en
     if (locale === 'it') {
-      return `/it/categoria/${slugIt}`
+      return `/it/categoria/${localSlug}`
     }
-    return `/en/${country}/category/${slug}`
+    return `/en/${country}/category/${localSlug}`
   }
 
   const getSearchUrl = (query: string) => {
@@ -197,17 +198,21 @@ export function HomePage({ locale, country, dictionary }: HomePageProps) {
             {seo.categoriesTitle}
           </h2>
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            {categories.map((category) => (
-              <CategoryCard
-                key={category.slug}
-                category={{
-                  slug: category.slug,
-                  name: locale === 'it' ? category.nameIt : category.nameEn,
-                  productCount: category.productCount,
-                }}
-                href={getCategoryUrl(category.slug, category.slugIt)}
-              />
-            ))}
+            {categories.map((category) => {
+              const localSlug = category.slugs[locale as keyof typeof category.slugs] || category.slugs.en
+              const localName = category.names[locale as keyof typeof category.names] || category.names.en
+              return (
+                <CategoryCard
+                  key={localSlug}
+                  category={{
+                    slug: localSlug,
+                    name: localName,
+                    productCount: category.productCount,
+                  }}
+                  href={getCategoryUrl(category.slugs)}
+                />
+              )
+            })}
           </div>
         </div>
       </section>

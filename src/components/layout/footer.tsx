@@ -23,12 +23,12 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
   const categoryPath = locale === 'it' ? 'categoria' : 'category'
 
   const categories = [
-    { slug: 'smartphones', slugIt: 'smartphone', labelEn: 'Smartphones', labelIt: 'Smartphone' },
-    { slug: 'laptops', slugIt: 'laptop', labelEn: 'Laptops', labelIt: 'Laptop' },
-    { slug: 'tv-audio', slugIt: 'tv-audio', labelEn: 'TV & Audio', labelIt: 'TV & Audio' },
-    { slug: 'appliances', slugIt: 'elettrodomestici', labelEn: 'Appliances', labelIt: 'Elettrodomestici' },
-    { slug: 'gaming', slugIt: 'gaming', labelEn: 'Gaming', labelIt: 'Gaming' },
-    { slug: 'cameras', slugIt: 'fotocamere', labelEn: 'Cameras', labelIt: 'Fotocamere' },
+    { slugs: { it: 'smartphone', en: 'smartphones', de: 'smartphones', fr: 'smartphones', es: 'smartphones' }, labels: { it: 'Smartphone', en: 'Smartphones', de: 'Smartphones', fr: 'Smartphones', es: 'Smartphones' } },
+    { slugs: { it: 'laptop', en: 'laptops', de: 'laptops', fr: 'ordinateurs', es: 'portatiles' }, labels: { it: 'Laptop', en: 'Laptops', de: 'Laptops', fr: 'Ordinateurs', es: 'Portátiles' } },
+    { slugs: { it: 'tv-audio', en: 'tv-audio', de: 'tv-audio', fr: 'tv-audio', es: 'tv-audio' }, labels: { it: 'TV & Audio', en: 'TV & Audio', de: 'TV & Audio', fr: 'TV & Audio', es: 'TV & Audio' } },
+    { slugs: { it: 'elettrodomestici', en: 'appliances', de: 'haushaltsgeraete', fr: 'electromenager', es: 'electrodomesticos' }, labels: { it: 'Elettrodomestici', en: 'Appliances', de: 'Haushaltsgeräte', fr: 'Électroménager', es: 'Electrodomésticos' } },
+    { slugs: { it: 'gaming', en: 'gaming', de: 'gaming', fr: 'gaming', es: 'gaming' }, labels: { it: 'Gaming', en: 'Gaming', de: 'Gaming', fr: 'Gaming', es: 'Gaming' } },
+    { slugs: { it: 'fotocamere', en: 'cameras', de: 'kameras', fr: 'appareils-photo', es: 'camaras' }, labels: { it: 'Fotocamere', en: 'Cameras', de: 'Kameras', fr: 'Appareils Photo', es: 'Cámaras' } },
   ]
 
   return (
@@ -41,16 +41,20 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
               {dictionary.categories}
             </h3>
             <ul className="mt-4 space-y-3">
-              {categories.map((category) => (
-                <li key={category.slug}>
-                  <Link
-                    href={`${baseUrl}/${categoryPath}/${locale === 'it' ? category.slugIt : category.slug}`}
-                    className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
-                  >
-                    {locale === 'it' ? category.labelIt : category.labelEn}
-                  </Link>
-                </li>
-              ))}
+              {categories.map((category) => {
+                const localSlug = category.slugs[locale as keyof typeof category.slugs] || category.slugs.en
+                const localLabel = category.labels[locale as keyof typeof category.labels] || category.labels.en
+                return (
+                  <li key={localSlug}>
+                    <Link
+                      href={`${baseUrl}/${categoryPath}/${localSlug}`}
+                      className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
+                    >
+                      {localLabel}
+                    </Link>
+                  </li>
+                )
+              })}
             </ul>
           </div>
 
