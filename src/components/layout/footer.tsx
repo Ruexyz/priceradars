@@ -66,7 +66,7 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
             <ul className="mt-4 space-y-3">
               <li>
                 <Link
-                  href={`${baseUrl}/about`}
+                  href={locale === 'it' ? '/it/chi-siamo' : `${baseUrl}/about`}
                   className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
                 >
                   {dictionary.about}
@@ -74,7 +74,7 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
               </li>
               <li>
                 <Link
-                  href={`${baseUrl}/privacy`}
+                  href={locale === 'it' ? '/it/privacy' : `${baseUrl}/privacy`}
                   className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
                 >
                   {dictionary.privacy}
@@ -82,7 +82,7 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
               </li>
               <li>
                 <Link
-                  href={`${baseUrl}/terms`}
+                  href={locale === 'it' ? '/it/termini' : `${baseUrl}/terms`}
                   className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
                 >
                   {dictionary.terms}
@@ -99,7 +99,7 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
             <ul className="mt-4 space-y-3">
               <li>
                 <Link
-                  href={`${baseUrl}/contact`}
+                  href={locale === 'it' ? '/it/contatti' : `${baseUrl}/contact`}
                   className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
                 >
                   {dictionary.contact}

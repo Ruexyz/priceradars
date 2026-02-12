@@ -28,8 +28,8 @@ export async function generateMetadata({ params, searchParams }: PageProps): Pro
     ? `${dictionary.search.resultsFor.replace('{query}', query)} | PriceRadars`
     : dictionary.search.title
   const description = query
-    ? `Compare prices for "${query}". Find the best deals from 50+ online stores.`
-    : 'Search and compare prices from 50+ online stores. Find the best deals on PriceRadars.'
+    ? `Compare prices for "${query}". Find the best deals from leading online stores.`
+    : 'Search and compare prices from leading online stores. Find the best deals on PriceRadars.'
   const canonicalUrl = query
     ? `https://priceradars.com/en/${country}/search?q=${encodeURIComponent(query)}`
     : `https://priceradars.com/en/${country}/search`

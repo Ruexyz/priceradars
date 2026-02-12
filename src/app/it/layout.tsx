@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: '%s | PriceRadars Italia',
   },
   description:
-    'Trova il prezzo più basso per elettronica, elettrodomestici e altro. Confronta prezzi da oltre 50 negozi online italiani.',
+    'Trova il prezzo più basso per elettronica, elettrodomestici e altro. Confronta prezzi dai principali negozi online italiani.',
 }
 
 export default async function ItalianLayout({

@@ -20,11 +20,11 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: 'PriceRadars - Compare Prices Across 50+ Stores',
+    default: 'PriceRadars - Compare Prices Across Leading Stores',
     template: '%s | PriceRadars',
   },
   description:
-    'Find the best prices for electronics, appliances, and more. Compare prices from 50+ online stores across 6 countries.',
+    'Find the best prices for electronics, appliances, and more. Compare prices from leading online stores across 6 countries.',
   keywords: [
     'price comparison',
     'compare prices',
@@ -56,9 +56,9 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://priceradars.com',
     siteName: 'PriceRadars',
-    title: 'PriceRadars - Compare Prices Across 50+ Stores',
+    title: 'PriceRadars - Compare Prices Across Leading Stores',
     description:
-      'Find the best prices for electronics, appliances, and more. Compare prices from 50+ online stores across 6 countries.',
+      'Find the best prices for electronics, appliances, and more. Compare prices from leading online stores across 6 countries.',
     images: [
       {
         url: '/og-image.png',
@@ -70,9 +70,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PriceRadars - Compare Prices Across 50+ Stores',
+    title: 'PriceRadars - Compare Prices Across Leading Stores',
     description:
-      'Find the best prices for electronics, appliances, and more. Compare prices from 50+ online stores.',
+      'Find the best prices for electronics, appliances, and more. Compare prices from leading online stores.',
     images: ['/og-image.png'],
     creator: '@priceradars',
   },
@@ -87,9 +87,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 'google-site-verification-code', // Replace with actual
-  },
+  // verification: { google: 'YOUR_CODE_HERE' }, // TODO: Add Google Search Console verification code
   category: 'shopping',
 }
 

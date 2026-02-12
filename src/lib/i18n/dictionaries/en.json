@@ -34,12 +34,12 @@
   },
   "home": {
     "title": "Compare Prices Online",
-    "subtitle": "Find the best deals from 50+ online stores",
+    "subtitle": "Find the best deals from leading online stores",
     "searchPlaceholder": "What are you looking for?",
     "popularCategories": "Popular Categories",
     "featuredDeals": "Featured Deals",
     "trendingProducts": "Trending Products",
-    "trustedBy": "Trusted by over 1 million users"
+    "trustedBy": "Real-time price comparison"
   },
   "product": {
     "priceHistory": "Price History",
@@ -100,10 +100,10 @@
   },
   "seo": {
     "homeTitle": "PriceRadars - Compare Prices Online",
-    "homeDescription": "Find the lowest prices for electronics, appliances, and more. Compare prices from 50+ online stores.",
+    "homeDescription": "Find the lowest prices for electronics, appliances, and more. Compare prices from leading online stores.",
     "productTitle": "{name} | Compare Prices from {price}",
     "productDescription": "Compare prices for {name} from {count} stores. Lowest price: {price}. Find the best deal on PriceRadars.",
     "categoryTitle": "{category} | Compare Prices | PriceRadars",
-    "categoryDescription": "Compare prices for {category}. Find the best deals from 50+ online stores."
+    "categoryDescription": "Compare prices for {category}. Find the best deals from leading online stores."
   }
 }

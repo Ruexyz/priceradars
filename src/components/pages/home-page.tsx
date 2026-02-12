@@ -46,7 +46,7 @@ function getSeoContent(locale: Locale) {
   if (locale === 'it') {
     return {
       heroTitle: 'Confronta Prezzi Online',
-      heroSubtitle: 'Trova le migliori offerte da oltre 50 negozi online in Italia. Cerca, confronta e risparmia su elettronica, elettrodomestici e molto altro.',
+      heroSubtitle: 'Trova le migliori offerte dai principali negozi online in Italia. Cerca, confronta e risparmia su elettronica, elettrodomestici e molto altro.',
       popularLabel: 'Ricerche popolari:',
       categoriesTitle: 'Categorie Popolari',
       howTitle: 'Come funziona PriceRadars',
@@ -60,7 +60,7 @@ function getSeoContent(locale: Locale) {
       whyTitle: 'Perché scegliere PriceRadars?',
       why1Title: 'Prezzi verificati ogni ora',
       why1Text: 'I nostri algoritmi aggiornano i prezzi continuamente da fonti ufficiali, così hai sempre il dato più recente.',
-      why2Title: 'Oltre 50 negozi confrontati',
+      why2Title: 'I principali negozi confrontati',
       why2Text: 'Copriamo i principali rivenditori online italiani ed europei per garantirti la massima scelta.',
       why3Title: 'Avvisi di prezzo gratuiti',
       why3Text: 'Imposta un avviso e ricevi una notifica quando il prezzo del prodotto che desideri scende.',
@@ -81,7 +81,7 @@ function getSeoContent(locale: Locale) {
   }
   return {
     heroTitle: 'Compare Prices Online',
-    heroSubtitle: 'Find the best deals from 50+ online stores across 6 countries. Search, compare, and save on electronics, appliances, and more.',
+    heroSubtitle: 'Find the best deals from leading online stores across 6 countries. Search, compare, and save on electronics, appliances, and more.',
     popularLabel: 'Popular:',
     categoriesTitle: 'Popular Categories',
     howTitle: 'How PriceRadars Works',
@@ -95,7 +95,7 @@ function getSeoContent(locale: Locale) {
     whyTitle: 'Why choose PriceRadars?',
     why1Title: 'Prices verified every hour',
     why1Text: 'Our algorithms continuously update prices from official sources so you always have the most accurate data.',
-    why2Title: '50+ stores compared',
+    why2Title: 'Leading stores compared',
     why2Text: 'We cover the leading online retailers across Europe and the US to ensure maximum choice.',
     why3Title: 'Free price alerts',
     why3Text: 'Set an alert and get notified when the price of the product you want drops.',

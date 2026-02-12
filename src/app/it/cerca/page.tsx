@@ -21,7 +21,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
     : dictionary.search.title
   const description = query
     ? `Confronta prezzi per "${query}". Trova le migliori offerte dai principali negozi online italiani.`
-    : 'Cerca e confronta prezzi da oltre 50 negozi online. Trova le migliori offerte su PriceRadars.'
+    : 'Cerca e confronta prezzi dai principali negozi online. Trova le migliori offerte su PriceRadars.'
   const canonicalUrl = query ? `${BASE_URL}/it/cerca?q=${encodeURIComponent(query)}` : `${BASE_URL}/it/cerca`
 
   return {

@@ -34,12 +34,12 @@
   },
   "home": {
     "title": "Confronta Prezzi Online",
-    "subtitle": "Trova le migliori offerte da oltre 50 negozi online",
+    "subtitle": "Trova le migliori offerte dai principali negozi online",
     "searchPlaceholder": "Cosa stai cercando?",
     "popularCategories": "Categorie Popolari",
     "featuredDeals": "Offerte in Evidenza",
     "trendingProducts": "Prodotti di Tendenza",
-    "trustedBy": "Usato da oltre 1 milione di utenti"
+    "trustedBy": "Confronto prezzi in tempo reale"
   },
   "product": {
     "priceHistory": "Storico Prezzi",
@@ -100,10 +100,10 @@
   },
   "seo": {
     "homeTitle": "PriceRadars Italia - Confronta Prezzi Online",
-    "homeDescription": "Trova il prezzo più basso per elettronica, elettrodomestici e altro. Confronta prezzi da oltre 50 negozi online italiani.",
+    "homeDescription": "Trova il prezzo più basso per elettronica, elettrodomestici e altro. Confronta prezzi dai principali negozi online italiani.",
     "productTitle": "{name} | Confronta Prezzi da {price}",
     "productDescription": "Confronta prezzi per {name} da {count} negozi. Prezzo più basso: {price}. Trova la migliore offerta su PriceRadars.",
     "categoryTitle": "{category} | Confronta Prezzi | PriceRadars",
-    "categoryDescription": "Confronta prezzi per {category}. Trova le migliori offerte da oltre 50 negozi online."
+    "categoryDescription": "Confronta prezzi per {category}. Trova le migliori offerte dai principali negozi online."
   }
 }
