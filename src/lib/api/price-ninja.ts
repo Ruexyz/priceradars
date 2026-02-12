@@ -253,6 +253,7 @@ export async function searchProducts(
     minPrice?: string
     maxPrice?: string
     brand?: string | string[]
+    inStock?: string
   } = {}
 ): Promise<SearchResult> {
   if (!query || query.trim().length < 2) {
@@ -321,6 +322,9 @@ export async function searchProducts(
     if (options.maxPrice) {
       const max = parseInt(options.maxPrice)
       if (!isNaN(max)) products = products.filter(p => p.lowestPrice <= max)
+    }
+    if (options.inStock === 'true') {
+      products = products.filter(p => p.inStock)
     }
     
     // Sort

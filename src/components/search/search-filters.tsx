@@ -23,6 +23,7 @@ interface SearchFiltersProps {
     maxPrice?: string
     brand?: string
     sort?: string
+    inStock?: string
   }
   dictionary: {
     filters: string
@@ -72,7 +73,8 @@ export function SearchFilters({
     currentFilters.minPrice ||
     currentFilters.maxPrice ||
     currentFilters.brand ||
-    currentFilters.sort
+    currentFilters.sort ||
+    currentFilters.inStock
 
   return (
     <div className="space-y-4">
@@ -98,6 +100,21 @@ export function SearchFilters({
       <div
         className={`space-y-4 ${showFilters ? 'block' : 'hidden'} lg:block`}
       >
+        {/* Availability */}
+        <div>
+          <label className="flex cursor-pointer items-center gap-2.5">
+            <input
+              type="checkbox"
+              checked={currentFilters.inStock === 'true'}
+              onChange={(e) => updateFilter('inStock', e.target.checked ? 'true' : null)}
+              className="h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+            />
+            <span className="text-sm font-medium text-gray-700">
+              {locale === 'it' ? 'Solo disponibili' : locale === 'de' ? 'Nur verfügbare' : locale === 'fr' ? 'En stock uniquement' : locale === 'es' ? 'Solo disponibles' : 'In stock only'}
+            </span>
+          </label>
+        </div>
+
         {/* Sort */}
         <div>
           <label className="mb-2 block text-sm font-medium text-gray-700">

@@ -29,6 +29,7 @@ interface SearchPageProps {
     maxPrice?: string
     brand?: string
     sort?: string
+    inStock?: string
   }
   locale: Locale
   country: CountryCode

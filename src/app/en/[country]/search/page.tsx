@@ -70,6 +70,7 @@ export default async function EnglishSearchPage({ params, searchParams }: PagePr
     minPrice: search.minPrice,
     maxPrice: search.maxPrice,
     brand: search.brand,
+    inStock: search.inStock,
   })
   
   // Map to SearchPage expected format
@@ -96,6 +97,7 @@ export default async function EnglishSearchPage({ params, searchParams }: PagePr
         maxPrice: search.maxPrice,
         brand: search.brand,
         sort: search.sort,
+        inStock: search.inStock,
       }}
       locale={nativeLocale}
       country={country as CountryCode}

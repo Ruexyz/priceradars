@@ -16,12 +16,12 @@ interface HomePageProps {
 }
 
 const categories = [
-  { slugs: { it: 'smartphone', en: 'smartphones', de: 'smartphones', fr: 'smartphones', es: 'smartphones' }, names: { it: 'Smartphone', en: 'Smartphones', de: 'Smartphones', fr: 'Smartphones', es: 'Smartphones' }, productCount: 1250 },
-  { slugs: { it: 'laptop', en: 'laptops', de: 'laptops', fr: 'ordinateurs', es: 'portatiles' }, names: { it: 'Laptop', en: 'Laptops', de: 'Laptops', fr: 'Ordinateurs', es: 'Portátiles' }, productCount: 890 },
-  { slugs: { it: 'tv-audio', en: 'tv-audio', de: 'tv-audio', fr: 'tv-audio', es: 'tv-audio' }, names: { it: 'TV & Audio', en: 'TV & Audio', de: 'TV & Audio', fr: 'TV & Audio', es: 'TV & Audio' }, productCount: 650 },
-  { slugs: { it: 'elettrodomestici', en: 'appliances', de: 'haushaltsgeraete', fr: 'electromenager', es: 'electrodomesticos' }, names: { it: 'Elettrodomestici', en: 'Appliances', de: 'Haushaltsgeräte', fr: 'Électroménager', es: 'Electrodomésticos' }, productCount: 1100 },
-  { slugs: { it: 'gaming', en: 'gaming', de: 'gaming', fr: 'gaming', es: 'gaming' }, names: { it: 'Gaming', en: 'Gaming', de: 'Gaming', fr: 'Gaming', es: 'Gaming' }, productCount: 780 },
-  { slugs: { it: 'fotocamere', en: 'cameras', de: 'kameras', fr: 'appareils-photo', es: 'camaras' }, names: { it: 'Fotocamere', en: 'Cameras', de: 'Kameras', fr: 'Appareils Photo', es: 'Cámaras' }, productCount: 420 },
+  { slugs: { it: 'smartphone', en: 'smartphones', de: 'smartphones', fr: 'smartphones', es: 'smartphones' }, names: { it: 'Smartphone', en: 'Smartphones', de: 'Smartphones', fr: 'Smartphones', es: 'Smartphones' } },
+  { slugs: { it: 'laptop', en: 'laptops', de: 'laptops', fr: 'ordinateurs', es: 'portatiles' }, names: { it: 'Laptop', en: 'Laptops', de: 'Laptops', fr: 'Ordinateurs', es: 'Portátiles' } },
+  { slugs: { it: 'tv-audio', en: 'tv-audio', de: 'tv-audio', fr: 'tv-audio', es: 'tv-audio' }, names: { it: 'TV & Audio', en: 'TV & Audio', de: 'TV & Audio', fr: 'TV & Audio', es: 'TV & Audio' } },
+  { slugs: { it: 'elettrodomestici', en: 'appliances', de: 'haushaltsgeraete', fr: 'electromenager', es: 'electrodomesticos' }, names: { it: 'Elettrodomestici', en: 'Appliances', de: 'Haushaltsgeräte', fr: 'Électroménager', es: 'Electrodomésticos' } },
+  { slugs: { it: 'gaming', en: 'gaming', de: 'gaming', fr: 'gaming', es: 'gaming' }, names: { it: 'Gaming', en: 'Gaming', de: 'Gaming', fr: 'Gaming', es: 'Gaming' } },
+  { slugs: { it: 'fotocamere', en: 'cameras', de: 'kameras', fr: 'appareils-photo', es: 'camaras' }, names: { it: 'Fotocamere', en: 'Cameras', de: 'Kameras', fr: 'Appareils Photo', es: 'Cámaras' } },
 ]
 
 const popularSearches: Record<string, string[]> = {
@@ -207,7 +207,6 @@ export function HomePage({ locale, country, dictionary }: HomePageProps) {
                   category={{
                     slug: localSlug,
                     name: localName,
-                    productCount: category.productCount,
                   }}
                   href={getCategoryUrl(category.slugs)}
                 />

@@ -54,6 +54,7 @@ export default async function ItalianSearchPage({ searchParams }: PageProps) {
     minPrice: search.minPrice,
     maxPrice: search.maxPrice,
     brand: search.brand,
+    inStock: search.inStock,
   })
 
   // Map to SearchPage expected format
@@ -80,6 +81,7 @@ export default async function ItalianSearchPage({ searchParams }: PageProps) {
         maxPrice: search.maxPrice,
         brand: search.brand,
         sort: search.sort,
+        inStock: search.inStock,
       }}
       locale="it"
       country="it"

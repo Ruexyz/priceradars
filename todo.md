@@ -1,66 +1,42 @@
 # PriceRadars — TODO per CSS Google Approval
 
-## Bloccanti (richiesti per CSS program)
+## Bloccanti (servono Saverio o dati business)
 
 ### 1. Soglia 50 Merchant Unici per Paese
 - [ ] Serve API da Saverio: lista merchant con dominio per paese
 - [ ] Verificare che per IT, UK, US, DE, FR, ES ci siano ≥50 merchant unici
 - [ ] Upload lista merchant nel CSS Center di Google
-- **Ref:** https://support.google.com/css-center/answer/7524491 → "at least 50 distinct merchant domains"
+- **Ref:** https://support.google.com/css-center/answer/7524491
 
-### 2. Filtro per Merchant (richiesto come dimensione aggiuntiva)
-- [ ] Serve API da Saverio: facet/filtri nella risposta di search (merchant list per query)
-- [ ] Implementare filtro "Venditore" nella sidebar filtri (search + category pages)
-- [ ] Google richiede: "filter by price AND at least one other dimension (e.g., merchant)"
-- **Ref:** https://support.google.com/css-center/answer/14233609 → "Filtering and sorting"
+### 2. Filtro per Merchant
+- [ ] Serve API da Saverio: facet nella risposta di search (merchant list per query)
+- [ ] Implementare filtro "Venditore" nella sidebar (search + category pages)
+- **Ref:** https://support.google.com/css-center/answer/14233609
 
 ### 3. Dati Business Reali
-- [ ] Aggiornare indirizzo sede in `/it/contatti` e `/en/[country]/contact` con indirizzo completo (via, CAP, città)
-- [ ] Aggiungere P.IVA/Company Registration Number se richiesto
-- [ ] Verificare che email `support@priceradars.com` sia attiva e funzionante
-- [ ] Aggiungere numero di telefono se disponibile (opzionale ma consigliato per CSS Center)
+- [ ] Aggiornare indirizzo sede in pagine Contatti con via, CAP, città completi
+- [ ] Aggiungere P.IVA di Rue Srl
+- [ ] Verificare che email `support@priceradars.com` sia attiva
+- [ ] Aggiungere numero di telefono (opzionale ma consigliato per CSS Center)
 
 ### 4. Google Search Console
-- [ ] Aggiungere codice verifica GSC nel file `src/app/layout.tsx` (linea commentata con TODO)
+- [ ] Aggiungere codice verifica GSC in `src/app/layout.tsx` (cercare "TODO")
 - [ ] Verificare dominio in GSC
-- [ ] Verificare/rivendicare sito in Merchant Center
+- [ ] Rivendicare sito in Merchant Center
 
-## Miglioramenti Importanti
+## Miglioramenti (non bloccanti)
 
-### 5. Filtri Avanzati con Facet dall'API
-- [ ] Serve API da Saverio: facet nella search response (brand, merchant, price ranges, availability)
-- [ ] I filtri attuali funzionano client-side sui risultati; con i facet dall'API sarebbero più precisi
-- [ ] Aggiungere filtro "Disponibilità" (in stock / out of stock)
-- [ ] Aggiungere filtro "Merchant/Venditore"
+### 5. Review Legale
+- [ ] Privacy Policy e Terms of Service sono bozze funzionali, servono review legale per GDPR
+- [ ] Aggiornare dati Rue Srl (indirizzo, P.IVA) nelle pagine legali
 
-### 6. Dettagli Offerta più Ricchi
-- [ ] Tempi di spedizione (se disponibili nell'API)
-- [ ] Costi di spedizione per merchant (parzialmente presente, dipende da API)
-- [ ] Metodi di pagamento per merchant (se disponibile)
-- [ ] Rating/recensioni (se disponibile)
+### 6. Dettagli Offerta più Ricchi (dipende da API)
+- [ ] Tempi di spedizione per merchant
+- [ ] Metodi di pagamento per merchant
+- [ ] Rating/recensioni
 
-### 7. Pagine Legali — Review Legale
-- [ ] Le pagine Privacy Policy e Terms of Service sono bozze funzionali
-- [ ] Servono review da parte di un legale per conformità GDPR completa
-- [ ] Aggiornare i dati di Rue Srl (indirizzo completo, P.IVA, ecc.)
-
-### 8. Favicon PNG
-- [ ] Creare `favicon.ico` (attualmente solo `icon.svg`)
-- [ ] Creare `apple-touch-icon.png` (180x180)
-- [ ] Creare icone per `/public/icons/` referenziate in `manifest.json`
-- [ ] Creare `og-image.png` (1200x630) — attualmente solo SVG
-
-## Cosmetici / Nice-to-Have
-
-### 9. Contenuto Homepage
-- [ ] I product count nelle categorie sono placeholder (1250, 890, ecc.) — aggiornare con dati reali quando disponibili
-
-### 10. Pagine Legali Localizzate
-- [ ] Privacy e Terms attualmente solo in IT e EN
-- [ ] Servirebbero versioni in DE, FR, ES per compliance locale (o almeno redirect alla versione EN)
-
-### 11. Cookie Banner
-- [ ] Attualmente non presente — necessario per compliance GDPR se si aggiungono analytics/cookie non tecnici
+### 7. Cookie Banner
+- [ ] Necessario se si aggiungono analytics o cookie non tecnici
 
 ---
 
@@ -70,15 +46,21 @@
 |---|---|
 | Search + Compare | ✅ |
 | Multi-merchant comparison | ✅ |
-| 50 merchant per country | ❌ Da verificare |
+| 50 merchant per country | ❌ Serve API Saverio |
 | Filtro prezzo | ✅ |
 | Filtro brand | ✅ |
-| Filtro merchant | ❌ Serve API facet |
+| Filtro disponibilità | ✅ |
+| Filtro merchant | ❌ Serve API Saverio |
 | Link a pagina acquisto | ✅ |
 | Accessibile senza login | ✅ |
-| Contact info sul sito | ✅ |
-| Business address | ⚠️ Da completare |
-| Privacy Policy | ✅ |
-| Terms of Service | ✅ |
+| Contact info sul sito | ✅ (serve indirizzo completo) |
+| Business address | ⚠️ Serve indirizzo reale |
+| Privacy Policy | ✅ (serve review legale) |
+| Terms of Service | ✅ (serve review legale) |
+| About page | ✅ |
 | Lingua/valuta corretta | ✅ |
 | Multi-paese | ✅ (6 paesi, 5 lingue) |
+| Favicon/Icons | ✅ |
+| OG Image | ✅ |
+| Sitemap con hreflang | ✅ |
+| Schema.org JSON-LD | ✅ |
