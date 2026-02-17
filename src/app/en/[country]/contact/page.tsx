@@ -31,9 +31,8 @@ export default function ContactPage() {
           <div>
             <h2 className="font-semibold text-gray-900">Office</h2>
             <p className="mt-1 text-sm text-gray-600">
-              PriceRadars<br />
-              Rue Srl<br />
-              Italy
+              PriceRadars.com<br />
+              Company Register: 03984661201
             </p>
           </div>
         </div>
