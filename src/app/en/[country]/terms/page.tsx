@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 
+export const runtime = 'edge'
+
 export const metadata: Metadata = {
   title: 'Terms of Service',
   description: 'PriceRadars terms and conditions of use for the price comparison service.',

@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 
+export const runtime = 'edge'
+
 export const metadata: Metadata = {
   title: 'About Us',
   description: 'PriceRadars is a Comparison Shopping Service that helps consumers compare offers from hundreds of online stores.',

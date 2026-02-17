@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import { Mail, MapPin, Clock } from 'lucide-react'
 
+export const runtime = 'edge'
+
 export const metadata: Metadata = {
   title: 'Contact Us',
   description: 'Contact PriceRadars for support, questions, or feedback.',

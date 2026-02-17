@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 
+export const runtime = 'edge'
+
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'PriceRadars privacy policy in accordance with the General Data Protection Regulation (GDPR).',
