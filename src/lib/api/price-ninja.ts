@@ -101,6 +101,10 @@ interface RawSearchResponse {
   next: string | null
   previous: string | null
   results: RawGenericProduct[]
+  facets?: {
+    merchants?: { name: string; count: number; id: number }[]
+    price?: { name: number; count: number; id: number }[]
+  }
 }
 
 // ============================================================
@@ -168,11 +172,21 @@ export interface ProductDetail {
   offerCount: number
 }
 
+export interface FacetItem {
+  name: string
+  count: number
+  id: number | string
+}
+
 export interface SearchResult {
   products: NormalizedProduct[]
   totalCount: number
   brands: string[]
   priceRange: { min: number; max: number }
+  facets: {
+    merchants: FacetItem[]
+    price: FacetItem[]
+  }
 }
 
 // ============================================================
@@ -254,15 +268,23 @@ export async function searchProducts(
     maxPrice?: string
     brand?: string | string[]
     inStock?: string
+    merchantId?: string
   } = {}
 ): Promise<SearchResult> {
+  const emptyResult: SearchResult = { products: [], totalCount: 0, brands: [], priceRange: { min: 0, max: 0 }, facets: { merchants: [], price: [] } }
+  
   if (!query || query.trim().length < 2) {
-    return { products: [], totalCount: 0, brands: [], priceRange: { min: 0, max: 0 } }
+    return emptyResult
   }
 
   const countryCode = COUNTRY_MAP[options.country || 'it'] || 'IT'
   const language = LANGUAGE_MAP[options.locale || 'it'] || 'it'
-  const url = `${API_BASE}/generic-products/search/?country=${countryCode}&language=${language}&q=${encodeURIComponent(query.trim())}`
+  let url = `${API_BASE}/generic-products/search/?country=${countryCode}&language=${language}&q=${encodeURIComponent(query.trim())}`
+  
+  // Pass merchant_id filter to API (server-side filtering)
+  if (options.merchantId) {
+    url += `&merchant_id=${encodeURIComponent(options.merchantId)}`
+  }
 
   try {
     const response = await fetchWithRetry(url, {
@@ -344,10 +366,16 @@ export async function searchProducts(
       max: prices.length > 0 ? Math.max(...prices) : 0,
     }
 
-    return { products, totalCount: products.length, brands: allBrands, priceRange }
+    // Extract facets from API response
+    const facets = {
+      merchants: (data.facets?.merchants || []).map(f => ({ name: f.name, count: f.count, id: f.id })),
+      price: (data.facets?.price || []).filter(f => f.count > 0).map(f => ({ name: `€${f.name}`, count: f.count, id: f.id })),
+    }
+
+    return { products, totalCount: products.length, brands: allBrands, priceRange, facets }
   } catch (error) {
     console.error('Price Ninja search error:', error)
-    return { products: [], totalCount: 0, brands: [], priceRange: { min: 0, max: 0 } }
+    return emptyResult
   }
 }
 
@@ -366,7 +394,7 @@ async function fallbackSearch(
         'Accept': 'application/json',
       },
     })
-    if (!response.ok) return { products: [], totalCount: 0, brands: [], priceRange: { min: 0, max: 0 } }
+    if (!response.ok) return { products: [], totalCount: 0, brands: [], priceRange: { min: 0, max: 0 }, facets: { merchants: [], price: [] } }
 
     const data = await response.json()
     const seen = new Set<string>()
@@ -413,9 +441,10 @@ async function fallbackSearch(
       totalCount: products.length,
       brands: allBrands,
       priceRange: { min: prices.length ? Math.min(...prices) : 0, max: prices.length ? Math.max(...prices) : 0 },
+      facets: { merchants: [], price: [] },
     }
   } catch {
-    return { products: [], totalCount: 0, brands: [], priceRange: { min: 0, max: 0 } }
+    return { products: [], totalCount: 0, brands: [], priceRange: { min: 0, max: 0 }, facets: { merchants: [], price: [] } }
   }
 }
 

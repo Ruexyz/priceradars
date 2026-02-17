@@ -19,17 +19,25 @@ interface Product {
   inStock: boolean
 }
 
+interface MerchantFacet {
+  name: string
+  count: number
+  id: number | string
+}
+
 interface SearchPageProps {
   query: string
   products: Product[]
   totalCount: number
   brands: string[]
+  merchants?: MerchantFacet[]
   currentFilters: {
     minPrice?: string
     maxPrice?: string
     brand?: string
     sort?: string
     inStock?: string
+    merchantId?: string
   }
   locale: Locale
   country: CountryCode
@@ -41,6 +49,7 @@ export function SearchPage({
   products,
   totalCount,
   brands,
+  merchants = [],
   currentFilters,
   locale,
   country,
@@ -104,6 +113,7 @@ export function SearchPage({
                 locale={locale}
                 country={country}
                 brands={brands}
+                merchants={merchants}
                 currentFilters={currentFilters}
                 dictionary={{
                   filters: dictionary.category.filters,

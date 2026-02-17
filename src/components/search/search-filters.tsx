@@ -14,16 +14,24 @@ import {
 } from '@/components/ui/select'
 import type { Locale, CountryCode } from '@/lib/countries'
 
+interface MerchantFacet {
+  name: string
+  count: number
+  id: number | string
+}
+
 interface SearchFiltersProps {
   locale: Locale
   country: CountryCode
   brands: string[]
+  merchants?: MerchantFacet[]
   currentFilters: {
     minPrice?: string
     maxPrice?: string
     brand?: string
     sort?: string
     inStock?: string
+    merchantId?: string
   }
   dictionary: {
     filters: string
@@ -45,6 +53,7 @@ export function SearchFilters({
   locale,
   country,
   brands,
+  merchants = [],
   currentFilters,
   dictionary,
 }: SearchFiltersProps) {
@@ -74,7 +83,8 @@ export function SearchFilters({
     currentFilters.maxPrice ||
     currentFilters.brand ||
     currentFilters.sort ||
-    currentFilters.inStock
+    currentFilters.inStock ||
+    currentFilters.merchantId
 
   return (
     <div className="space-y-4">
@@ -193,6 +203,35 @@ export function SearchFilters({
                 {brands.map((brand) => (
                   <SelectItem key={brand} value={brand}>
                     {brand}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {/* Merchant */}
+        {merchants.length > 0 && (
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              {locale === 'it' ? 'Venditore' : locale === 'de' ? 'Händler' : locale === 'fr' ? 'Vendeur' : locale === 'es' ? 'Vendedor' : 'Seller'}
+            </label>
+            <Select
+              value={currentFilters.merchantId || 'all'}
+              onValueChange={(value) =>
+                updateFilter('merchantId', value === 'all' ? null : value)
+              }
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">
+                  {locale === 'it' ? 'Tutti i venditori' : locale === 'de' ? 'Alle Händler' : locale === 'fr' ? 'Tous les vendeurs' : locale === 'es' ? 'Todos los vendedores' : 'All sellers'}
+                </SelectItem>
+                {merchants.map((m) => (
+                  <SelectItem key={String(m.id)} value={String(m.id)}>
+                    {m.name} ({m.count})
                   </SelectItem>
                 ))}
               </SelectContent>

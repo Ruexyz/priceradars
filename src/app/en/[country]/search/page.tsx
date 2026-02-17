@@ -71,9 +71,9 @@ export default async function EnglishSearchPage({ params, searchParams }: PagePr
     maxPrice: search.maxPrice,
     brand: search.brand,
     inStock: search.inStock,
+    merchantId: search.merchantId,
   })
   
-  // Map to SearchPage expected format
   const products = result.products.map(p => ({
     id: p.id,
     slug: p.slug,
@@ -92,12 +92,14 @@ export default async function EnglishSearchPage({ params, searchParams }: PagePr
       products={products}
       totalCount={result.totalCount}
       brands={result.brands}
+      merchants={result.facets.merchants}
       currentFilters={{
         minPrice: search.minPrice,
         maxPrice: search.maxPrice,
         brand: search.brand,
         sort: search.sort,
         inStock: search.inStock,
+        merchantId: search.merchantId,
       }}
       locale={nativeLocale}
       country={country as CountryCode}
