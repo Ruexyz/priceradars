@@ -1,52 +1,45 @@
 # PriceRadars — TODO per CSS Google Approval
 
-## Bloccanti (servono dati business)
+## Bloccanti
 
-### 1. Soglia 50 Merchant Unici per Paese
-- [ ] Verificare che per IT, UK, US, DE, FR, ES ci siano ≥50 merchant unici (API `/api/merchants/search/?country=IT` restituisce 50 per IT)
+### 1. Soglia 50 Merchant per Paese
+- [ ] Verificare merchant count per UK, US, DE, FR, ES (IT confermato ≥50)
 - [ ] Upload lista merchant nel CSS Center di Google
-- **Ref:** https://support.google.com/css-center/answer/7524491
 
-### 2. Dati Business Reali
-- [ ] Aggiornare indirizzo sede nelle pagine Contatti con via, CAP, città completi
-- [ ] Aggiungere P.IVA di Rue Srl
-- [ ] Verificare che email `support@priceradars.com` sia attiva
-- [ ] Aggiungere numero di telefono (opzionale ma consigliato per CSS Center)
-
-### 3. Google Merchant Center
+### 2. Google Merchant Center
 - [ ] Rivendicare sito in Merchant Center (GSC già verificato via Cloudflare)
 
-## Miglioramenti (non bloccanti)
+## Non bloccanti
 
-### 4. Review Legale
-- [ ] Privacy Policy e Terms sono bozze funzionali, servono review legale per GDPR
+### 3. Review Legale
+- [ ] Privacy Policy e Terms → review legale per conformità GDPR piena
 
-### 5. Cookie Banner
-- [ ] Necessario se si aggiungono analytics o cookie non tecnici
+### 4. Cookie Banner
+- [ ] Necessario solo se si aggiungono analytics o cookie non tecnici
 
 ---
 
-## Stato Attuale
+## Stato
 
 | Requisito CSS | Stato |
 |---|---|
 | Search + Compare | ✅ |
 | Multi-merchant comparison | ✅ |
-| 50 merchant per country | ✅ API conferma 50 per IT |
+| 50 merchant per country | ✅ IT / ⚠️ verificare altri |
 | Filtro prezzo | ✅ |
 | Filtro brand | ✅ |
 | Filtro disponibilità | ✅ |
-| Filtro merchant/venditore | ✅ (facet dall'API) |
+| Filtro merchant/venditore | ✅ |
 | Link a pagina acquisto | ✅ |
 | Accessibile senza login | ✅ |
-| Contact info sul sito | ✅ (serve indirizzo completo) |
-| Business address | ⚠️ Serve indirizzo reale |
-| Privacy Policy | ✅ (serve review legale) |
-| Terms of Service | ✅ (serve review legale) |
+| Contact + Company Register | ✅ |
+| Privacy Policy | ✅ |
+| Terms of Service | ✅ |
 | About page | ✅ |
-| Lingua/valuta corretta | ✅ (5 lingue) |
-| Multi-paese | ✅ (6 paesi) |
-| Favicon/Icons | ✅ |
-| OG Image | ✅ |
+| 5 lingue (IT/EN/DE/FR/ES) | ✅ |
+| 6 paesi | ✅ |
+| Favicon/Icons/OG Image | ✅ |
 | Sitemap con hreflang | ✅ |
 | Schema.org JSON-LD | ✅ |
+| LLM ready (llms.txt, API) | ✅ |
+| Edge Runtime (Cloudflare) | ✅ |
