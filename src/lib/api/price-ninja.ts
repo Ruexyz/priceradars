@@ -550,6 +550,44 @@ export const getProductDetail = cache(async (uuid: string): Promise<ProductDetai
 })
 
 // ============================================================
+// MERCHANTS
+// ============================================================
+
+export interface Merchant {
+  id: string
+  name: string
+  domain: string
+  logoUrl: string | null
+  countries: string[]
+}
+
+export async function getMerchants(country: string): Promise<Merchant[]> {
+  const countryCode = COUNTRY_MAP[country] || 'IT'
+  
+  try {
+    const response = await fetchWithRetry(`${API_BASE}/merchants/search/?country=${countryCode}`, {
+      headers: {
+        'Authorization': `Token ${API_TOKEN}`,
+        'Accept': 'application/json',
+      },
+    })
+
+    if (!response.ok) return []
+
+    const data = await response.json()
+    return (data.results || []).map((m: any) => ({
+      id: m.id,
+      name: m.name,
+      domain: m.domain || '',
+      logoUrl: m.logo_url || null,
+      countries: m.countries || [],
+    }))
+  } catch {
+    return []
+  }
+}
+
+// ============================================================
 // HELPERS (exported)
 // ============================================================
 

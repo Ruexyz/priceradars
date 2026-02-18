@@ -88,6 +88,14 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
                   {dictionary.terms}
                 </Link>
               </li>
+              <li>
+                <Link
+                  href={locale === 'it' ? '/it/negozi' : `${baseUrl}/merchants`}
+                  className="text-sm text-gray-600 transition-colors duration-300 ease-in-out hover:text-orange-500"
+                >
+                  {locale === 'it' ? 'Negozi Partner' : locale === 'de' ? 'Partnershops' : locale === 'fr' ? 'Boutiques Partenaires' : locale === 'es' ? 'Tiendas Asociadas' : 'Partner Stores'}
+                </Link>
+              </li>
             </ul>
           </div>
 

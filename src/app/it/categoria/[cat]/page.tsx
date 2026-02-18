@@ -117,6 +117,7 @@ export default async function ItalianCategoryPage({ params, searchParams }: Page
     minPrice: search.minPrice,
     maxPrice: search.maxPrice,
     brand: search.brand,
+    merchantId: search.merchantId,
   })
 
   const products = result.products.map(p => ({
@@ -137,6 +138,7 @@ export default async function ItalianCategoryPage({ params, searchParams }: Page
       products={products}
       totalCount={result.totalCount}
       brands={result.brands}
+      merchants={result.facets.merchants}
       currentFilters={{
         ...search,
       }}

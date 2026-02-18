@@ -24,6 +24,12 @@ interface FilterOption {
   count?: number
 }
 
+interface MerchantFacet {
+  name: string
+  count: number
+  id: number | string
+}
+
 interface CategoryPageProps {
   category: {
     slug: string
@@ -33,11 +39,11 @@ interface CategoryPageProps {
   products: Product[]
   totalCount: number
   brands: string[]
+  merchants?: MerchantFacet[]
   currentFilters: Record<string, string | string[] | undefined>
   locale: Locale
   country: CountryCode
   dictionary: Dictionary
-  // Additional filter data
   screenSizes?: FilterOption[]
   resolutions?: FilterOption[]
   storageOptions?: FilterOption[]
@@ -50,6 +56,7 @@ export function CategoryPage({
   products,
   totalCount,
   brands,
+  merchants = [],
   currentFilters,
   locale,
   country,
@@ -99,6 +106,14 @@ export function CategoryPage({
       expandable: true,
       defaultExpanded: true,
     },
+    ...(merchants.length > 0 ? [{
+      id: 'merchantId',
+      title: locale === 'it' ? 'Venditore' : locale === 'de' ? 'Händler' : locale === 'fr' ? 'Vendeur' : locale === 'es' ? 'Vendedor' : 'Seller',
+      type: 'checkbox' as const,
+      options: merchants.map(m => ({ value: String(m.id), label: `${m.name} (${m.count})` })),
+      expandable: true,
+      defaultExpanded: false,
+    }] : []),
     ...(screenSizes ? [{
       id: 'screenSize',
       title: dictionary.category.screenSize,
