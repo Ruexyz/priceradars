@@ -82,7 +82,8 @@ export function middleware(request: NextRequest) {
     pathname === '/favicon.ico' ||
     pathname === '/robots.txt' ||
     pathname === '/sitemap.xml' ||
-    pathname.startsWith('/llms')
+    pathname.startsWith('/llms') ||
+    pathname.startsWith('/search')
   ) {
     return NextResponse.next()
   }
