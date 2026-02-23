@@ -33,6 +33,8 @@ export default function ContactPage() {
             <h2 className="font-semibold text-gray-900">Sede</h2>
             <p className="mt-1 text-sm text-gray-600">
               PriceRadars.com<br />
+              Via Enrico Mattei 106<br />
+              40138 Bologna BO, Italy<br />
               Company Register: 03984661201
             </p>
           </div>

@@ -87,7 +87,9 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  // verification: { google: 'YOUR_CODE_HERE' }, // TODO: Add Google Search Console verification code
+  verification: {
+    google: '_mUxnRyNc9kMzj_svTJOD5WbkouT6NanlcfXzrxLOTQ',
+  },
   category: 'shopping',
 }
 
