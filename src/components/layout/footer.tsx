@@ -186,9 +186,12 @@ export function Footer({ locale, country, dictionary }: FooterProps) {
         </div>
 
         {/* Bottom */}
-        <div className="mt-8 border-t border-gray-200 pt-8">
-          <p className="text-center text-sm text-gray-500">
+        <div className="mt-8 border-t border-gray-200 pt-8 space-y-1">
+          <p className="text-center text-sm text-gray-600">
             © {new Date().getFullYear()} PriceRadars. {dictionary.allRightsReserved}
+          </p>
+          <p className="text-center text-sm text-gray-700 font-medium">
+            VAT / Company Register: 03984661201
           </p>
         </div>
       </div>
