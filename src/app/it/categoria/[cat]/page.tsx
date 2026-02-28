@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getDictionary } from '@/lib/i18n'
 import { CategoryPage } from '@/components/pages/category-page'
+import { BreadcrumbJsonLd } from '@/components/seo/json-ld'
 import { searchProducts } from '@/lib/api/price-ninja'
 
 export const runtime = 'edge'
@@ -98,6 +99,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       type: 'website',
       siteName: 'PriceRadars',
       locale: 'it_IT',
+      images: [{ url: `${BASE_URL}/og-image.png`, width: 1200, height: 630, alt: `${category.name} | PriceRadars` }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -142,18 +144,26 @@ export default async function ItalianCategoryPage({ params, searchParams }: Page
   }))
 
   return (
-    <CategoryPage
-      category={{ slug: cat, ...category }}
-      products={products}
-      totalCount={result.totalCount}
-      brands={result.brands}
-      merchants={result.facets.merchants}
-      currentFilters={{
-        ...search,
-      }}
-      locale="it"
-      country="it"
-      dictionary={dictionary}
-    />
+    <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: `${BASE_URL}/it` },
+          { name: category.name, url: `${BASE_URL}/it/categoria/${cat}` },
+        ]}
+      />
+      <CategoryPage
+        category={{ slug: cat, ...category }}
+        products={products}
+        totalCount={result.totalCount}
+        brands={result.brands}
+        merchants={result.facets.merchants}
+        currentFilters={{
+          ...search,
+        }}
+        locale="it"
+        country="it"
+        dictionary={dictionary}
+      />
+    </>
   )
 }

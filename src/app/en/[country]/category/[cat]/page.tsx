@@ -3,8 +3,11 @@ import { notFound } from 'next/navigation'
 import { getDictionary } from '@/lib/i18n'
 import type { Locale } from '@/lib/i18n/config'
 import { CategoryPage } from '@/components/pages/category-page'
+import { BreadcrumbJsonLd } from '@/components/seo/json-ld'
 import { searchProducts } from '@/lib/api/price-ninja'
 import { getNativeLocale, type CountryCode } from '@/lib/countries'
+
+const BASE_URL = 'https://priceradars.com'
 
 export const runtime = 'edge'
 
@@ -112,7 +115,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const dictionary = await getDictionary(nativeLocale)
   const title = dictionary.seo.categoryTitle.replace('{category}', category.name)
   const description = category.description
-  const canonicalUrl = `https://priceradars.com/en/${country}/category/${cat}`
+  const canonicalUrl = `${BASE_URL}/en/${country}/category/${cat}`
 
   return {
     title,
@@ -125,6 +128,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: canonicalUrl,
       type: 'website',
       siteName: 'PriceRadars',
+      images: [{ url: `${BASE_URL}/og-image.png`, width: 1200, height: 630, alt: `${category.name} | PriceRadars` }],
     },
     twitter: {
       card: 'summary_large_image',
@@ -174,18 +178,26 @@ export default async function EnglishCategoryPage({ params, searchParams }: Page
   }))
 
   return (
-    <CategoryPage
-      category={{ slug: cat, ...category }}
-      products={products}
-      totalCount={result.totalCount}
-      brands={result.brands}
-      merchants={result.facets.merchants}
-      currentFilters={{
-        ...search,
-      }}
-      locale={nativeLocale}
-      country={country as CountryCode}
-      dictionary={dictionary}
-    />
+    <>
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: `${BASE_URL}/en/${country}` },
+          { name: category.name, url: `${BASE_URL}/en/${country}/category/${cat}` },
+        ]}
+      />
+      <CategoryPage
+        category={{ slug: cat, ...category }}
+        products={products}
+        totalCount={result.totalCount}
+        brands={result.brands}
+        merchants={result.facets.merchants}
+        currentFilters={{
+          ...search,
+        }}
+        locale={nativeLocale}
+        country={country as CountryCode}
+        dictionary={dictionary}
+      />
+    </>
   )
 }
