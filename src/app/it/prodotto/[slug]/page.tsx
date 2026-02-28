@@ -27,6 +27,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const price = (product.lowestPrice / 100).toFixed(2)
   const canonicalUrl = `${BASE_URL}/it/prodotto/${slug}`
 
+  const categoryLabel = product.categories?.[0] || 'Elettronica'
+  const keywords = [
+    product.name,
+    product.brand,
+    categoryLabel,
+    'confronta prezzi',
+    'prezzo più basso',
+    'offerte',
+    product.condition === 'NEW' ? 'nuovo' : 'usato',
+  ].filter(Boolean)
+
   return {
     title: dictionary.seo.productTitle
       .replace('{name}', product.name)
@@ -35,6 +46,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       .replace('{name}', product.name)
       .replace('{count}', String(product.offerCount || 1))
       .replace('{price}', `€${price}`),
+    keywords: keywords.join(', '),
     alternates: { canonical: canonicalUrl },
     openGraph: {
       title: `${product.name} | Confronta Prezzi da €${price}`,
@@ -43,12 +55,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       type: 'website',
       siteName: 'PriceRadars',
       locale: 'it_IT',
-      images: product.image ? [{ url: product.image, width: 600, height: 600, alt: product.name }] : [],
+      images: product.image
+        ? [{ url: product.image, width: 1200, height: 630, alt: `${product.name} - ${product.brand} | PriceRadars` }]
+        : [],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${product.name} - da €${price}`,
       images: product.image ? [product.image] : [],
+    },
+    other: {
+      'product:price:amount': (product.lowestPrice / 100).toString(),
+      'product:price:currency': 'EUR',
+      'product:availability': product.inStock ? 'in stock' : 'out of stock',
     },
   }
 }
@@ -94,7 +113,9 @@ export default async function ItalianProductPage({ params }: PageProps) {
     updatedAt: new Date().toISOString(),
   }))
 
-  // Fallback: if no offers from generic-products, use product deeplink
+  const canonicalProductUrl = `${BASE_URL}/it/prodotto/${slug}`
+
+  // Fallback: if no offers from generic-products, use product page as offer url (required for valid snippet)
   if (offers.length === 0 && product.lowestPrice > 0) {
     offers.push({
       id: product.id,
@@ -102,7 +123,7 @@ export default async function ItalianProductPage({ params }: PageProps) {
       merchantName: 'Negozio',
       price: product.lowestPrice,
       currency: product.currency,
-      url: '',
+      url: canonicalProductUrl,
       inStock: product.inStock,
       stockStatus: product.inStock ? 'in_stock' as const : 'out_of_stock' as const,
       updatedAt: new Date().toISOString(),
@@ -126,25 +147,30 @@ export default async function ItalianProductPage({ params }: PageProps) {
     ? product.priceHistory
     : [{ date: new Date().toISOString().split('T')[0], price: product.lowestPrice }]
 
-  // Best offer for JSON-LD
-  const bestOffer = offers.sort((a, b) => a.price - b.price)[0]
-
   return (
     <>
       <ProductJsonLd
+        productUrl={canonicalProductUrl}
+        defaultCurrency="EUR"
         product={{
           name: product.name,
           description: product.description || product.name,
           image: product.image,
+          images: product.images?.length ? product.images : undefined,
           brand: product.brand,
+          sku: product.id,
+          category: product.categories?.[0],
+          itemCondition: product.condition === 'NEW' ? 'new' : product.condition === 'REFURBISHED' ? 'refurbished' : 'used',
         }}
         offers={offers.map(o => ({
           price: o.price,
           currency: o.currency,
-          url: o.url,
+          url: o.url || canonicalProductUrl,
           merchantName: o.merchantName,
           inStock: o.inStock,
         }))}
+        productLowPrice={product.lowestPrice}
+        productCurrency={product.currency}
       />
       <BreadcrumbJsonLd
         items={[

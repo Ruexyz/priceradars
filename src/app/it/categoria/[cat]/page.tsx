@@ -6,58 +6,66 @@ import { searchProducts } from '@/lib/api/price-ninja'
 
 export const runtime = 'edge'
 
-const categories: Record<string, { name: string; description: string; searchTerm: string }> = {
-  // Italian slugs
+const categories: Record<string, { name: string; description: string; searchTerm: string; keywords: string }> = {
   smartphone: {
     name: 'Smartphone',
-    description: 'Confronta prezzi per iPhone, Samsung, Xiaomi e altri smartphone.',
+    description: 'Confronta prezzi per iPhone, Samsung, Xiaomi e altri smartphone. Trova le migliori offerte dai principali negozi online e risparmia.',
     searchTerm: 'smartphone cellulare',
+    keywords: 'smartphone, iPhone, Samsung, Xiaomi, confronta prezzi smartphone, offerte cellulari, prezzo più basso',
   },
   laptop: {
     name: 'Laptop',
-    description: 'Trova i migliori prezzi per MacBook, notebook Windows e Chromebook.',
+    description: 'Trova i migliori prezzi per MacBook, notebook Windows e Chromebook. Confronta offerte da decine di store e acquista al prezzo più basso.',
     searchTerm: 'laptop notebook portatile',
+    keywords: 'laptop, notebook, MacBook, Chromebook, confronta prezzi portatili, offerte computer',
   },
   'tv-audio': {
     name: 'TV & Audio',
-    description: 'Confronta prezzi per Smart TV, soundbar e cuffie.',
+    description: 'Confronta prezzi per Smart TV, soundbar, cuffie e impianti audio. Offerte da Amazon, MediaWorld, Euronics e altri negozi.',
     searchTerm: 'smart TV televisore',
+    keywords: 'Smart TV, televisore, soundbar, cuffie, confronta prezzi TV e audio',
   },
   elettrodomestici: {
     name: 'Elettrodomestici',
-    description: 'Prezzi per lavatrici, frigoriferi e piccoli elettrodomestici.',
+    description: 'Prezzi per lavatrici, frigoriferi, forni e piccoli elettrodomestici. Confronta e trova l\'offerta migliore per la tua casa.',
     searchTerm: 'lavatrice frigorifero forno',
+    keywords: 'elettrodomestici, lavatrice, frigorifero, forno, confronta prezzi, offerte casa',
   },
   gaming: {
     name: 'Gaming',
-    description: 'Console, videogiochi e accessori gaming ai prezzi migliori.',
+    description: 'Console PlayStation, Xbox, Nintendo Switch, videogiochi e accessori gaming ai prezzi migliori. Confronta offerte e risparmia.',
     searchTerm: 'playstation xbox nintendo console',
+    keywords: 'gaming, PlayStation, Xbox, Nintendo, console, videogiochi, confronta prezzi',
   },
   fotocamere: {
     name: 'Fotocamere',
-    description: 'Fotocamere digitali, mirrorless e accessori fotografici.',
+    description: 'Fotocamere digitali, mirrorless, reflex e accessori fotografici. Confronta prezzi e trova le migliori offerte online.',
     searchTerm: 'fotocamera mirrorless reflex',
+    keywords: 'fotocamera, mirrorless, reflex, fotografia, confronta prezzi fotocamere',
   },
-  // English slug aliases (backward compatibility)
   smartphones: {
     name: 'Smartphone',
-    description: 'Confronta prezzi per iPhone, Samsung, Xiaomi e altri smartphone.',
+    description: 'Confronta prezzi per iPhone, Samsung, Xiaomi e altri smartphone. Trova le migliori offerte dai principali negozi online e risparmia.',
     searchTerm: 'smartphone cellulare',
+    keywords: 'smartphone, iPhone, Samsung, Xiaomi, confronta prezzi smartphone, offerte cellulari, prezzo più basso',
   },
   laptops: {
     name: 'Laptop',
-    description: 'Trova i migliori prezzi per MacBook, notebook Windows e Chromebook.',
+    description: 'Trova i migliori prezzi per MacBook, notebook Windows e Chromebook. Confronta offerte da decine di store e acquista al prezzo più basso.',
     searchTerm: 'laptop notebook portatile',
+    keywords: 'laptop, notebook, MacBook, Chromebook, confronta prezzi portatili, offerte computer',
   },
   appliances: {
     name: 'Elettrodomestici',
-    description: 'Prezzi per lavatrici, frigoriferi e piccoli elettrodomestici.',
+    description: 'Prezzi per lavatrici, frigoriferi, forni e piccoli elettrodomestici. Confronta e trova l\'offerta migliore per la tua casa.',
     searchTerm: 'lavatrice frigorifero forno',
+    keywords: 'elettrodomestici, lavatrice, frigorifero, forno, confronta prezzi, offerte casa',
   },
   cameras: {
     name: 'Fotocamere',
-    description: 'Fotocamere digitali, mirrorless e accessori fotografici.',
+    description: 'Fotocamere digitali, mirrorless, reflex e accessori fotografici. Confronta prezzi e trova le migliori offerte online.',
     searchTerm: 'fotocamera mirrorless reflex',
+    keywords: 'fotocamera, mirrorless, reflex, fotografia, confronta prezzi fotocamere',
   },
 }
 
@@ -81,6 +89,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
+    keywords: category.keywords,
     alternates: { canonical: canonicalUrl },
     openGraph: {
       title,
@@ -91,7 +100,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       locale: 'it_IT',
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title,
       description,
     },

@@ -10,25 +10,91 @@ export const runtime = 'edge'
 
 const validCountries = ['uk', 'us', 'de', 'fr', 'es']
 
-const categories: Record<string, { name: string; description: string; searchTerm: string }> = {
-  // English slugs
-  smartphones: { name: 'Smartphones', description: 'Compare prices for iPhone, Samsung, Xiaomi and other smartphones.', searchTerm: 'smartphone mobile phone' },
-  laptops: { name: 'Laptops', description: 'Find the best prices for MacBooks, Windows notebooks and Chromebooks.', searchTerm: 'laptop notebook computer' },
-  'tv-audio': { name: 'TV & Audio', description: 'Compare prices for Smart TVs, soundbars and headphones.', searchTerm: 'smart TV television' },
-  appliances: { name: 'Appliances', description: 'Prices for washing machines, refrigerators and small appliances.', searchTerm: 'washing machine refrigerator oven' },
-  gaming: { name: 'Gaming', description: 'Consoles, video games and gaming accessories at the best prices.', searchTerm: 'playstation xbox nintendo console' },
-  cameras: { name: 'Cameras', description: 'Digital cameras, mirrorless and photography accessories.', searchTerm: 'camera mirrorless DSLR' },
-  // German slug aliases
-  haushaltsgeraete: { name: 'Haushaltsgeräte', description: 'Preisvergleich für Waschmaschinen, Kühlschränke und Haushaltsgeräte.', searchTerm: 'Waschmaschine Kühlschrank Backofen' },
-  kameras: { name: 'Kameras', description: 'Preisvergleich für Digitalkameras, Spiegellose und Zubehör.', searchTerm: 'Kamera spiegellos DSLR' },
-  // French slug aliases
-  ordinateurs: { name: 'Ordinateurs', description: 'Comparez les prix des MacBook, notebooks et Chromebooks.', searchTerm: 'ordinateur portable laptop' },
-  electromenager: { name: 'Électroménager', description: 'Comparez les prix des lave-linge, réfrigérateurs et fours.', searchTerm: 'lave-linge réfrigérateur four' },
-  'appareils-photo': { name: 'Appareils Photo', description: 'Comparez les prix des appareils photo numériques et hybrides.', searchTerm: 'appareil photo hybride reflex' },
-  // Spanish slug aliases
-  portatiles: { name: 'Portátiles', description: 'Compara precios de MacBooks, portátiles y Chromebooks.', searchTerm: 'portátil laptop ordenador' },
-  electrodomesticos: { name: 'Electrodomésticos', description: 'Compara precios de lavadoras, neveras y hornos.', searchTerm: 'lavadora nevera horno' },
-  camaras: { name: 'Cámaras', description: 'Compara precios de cámaras digitales y accesorios.', searchTerm: 'cámara mirrorless réflex' },
+const categories: Record<string, { name: string; description: string; searchTerm: string; keywords: string }> = {
+  smartphones: {
+    name: 'Smartphones',
+    description: 'Compare prices for iPhone, Samsung, Xiaomi and other smartphones. Find the best deals from leading online stores and save.',
+    searchTerm: 'smartphone mobile phone',
+    keywords: 'smartphone, iPhone, Samsung, compare prices, best deals, mobile phone',
+  },
+  laptops: {
+    name: 'Laptops',
+    description: 'Find the best prices for MacBooks, Windows notebooks and Chromebooks. Compare offers from dozens of stores and buy at the lowest price.',
+    searchTerm: 'laptop notebook computer',
+    keywords: 'laptop, notebook, MacBook, Chromebook, compare prices, computer deals',
+  },
+  'tv-audio': {
+    name: 'TV & Audio',
+    description: 'Compare prices for Smart TVs, soundbars and headphones. Deals from Amazon, Curry\'s and other retailers.',
+    searchTerm: 'smart TV television',
+    keywords: 'Smart TV, television, soundbar, headphones, compare prices TV',
+  },
+  appliances: {
+    name: 'Appliances',
+    description: 'Prices for washing machines, refrigerators and small appliances. Compare and find the best offer for your home.',
+    searchTerm: 'washing machine refrigerator oven',
+    keywords: 'appliances, washing machine, refrigerator, oven, compare prices, home deals',
+  },
+  gaming: {
+    name: 'Gaming',
+    description: 'PlayStation, Xbox, Nintendo Switch, video games and gaming accessories at the best prices. Compare deals and save.',
+    searchTerm: 'playstation xbox nintendo console',
+    keywords: 'gaming, PlayStation, Xbox, Nintendo, console, video games, compare prices',
+  },
+  cameras: {
+    name: 'Cameras',
+    description: 'Digital cameras, mirrorless and photography accessories. Compare prices and find the best deals online.',
+    searchTerm: 'camera mirrorless DSLR',
+    keywords: 'camera, mirrorless, DSLR, photography, compare prices cameras',
+  },
+  haushaltsgeraete: {
+    name: 'Haushaltsgeräte',
+    description: 'Preisvergleich für Waschmaschinen, Kühlschränke und Haushaltsgeräte. Die besten Angebote aus über 50 Shops.',
+    searchTerm: 'Waschmaschine Kühlschrank Backofen',
+    keywords: 'Haushaltsgeräte, Waschmaschine, Kühlschrank, Preisvergleich, Angebote',
+  },
+  kameras: {
+    name: 'Kameras',
+    description: 'Preisvergleich für Digitalkameras, Spiegellose und Zubehör. Beste Preise finden.',
+    searchTerm: 'Kamera spiegellos DSLR',
+    keywords: 'Kamera, Spiegelreflex, Preisvergleich, Fotografie',
+  },
+  ordinateurs: {
+    name: 'Ordinateurs',
+    description: 'Comparez les prix des MacBook, notebooks et Chromebooks. Trouvez la meilleure offre parmi des dizaines de boutiques.',
+    searchTerm: 'ordinateur portable laptop',
+    keywords: 'ordinateur, portable, MacBook, comparateur de prix',
+  },
+  electromenager: {
+    name: 'Électroménager',
+    description: 'Comparez les prix des lave-linge, réfrigérateurs et fours. Meilleures offres pour la maison.',
+    searchTerm: 'lave-linge réfrigérateur four',
+    keywords: 'électroménager, lave-linge, réfrigérateur, comparateur de prix',
+  },
+  'appareils-photo': {
+    name: 'Appareils Photo',
+    description: 'Comparez les prix des appareils photo numériques et hybrides. Trouvez les meilleures offres.',
+    searchTerm: 'appareil photo hybride reflex',
+    keywords: 'appareil photo, hybride, reflex, comparateur de prix',
+  },
+  portatiles: {
+    name: 'Portátiles',
+    description: 'Compara precios de MacBooks, portátiles y Chromebooks. Encuentra la mejor oferta en más de 50 tiendas.',
+    searchTerm: 'portátil laptop ordenador',
+    keywords: 'portátil, laptop, MacBook, comparador de precios',
+  },
+  electrodomesticos: {
+    name: 'Electrodomésticos',
+    description: 'Compara precios de lavadoras, neveras y hornos. Mejores ofertas para tu hogar.',
+    searchTerm: 'lavadora nevera horno',
+    keywords: 'electrodomésticos, lavadora, nevera, comparador de precios',
+  },
+  camaras: {
+    name: 'Cámaras',
+    description: 'Compara precios de cámaras digitales y accesorios. Encuentra las mejores ofertas.',
+    searchTerm: 'cámara mirrorless réflex',
+    keywords: 'cámara, mirrorless, réflex, comparador de precios',
+  },
 }
 
 interface PageProps {
@@ -51,6 +117,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
+    keywords: category.keywords,
     alternates: { canonical: canonicalUrl },
     openGraph: {
       title,
@@ -60,7 +127,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       siteName: 'PriceRadars',
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title,
       description,
     },

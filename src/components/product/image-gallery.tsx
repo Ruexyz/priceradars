@@ -23,6 +23,7 @@ export function ImageGallery({ images, alt, badge }: ImageGalleryProps) {
         <Image
           src={currentImage}
           alt={alt}
+          title={alt}
           fill
           sizes="(max-width: 1024px) 50vw, 384px"
           className="object-contain p-6"

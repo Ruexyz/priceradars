@@ -35,9 +35,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const nativeLocale = getNativeLocale(country) as Locale
   const dictionary = await getDictionary(nativeLocale)
 
+  const categoryLabel = product.categories?.[0] || 'Electronics'
+  const keywords = [
+    product.name,
+    product.brand,
+    categoryLabel,
+    'compare prices',
+    'best price',
+    'deals',
+    product.condition === 'NEW' ? 'new' : 'used',
+  ].filter(Boolean)
+
   return {
     title: dictionary.seo.productTitle.replace('{name}', product.name).replace('{price}', `${sym}${price}`),
     description: dictionary.seo.productDescription.replace('{name}', product.name).replace('{count}', String(product.offerCount || 1)).replace('{price}', `${sym}${price}`),
+    keywords: keywords.join(', '),
     alternates: { canonical: canonicalUrl },
     openGraph: {
       title: `${product.name} | Compare Prices from ${sym}${price}`,
@@ -45,12 +57,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: canonicalUrl,
       type: 'website',
       siteName: 'PriceRadars',
-      images: product.image ? [{ url: product.image, width: 600, height: 600, alt: product.name }] : [],
+      images: product.image
+        ? [{ url: product.image, width: 1200, height: 630, alt: `${product.name} - ${product.brand} | PriceRadars` }]
+        : [],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${product.name} - from ${sym}${price}`,
       images: product.image ? [product.image] : [],
+    },
+    other: {
+      'product:price:amount': (product.lowestPrice / 100).toString(),
+      'product:price:currency': currency,
+      'product:availability': product.inStock ? 'in stock' : 'out of stock',
     },
   }
 }
@@ -83,6 +102,10 @@ export default async function EnglishProductPage({ params }: PageProps) {
     offerCount: product.offerCount,
   }
 
+  const canonicalProductUrl = `${BASE_URL}/en/${country}/product/${slug}`
+  const countryConfig = countries[country as CountryCode]
+  const defaultCurrency = countryConfig?.currency ?? 'EUR'
+
   const offers = product.offers.map(o => ({
     id: o.id,
     merchantId: o.merchantDomain,
@@ -102,7 +125,7 @@ export default async function EnglishProductPage({ params }: PageProps) {
       merchantName: 'Store',
       price: product.lowestPrice,
       currency: product.currency,
-      url: '',
+      url: canonicalProductUrl,
       inStock: product.inStock,
       stockStatus: product.inStock ? 'in_stock' as const : 'out_of_stock' as const,
       updatedAt: new Date().toISOString(),
@@ -127,19 +150,27 @@ export default async function EnglishProductPage({ params }: PageProps) {
   return (
     <>
       <ProductJsonLd
+        productUrl={canonicalProductUrl}
+        defaultCurrency={defaultCurrency}
         product={{
           name: product.name,
           description: product.description || product.name,
           image: product.image,
+          images: product.images?.length ? product.images : undefined,
           brand: product.brand,
+          sku: product.id,
+          category: product.categories?.[0],
+          itemCondition: product.condition === 'NEW' ? 'new' : product.condition === 'REFURBISHED' ? 'refurbished' : 'used',
         }}
         offers={offers.map(o => ({
           price: o.price,
           currency: o.currency,
-          url: o.url,
+          url: o.url || canonicalProductUrl,
           merchantName: o.merchantName,
           inStock: o.inStock,
         }))}
+        productLowPrice={product.lowestPrice}
+        productCurrency={product.currency}
       />
       <BreadcrumbJsonLd
         items={[
