@@ -344,7 +344,7 @@ export function HomePage({ locale, country, dictionary }: HomePageProps) {
                   { slug: 'samsung-galaxy-s25', label: 'Galaxy S25' },
                   { slug: 'macbook-air-m3', label: 'MacBook Air M3' },
                   { slug: 'playstation-5', label: 'PlayStation 5' },
-                  { slug: locale === 'uk' ? 'dyson-v15' : locale === 'de' ? 'bosch-waschmaschine' : 'sony-wh-1000xm5', label: locale === 'uk' ? 'Dyson V15' : locale === 'de' ? 'Bosch Waschmaschine' : 'Sony WH-1000XM5' },
+                  { slug: country === 'uk' ? 'dyson-v15' : locale === 'de' ? 'bosch-waschmaschine' : 'sony-wh-1000xm5', label: country === 'uk' ? 'Dyson V15' : locale === 'de' ? 'Bosch Waschmaschine' : 'Sony WH-1000XM5' },
                 ].map(item => (
                   <li key={item.slug}>
                     <Link
