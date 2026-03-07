@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { getAllLandingPages } from '@/lib/seo/landing-pages'
 
 const baseUrl = 'https://priceradars.com'
 
@@ -103,6 +104,38 @@ export default function sitemap(): MetadataRoute.Sitemap {
   entries.push({ url: `${baseUrl}/it/negozi`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 })
   for (const c of countriesConfig.filter(c => c.code !== 'it')) {
     entries.push({ url: `${baseUrl}${c.prefix}/merchants`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 })
+  }
+
+  // === SEO LANDING HUB PAGES ===
+  // IT hubs
+  entries.push({ url: `${baseUrl}/it/brand`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 })
+  entries.push({ url: `${baseUrl}/it/miglior-prezzo`, lastModified: now, changeFrequency: 'daily', priority: 0.7 })
+  entries.push({ url: `${baseUrl}/it/offerte`, lastModified: now, changeFrequency: 'daily', priority: 0.7 })
+  // EN hubs for DE and UK (first 2 active markets)
+  for (const c of countriesConfig.filter(c => ['uk', 'de'].includes(c.code))) {
+    entries.push({ url: `${baseUrl}${c.prefix}/brand`, lastModified: now, changeFrequency: 'weekly', priority: 0.6 })
+    entries.push({ url: `${baseUrl}${c.prefix}/best-price`, lastModified: now, changeFrequency: 'daily', priority: 0.7 })
+    entries.push({ url: `${baseUrl}${c.prefix}/deals`, lastModified: now, changeFrequency: 'daily', priority: 0.7 })
+  }
+
+  // === SEO LANDING PAGES WHITELIST (45 initial) ===
+  const allLandings = getAllLandingPages()
+  for (const landing of allLandings) {
+    const isIt = landing.country === 'it'
+    let landingUrl: string
+    if (isIt) {
+      const typeSegment = landing.type === 'brand' ? 'brand' : landing.type === 'best-price' ? 'miglior-prezzo' : 'offerte'
+      landingUrl = `${baseUrl}/it/${typeSegment}/${landing.slug}`
+    } else {
+      const typeSegment = landing.type === 'brand' ? 'brand' : landing.type === 'best-price' ? 'best-price' : 'deals'
+      landingUrl = `${baseUrl}/en/${landing.country}/${typeSegment}/${landing.slug}`
+    }
+    entries.push({
+      url: landingUrl,
+      lastModified: now,
+      changeFrequency: landing.type === 'brand' ? 'weekly' : 'daily',
+      priority: landing.type === 'best-price' ? 0.75 : 0.65,
+    })
   }
 
   return entries

@@ -311,6 +311,89 @@ export function HomePage({ locale, country, dictionary }: HomePageProps) {
         </div>
       </section>
 
+      {/* SEO Internal Links: landing hubs */}
+      <section className="border-t border-gray-100 bg-white px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            {/* Brand hub */}
+            <div>
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">
+                {locale === 'de' ? 'Nach Marke' : locale === 'fr' ? 'Par Marque' : locale === 'es' ? 'Por Marca' : locale === 'it' ? 'Per Brand' : 'By Brand'}
+              </h3>
+              <ul className="space-y-1.5">
+                {['apple', 'samsung', 'sony', 'lg', 'dyson'].map(brand => (
+                  <li key={brand}>
+                    <Link
+                      href={locale === 'it' ? `/it/brand/${brand}` : `/en/${country}/brand/${brand}`}
+                      className="text-sm text-gray-600 hover:text-orange-500 transition-colors capitalize"
+                    >
+                      {brand.charAt(0).toUpperCase() + brand.slice(1)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Best price hub */}
+            <div>
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">
+                {locale === 'de' ? 'Bester Preis' : locale === 'fr' ? 'Meilleur Prix' : locale === 'es' ? 'Mejor Precio' : locale === 'it' ? 'Miglior Prezzo' : 'Best Price'}
+              </h3>
+              <ul className="space-y-1.5">
+                {[
+                  { slug: 'iphone-16', label: 'iPhone 16' },
+                  { slug: 'samsung-galaxy-s25', label: 'Galaxy S25' },
+                  { slug: 'macbook-air-m3', label: 'MacBook Air M3' },
+                  { slug: 'playstation-5', label: 'PlayStation 5' },
+                  { slug: locale === 'uk' ? 'dyson-v15' : locale === 'de' ? 'bosch-waschmaschine' : 'sony-wh-1000xm5', label: locale === 'uk' ? 'Dyson V15' : locale === 'de' ? 'Bosch Waschmaschine' : 'Sony WH-1000XM5' },
+                ].map(item => (
+                  <li key={item.slug}>
+                    <Link
+                      href={locale === 'it' ? `/it/miglior-prezzo/${item.slug}` : `/en/${country}/best-price/${item.slug}`}
+                      className="text-sm text-gray-600 hover:text-orange-500 transition-colors"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {/* Deals hub */}
+            <div>
+              <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-gray-500">
+                {locale === 'de' ? 'Angebote' : locale === 'fr' ? 'Bons Plans' : locale === 'es' ? 'Ofertas' : locale === 'it' ? 'Offerte' : 'Deals'}
+              </h3>
+              <ul className="space-y-1.5">
+                {locale === 'it' ? (
+                  <>
+                    <li><Link href="/it/offerte/smartphone-sotto-300" className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Smartphone sotto 300€</Link></li>
+                    <li><Link href="/it/offerte/laptop-sotto-700" className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Laptop sotto 700€</Link></li>
+                    <li><Link href="/it/offerte/tv-sotto-500" className="text-sm text-gray-600 hover:text-orange-500 transition-colors">TV sotto 500€</Link></li>
+                    <li><Link href="/it/offerte/cuffie-sotto-150" className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Cuffie sotto 150€</Link></li>
+                    <li><Link href="/it/offerte/lavatrice-sotto-400" className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Lavatrici sotto 400€</Link></li>
+                  </>
+                ) : locale === 'de' ? (
+                  <>
+                    <li><Link href={`/en/${country}/deals/smartphones-unter-300`} className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Smartphones unter 300€</Link></li>
+                    <li><Link href={`/en/${country}/deals/laptops-unter-700`} className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Laptops unter 700€</Link></li>
+                    <li><Link href={`/en/${country}/deals/tv-unter-600`} className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Smart TVs unter 600€</Link></li>
+                    <li><Link href={`/en/${country}/deals/waschmaschinen-unter-500`} className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Waschmaschinen unter 500€</Link></li>
+                    <li><Link href={`/en/${country}/deals/kopfhörer-unter-150`} className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Kopfhörer unter 150€</Link></li>
+                  </>
+                ) : (
+                  <>
+                    <li><Link href={`/en/${country}/deals/smartphones-under-300`} className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Smartphones under {country === 'uk' ? '£' : '$'}300</Link></li>
+                    <li><Link href={`/en/${country}/deals/laptops-under-600`} className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Laptops under {country === 'uk' ? '£' : '$'}600</Link></li>
+                    <li><Link href={`/en/${country}/deals/tvs-under-500`} className="text-sm text-gray-600 hover:text-orange-500 transition-colors">TVs under {country === 'uk' ? '£' : '$'}500</Link></li>
+                    <li><Link href={`/en/${country}/deals/headphones-under-150`} className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Headphones under {country === 'uk' ? '£' : '$'}150</Link></li>
+                    <li><Link href={`/en/${country}/deals/washing-machines-under-400`} className="text-sm text-gray-600 hover:text-orange-500 transition-colors">Washing Machines under {country === 'uk' ? '£' : '$'}400</Link></li>
+                  </>
+                )}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SEO Long-form Content - hidden visually elegant, crawlable by Google */}
       <section className="border-t border-gray-100 bg-white px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
